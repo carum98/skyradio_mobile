@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
         theme: SkTheme.light,
         darkTheme: SkTheme.dark,
         themeMode: state.themeMode,
-        initialRoute: state.isAuth ? CLIENTS_VIEW : LOGIN_VIEW,
         onGenerateRoute: RouterGenerator.generate,
+        navigatorKey: state.navigatorKey,
       ),
     );
   }

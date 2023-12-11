@@ -53,8 +53,8 @@ class SkHttp {
   Uri _uri(String path) {
     return Uri(
       scheme: 'http',
-      host: 'localhost',
-      port: 3000,
+      host: '192.168.10.158',
+      port: 8080,
       path: path,
     );
   }
@@ -128,6 +128,15 @@ class SkHttp {
     } catch (e) {
       rethrow;
     }
+  }
+
+  SkHttp copyWith({
+    bool? useToken,
+  }) {
+    return SkHttp(
+      authStorageService: _authStorageService,
+      useToken: useToken ?? _useToken,
+    );
   }
 }
 
