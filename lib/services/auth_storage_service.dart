@@ -4,10 +4,12 @@ import 'package:skyradio_mobile/core/storage.dart';
 import 'package:skyradio_mobile/models/auth_model.dart';
 
 class AuthStorageService {
-  final Storage _storage;
+  final SkStorage _storage;
   final storageName = 'auth';
 
-  AuthStorageService({required Storage storage}) : _storage = storage;
+  AuthStorageService({
+    required SkStorage storage,
+  }) : _storage = storage;
 
   Future<Auth?> get() async {
     final map = await _storage.read(storageName);
@@ -25,5 +27,9 @@ class AuthStorageService {
 
   Future<void> delete() {
     return _storage.delete(storageName);
+  }
+
+  Future<bool> get isAuth async {
+    return await _storage.containsKey(storageName);
   }
 }
