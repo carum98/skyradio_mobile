@@ -27,18 +27,6 @@ class LoginView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: () {
-            final state = DI.of(context).state;
-
-            state.setThemeMode(
-              state.themeMode == ThemeMode.dark
-                  ? ThemeMode.light
-                  : ThemeMode.dark,
-            );
-          },
-          child: const Text('Toggle theme'),
-        ),
         Form(
           child: Column(
             children: [

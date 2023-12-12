@@ -59,7 +59,7 @@ class DI extends InheritedWidget {
     /// Verify if the user is authenticated
     authStorageService.isAuth.then((value) {
       state.navigatorKey.currentState!.pushNamedAndRemoveUntil(
-        value ? CLIENTS_VIEW : LOGIN_VIEW,
+        value ? HOME_VIEW : LOGIN_VIEW,
         (route) => false,
       );
     });
