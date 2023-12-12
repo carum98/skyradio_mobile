@@ -51,6 +51,17 @@ class DI extends InheritedWidget {
         (route) => false,
       );
     });
+
+    /// Listen for api errors
+    /// If the api returns a 401 status code, the user is redirected to the login view
+    http.onError.listen((error) {
+      if (error.runtimeType == UnauthorizedException) {
+        state.navigatorKey.currentState!.pushNamedAndRemoveUntil(
+          LOGIN_VIEW,
+          (route) => false,
+        );
+      }
+    });
   }
 
   static DI of(BuildContext context) {

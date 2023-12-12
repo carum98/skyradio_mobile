@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:skyradio_mobile/services/auth_storage_service.dart';
@@ -19,6 +20,10 @@ class SkHttp {
     bool? useToken,
   })  : _authStorageService = authStorageService,
         _useToken = useToken ?? true;
+
+  final StreamController<SkHttpException> _onError =
+      StreamController<SkHttpException>();
+  Stream<SkHttpException> get onError => _onError.stream;
 
   Future<Response> get(String path) async {
     return await _request(
@@ -121,10 +126,10 @@ class SkHttp {
       }
 
       return Response(response);
-      // } on SkHttpException catch (e) {
-      //   _onError.add(e);
+    } on SkHttpException catch (e) {
+      _onError.add(e);
 
-      //   rethrow;
+      rethrow;
     } catch (e) {
       rethrow;
     }
