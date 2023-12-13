@@ -63,7 +63,15 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
           if (data is ListPaginationLoaded) {
             return ListView.builder(
               itemCount: data.items.length,
-              itemBuilder: (_, index) => widget.builder(data.items[index]),
+              padding: const EdgeInsets.all(15),
+              itemBuilder: (_, index) => Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                ),
+                margin: const EdgeInsets.only(bottom: 10),
+                child: widget.builder(data.items[index]),
+              ),
             );
           }
         }
