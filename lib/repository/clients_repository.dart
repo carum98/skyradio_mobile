@@ -8,7 +8,7 @@ class ClientsRepository {
     required ClientsService clientsService,
   }) : _clientsService = clientsService;
 
-  Future<List<Clients>> getClients() async {
+  Future<List<Clients>> getClients(Map<String, dynamic> params) async {
     final data = await _clientsService.getAll();
 
     return data['data']
