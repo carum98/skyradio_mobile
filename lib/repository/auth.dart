@@ -1,5 +1,5 @@
-import 'package:skyradio_mobile/services/auth_service.dart';
-import 'package:skyradio_mobile/services/auth_storage_service.dart';
+import 'package:skyradio_mobile/services/auth.dart';
+import 'package:skyradio_mobile/services/auth_storage.dart';
 
 class AuthRepository {
   final AuthStorageService _authStorageService;

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:skyradio_mobile/services/auth_storage_service.dart';
+import 'package:skyradio_mobile/services/auth_storage.dart';
 import 'package:http/http.dart' as http;
 
 enum Method {

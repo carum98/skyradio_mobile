@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:skyradio_mobile/core/storage.dart';
-import 'package:skyradio_mobile/models/auth_model.dart';
+import 'package:skyradio_mobile/models/auth.dart';
 
 class AuthStorageService {
   final SkStorage _storage;

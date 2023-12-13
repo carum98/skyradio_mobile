@@ -1,5 +1,5 @@
-import 'package:skyradio_mobile/models/clients_model.dart';
-import 'package:skyradio_mobile/services/clients_service.dart';
+import 'package:skyradio_mobile/models/clients.dart';
+import 'package:skyradio_mobile/services/clients.dart';
 
 class ClientsRepository {
   final ClientsService _clientsService;

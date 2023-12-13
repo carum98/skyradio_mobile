@@ -3,13 +3,13 @@ import 'package:skyradio_mobile/core/global_state.dart';
 import 'package:skyradio_mobile/core/http.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/core/storage.dart';
-import 'package:skyradio_mobile/repository/auth_repository.dart';
-import 'package:skyradio_mobile/repository/clients_repository.dart';
-import 'package:skyradio_mobile/repository/radios_repository.dart';
-import 'package:skyradio_mobile/services/auth_service.dart';
-import 'package:skyradio_mobile/services/auth_storage_service.dart';
-import 'package:skyradio_mobile/services/clients_service.dart';
-import 'package:skyradio_mobile/services/radios_service.dart';
+import 'package:skyradio_mobile/repository/auth.dart';
+import 'package:skyradio_mobile/repository/clients.dart';
+import 'package:skyradio_mobile/repository/radios.dart';
+import 'package:skyradio_mobile/services/auth.dart';
+import 'package:skyradio_mobile/services/auth_storage.dart';
+import 'package:skyradio_mobile/services/clients.dart';
+import 'package:skyradio_mobile/services/radios.dart';
 
 class DI extends InheritedWidget {
   final GlobalState state = GlobalState();

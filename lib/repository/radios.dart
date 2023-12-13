@@ -1,5 +1,5 @@
-import 'package:skyradio_mobile/models/radios_model.dart';
-import 'package:skyradio_mobile/services/radios_service.dart';
+import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/services/radios.dart';
 
 class RadiosRepository {
   final RadiosService _radiosService;

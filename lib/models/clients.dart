@@ -1,5 +1,5 @@
-import 'package:skyradio_mobile/models/modality_model.dart';
-import 'package:skyradio_mobile/models/seller_modal.dart';
+import 'package:skyradio_mobile/models/modality.dart';
+import 'package:skyradio_mobile/models/seller.dart';
 
 class Clients {
   final String code;
