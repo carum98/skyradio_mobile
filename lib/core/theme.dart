@@ -10,6 +10,7 @@ const _containerColorLight = Color(0xFFffffff);
 
 class SkTheme {
   static final light = ThemeData(
+    fontFamily: 'Poppins',
     colorScheme: ColorScheme.fromSeed(
       seedColor: _primaryColorLight,
       background: _backgroundColorLight,
@@ -18,6 +19,7 @@ class SkTheme {
   );
 
   static final dark = ThemeData(
+    fontFamily: 'Poppins',
     colorScheme: ColorScheme.fromSeed(
       seedColor: _primaryColorDark,
       brightness: Brightness.dark,
