@@ -31,7 +31,9 @@ class HomeView extends StatelessWidget {
               child: const Text('Clientes'),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(RADIOS_VIEW);
+              },
               child: const Text('Radios'),
             ),
           ],

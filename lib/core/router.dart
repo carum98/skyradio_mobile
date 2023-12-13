@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/views/clients.dart';
 import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
+import 'package:skyradio_mobile/views/radios.dart';
 
 const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';
 const CLIENTS_VIEW = '/clients';
+const RADIOS_VIEW = '/radios';
 
 class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
@@ -23,6 +25,10 @@ class RouterGenerator {
       case CLIENTS_VIEW:
         return MaterialPageRoute(
           builder: (_) => const ClientsView(),
+        );
+      case RADIOS_VIEW:
+        return MaterialPageRoute(
+          builder: (_) => const RadiosView(),
         );
       default:
         return MaterialPageRoute(builder: (_) => Container());

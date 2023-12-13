@@ -18,7 +18,7 @@ class LoginView extends StatelessWidget {
       if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,
-          CLIENTS_VIEW,
+          LOGIN_VIEW,
           (route) => false,
         );
       }
