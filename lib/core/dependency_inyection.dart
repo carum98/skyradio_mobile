@@ -5,9 +5,11 @@ import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/core/storage.dart';
 import 'package:skyradio_mobile/repository/auth_repository.dart';
 import 'package:skyradio_mobile/repository/clients_repository.dart';
+import 'package:skyradio_mobile/repository/radios_repository.dart';
 import 'package:skyradio_mobile/services/auth_service.dart';
 import 'package:skyradio_mobile/services/auth_storage_service.dart';
 import 'package:skyradio_mobile/services/clients_service.dart';
+import 'package:skyradio_mobile/services/radios_service.dart';
 
 class DI extends InheritedWidget {
   final GlobalState state = GlobalState();
@@ -18,9 +20,11 @@ class DI extends InheritedWidget {
   late final AuthStorageService authStorageService;
   late final AuthService authService;
   late final ClientsService clientsService;
+  late final RadiosService radiosService;
 
   late final AuthRepository authRepository;
   late final ClientsRepository clientsRepository;
+  late final RadiosRepository radiosRepository;
 
   DI({
     super.key,
@@ -46,6 +50,10 @@ class DI extends InheritedWidget {
       http: http,
     );
 
+    radiosService = RadiosService(
+      http: http,
+    );
+
     // Repository
     authRepository = AuthRepository(
       authStorageService: authStorageService,
@@ -54,6 +62,10 @@ class DI extends InheritedWidget {
 
     clientsRepository = ClientsRepository(
       clientsService: clientsService,
+    );
+
+    radiosRepository = RadiosRepository(
+      radiosService: radiosService,
     );
 
     /// Verify if the user is authenticated
