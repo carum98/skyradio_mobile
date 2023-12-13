@@ -36,6 +36,12 @@ class HomeView extends StatelessWidget {
               },
               child: const Text('Radios'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(SIMS_VIEW);
+              },
+              child: const Text('Sims'),
+            ),
           ],
         ),
       ),
