@@ -10,7 +10,10 @@ class SimsService {
   Future<ResponseData> getAll(RequestParams params) async {
     final response = await _http.get(
       '/sims',
-      params: params,
+      params: {
+        'per_page': 15,
+        ...params,
+      },
     );
 
     return response.data;

@@ -18,16 +18,16 @@ class _ListPaginationBloc<T>
     }
   }
 
-  Future<void> _getAll() async {
-    emit(ListPaginationLoading<T>());
-
+  Future<void> _fetch(RequestParams params) async {
     try {
-      final data = await _provider({
-        'page': 1,
-      });
+      final data = await _provider(params);
+
+      final lastItems = state is ListPaginationLoaded<T>
+          ? (state as ListPaginationLoaded<T>).items
+          : [] as List<T>;
 
       emit(ListPaginationLoaded<T>(
-        items: data.items,
+        items: lastItems + data.items,
         page: data.page,
         totalPages: data.totalPages,
       ));
@@ -36,27 +36,22 @@ class _ListPaginationBloc<T>
     }
   }
 
-  Future<void> _getNextPage() async {
+  void _getAll() {
+    emit(ListPaginationLoading<T>());
+
+    _fetch({
+      'page': 1,
+    });
+  }
+
+  void _getNextPage() {
     final currentState = state;
 
-    if (currentState is ListPaginationLoaded<T>) {
-      if (currentState.page < currentState.totalPages) {
-        emit(ListPaginationLoading<T>());
-
-        try {
-          final data = await _provider({
-            'page': currentState.page + 1,
-          });
-
-          emit(ListPaginationLoaded<T>(
-            items: currentState.items + data.items,
-            page: currentState.page + 1,
-            totalPages: currentState.totalPages,
-          ));
-        } catch (e) {
-          emitError(e);
-        }
-      }
+    if (currentState is ListPaginationLoaded<T> &&
+        currentState.page < currentState.totalPages) {
+      _fetch({
+        'page': currentState.page + 1,
+      });
     }
   }
 }

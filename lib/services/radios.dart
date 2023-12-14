@@ -10,7 +10,10 @@ class RadiosService {
   Future<ResponseData> getAll(RequestParams params) async {
     final response = await _http.get(
       '/radios',
-      params: params,
+      params: {
+        'per_page': 15,
+        ...params,
+      },
     );
 
     return response.data;

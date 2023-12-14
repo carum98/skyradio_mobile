@@ -10,7 +10,10 @@ class ClientsService {
   Future<ResponseData> getAll(RequestParams params) async {
     final response = await _http.get(
       '/clients',
-      params: params,
+      params: {
+        'per_page': 15,
+        ...params,
+      },
     );
 
     return response.data;
