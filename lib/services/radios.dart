@@ -7,8 +7,11 @@ class RadiosService {
     required SkHttp http,
   }) : _http = http;
 
-  Future<Map<String, dynamic>> getAll() async {
-    final response = await _http.get('/radios');
+  Future<ResponseData> getAll(RequestParams params) async {
+    final response = await _http.get(
+      '/radios',
+      params: params,
+    );
 
     return response.data;
   }

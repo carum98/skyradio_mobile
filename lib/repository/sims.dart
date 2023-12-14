@@ -1,3 +1,4 @@
+import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/services/sims.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
@@ -9,8 +10,8 @@ class SimsRepository {
     required SimsService simsService,
   }) : _simsService = simsService;
 
-  Future<ResponsePagination<Sims>> getSims(Map<String, dynamic> params) async {
-    final data = await _simsService.getAll();
+  Future<ResponsePagination<Sims>> getSims(RequestParams params) async {
+    final data = await _simsService.getAll(params);
 
     return ResponsePagination.fromJson(
       data,

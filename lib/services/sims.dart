@@ -7,8 +7,11 @@ class SimsService {
     required SkHttp http,
   }) : _http = http;
 
-  Future<Map<String, dynamic>> getAll() async {
-    final response = await _http.get('/sims');
+  Future<ResponseData> getAll(RequestParams params) async {
+    final response = await _http.get(
+      '/sims',
+      params: params,
+    );
 
     return response.data;
   }
