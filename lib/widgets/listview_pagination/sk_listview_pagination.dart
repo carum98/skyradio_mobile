@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bloc.dart';
 
 part '_bloc.dart';
+part '_response_list.dart';
 
 class SkListViewPagination<T> extends StatefulWidget {
   final ListPaginationProvider<T> provider;
@@ -19,6 +20,7 @@ class SkListViewPagination<T> extends StatefulWidget {
 
 class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
   late final _ListPaginationBloc _bloc;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
@@ -28,7 +30,16 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
       provider: widget.provider,
     );
 
+    _scrollController = ScrollController();
+
     _bloc.onEvent(ListPaginationGetAll());
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _bloc.onEvent(ListPaginationGetNextPage());
+      }
+    });
   }
 
   @override
@@ -36,6 +47,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
     super.dispose();
 
     _bloc.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -62,8 +74,12 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
 
           if (data is ListPaginationLoaded) {
             return ListView.builder(
+              controller: _scrollController,
               itemCount: data.items.length,
               padding: const EdgeInsets.all(15),
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               itemBuilder: (_, index) => Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,

@@ -1,6 +1,6 @@
 part of 'sk_listview_pagination.dart';
 
-typedef ListPaginationProvider<T> = Future<List<T>> Function(
+typedef ListPaginationProvider<T> = Future<ResponsePagination<T>> Function(
   Map<String, dynamic> params,
 );
 
@@ -31,9 +31,9 @@ class _ListPaginationBloc<T>
       });
 
       emit(ListPaginationLoaded<T>(
-        items: data,
-        page: 1,
-        totalPages: 1,
+        items: data.items,
+        page: data.page,
+        totalPages: data.totalPages,
       ));
     } catch (e) {
       emitError(e);
@@ -53,7 +53,7 @@ class _ListPaginationBloc<T>
           });
 
           emit(ListPaginationLoaded<T>(
-            items: currentState.items + data,
+            items: currentState.items + data.items,
             page: currentState.page + 1,
             totalPages: currentState.totalPages,
           ));
