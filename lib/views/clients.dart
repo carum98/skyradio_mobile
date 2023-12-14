@@ -12,7 +12,7 @@ class ClientsView extends StatelessWidget {
     final provider = DI.of(context).clientsRepository.getClients;
 
     return SkScaffold(
-      title: 'Clients',
+      title: 'Clientes',
       provider: provider,
       builder: (client) => _Tile(client: client),
     );

@@ -10,24 +10,22 @@ class _ListPaginationBloc<T>
         super(ListPaginationLoading<T>());
 
   @override
-  void onEvent(ListPaginationEvent event) {
+  Future<void> onEvent(ListPaginationEvent event) async {
     if (event is ListPaginationGetAll) {
-      _getAll();
+      await _getAll();
     } else if (event is ListPaginationGetNextPage) {
-      _getNextPage();
+      await _getNextPage();
+    } else if (event is ListPaginationRefresh) {
+      await _refresh();
     }
   }
 
-  Future<void> _fetch(RequestParams params) async {
+  Future<void> _fetch(RequestParams params, {List<T>? items}) async {
     try {
       final data = await _provider(params);
 
-      final lastItems = state is ListPaginationLoaded<T>
-          ? (state as ListPaginationLoaded<T>).items
-          : [] as List<T>;
-
       emit(ListPaginationLoaded<T>(
-        items: lastItems + data.items,
+        items: (items ?? []) + data.items,
         page: data.page,
         totalPages: data.totalPages,
       ));
@@ -36,22 +34,39 @@ class _ListPaginationBloc<T>
     }
   }
 
-  void _getAll() {
+  Future<void> _getAll() async {
     emit(ListPaginationLoading<T>());
 
-    _fetch({
-      'page': 1,
-    });
+    await _fetch(
+      {
+        'page': 1,
+      },
+    );
   }
 
-  void _getNextPage() {
+  Future<void> _getNextPage() async {
     final currentState = state;
 
     if (currentState is ListPaginationLoaded<T> &&
         currentState.page < currentState.totalPages) {
-      _fetch({
-        'page': currentState.page + 1,
-      });
+      await _fetch(
+        {
+          'page': currentState.page + 1,
+        },
+        items: currentState.items,
+      );
+    }
+  }
+
+  Future<void> _refresh() async {
+    final currentState = state;
+
+    if (currentState is ListPaginationLoaded<T>) {
+      await _fetch(
+        {
+          'page': 1,
+        },
+      );
     }
   }
 }
@@ -87,3 +102,5 @@ abstract class ListPaginationEvent {}
 class ListPaginationGetAll extends ListPaginationEvent {}
 
 class ListPaginationGetNextPage extends ListPaginationEvent {}
+
+class ListPaginationRefresh extends ListPaginationEvent {}

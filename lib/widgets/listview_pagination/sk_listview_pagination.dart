@@ -53,48 +53,53 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: _bloc.stream,
-      builder: (_, snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              snapshot.error.toString(),
-            ),
-          );
-        }
-
-        if (snapshot.hasData) {
-          final data = snapshot.data;
-
-          if (data is ListPaginationLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (data is ListPaginationLoaded) {
-            return ListView.builder(
-              controller: _scrollController,
-              itemCount: data.items.length,
-              padding: const EdgeInsets.all(15),
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
-              itemBuilder: (_, index) => Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                ),
-                margin: const EdgeInsets.only(bottom: 10),
-                child: widget.builder(data.items[index]),
-              ),
-            );
-          }
-        }
-
-        return const SizedBox();
+    return RefreshIndicator(
+      onRefresh: () async {
+        _bloc.onEvent(ListPaginationRefresh());
       },
+      child: StreamBuilder(
+        stream: _bloc.stream,
+        builder: (_, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                snapshot.error.toString(),
+              ),
+            );
+          }
+
+          if (snapshot.hasData) {
+            final data = snapshot.data;
+
+            if (data is ListPaginationLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (data is ListPaginationLoaded) {
+              return ListView.builder(
+                controller: _scrollController,
+                itemCount: data.items.length,
+                padding: const EdgeInsets.all(15),
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                itemBuilder: (_, index) => Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: widget.builder(data.items[index]),
+                ),
+              );
+            }
+          }
+
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
