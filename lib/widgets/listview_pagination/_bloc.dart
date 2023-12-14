@@ -1,15 +1,11 @@
 part of 'sk_listview_pagination.dart';
 
-typedef ListPaginationProvider<T> = Future<ResponsePagination<T>> Function(
-  Map<String, dynamic> params,
-);
-
 class _ListPaginationBloc<T>
     extends SkBloc<ListPaginationState<T>, ListPaginationEvent> {
-  final ListPaginationProvider<T> _provider;
+  final ApiProvider<T> _provider;
 
   _ListPaginationBloc({
-    required ListPaginationProvider<T> provider,
+    required ApiProvider<T> provider,
   })  : _provider = provider,
         super(ListPaginationLoading<T>());
 

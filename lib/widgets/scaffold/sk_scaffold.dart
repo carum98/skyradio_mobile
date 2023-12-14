@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 
 class SkScaffold<T> extends StatelessWidget {
-  final ListPaginationProvider<T> provider;
+  final ApiProvider<T> provider;
   final Widget Function(T) builder;
 
   const SkScaffold({

@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:skyradio_mobile/services/auth_storage.dart';
 import 'package:http/http.dart' as http;
 
+import 'types.dart';
+export 'types.dart';
+
 enum Method {
   get,
   post,
@@ -25,14 +28,15 @@ class SkHttp {
       StreamController<SkHttpException>();
   Stream<SkHttpException> get onError => _onError.stream;
 
-  Future<Response> get(String path) async {
+  Future<Response> get(String path, {RequestParams? params}) async {
     return await _request(
       path: path,
       method: Method.get,
+      params: params,
     );
   }
 
-  Future<Response> post(String path, Map<String, dynamic>? data) async {
+  Future<Response> post(String path, RequestData data) async {
     return await _request(
       path: path,
       method: Method.post,
@@ -40,7 +44,7 @@ class SkHttp {
     );
   }
 
-  Future<Response> put(String path, Map<String, dynamic> data) async {
+  Future<Response> put(String path, RequestData data) async {
     return await _request(
       path: path,
       method: Method.put,
@@ -55,12 +59,20 @@ class SkHttp {
     );
   }
 
-  Uri _uri(String path) {
+  Uri _uri(
+    String path, {
+    RequestParams? params,
+  }) {
+    final Map<String, String>? queryParameters = params?.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
+
     return Uri(
       scheme: 'http',
       host: '192.168.10.158',
       port: 8080,
       path: path,
+      queryParameters: queryParameters,
     );
   }
 
@@ -78,7 +90,8 @@ class SkHttp {
   Future<Response> _request({
     required String path,
     required Method method,
-    Map<String, dynamic>? data,
+    RequestData? data,
+    RequestParams? params,
   }) async {
     try {
       final headers = await _headers();
@@ -87,7 +100,7 @@ class SkHttp {
       switch (method) {
         case Method.get:
           response = await http.get(
-            _uri(path),
+            _uri(path, params: params),
             headers: headers,
           );
         case Method.post:
@@ -135,9 +148,7 @@ class SkHttp {
     }
   }
 
-  SkHttp copyWith({
-    bool? useToken,
-  }) {
+  SkHttp copyWith({bool? useToken}) {
     return SkHttp(
       authStorageService: _authStorageService,
       useToken: useToken ?? _useToken,
@@ -151,19 +162,14 @@ class Response {
   Response(this._response);
 
   int get statusCode => _response.statusCode;
-  Map<String, dynamic> get data => _decodeBody();
+  ResponseData get data => _decodeBody();
 
-  Map<String, dynamic> _decodeBody() {
+  ResponseData _decodeBody() {
     try {
       return jsonDecode(_response.body);
     } catch (e) {
       throw SkHttpException(message: 'Invalid response body');
     }
-  }
-
-  @override
-  String toString() {
-    return 'Response{statusCode: $statusCode, data: $data}';
   }
 }
 

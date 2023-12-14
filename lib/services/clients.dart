@@ -7,8 +7,11 @@ class ClientsService {
     required SkHttp http,
   }) : _http = http;
 
-  Future<Map<String, dynamic>> getAll() async {
-    final response = await _http.get('/clients');
+  Future<ResponseData> getAll(RequestParams params) async {
+    final response = await _http.get(
+      '/clients',
+      params: params,
+    );
 
     return response.data;
   }

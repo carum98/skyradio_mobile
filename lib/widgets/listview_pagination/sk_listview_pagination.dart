@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bloc.dart';
+import 'package:skyradio_mobile/core/types.dart';
 
 part '_bloc.dart';
 part '_response_list.dart';
 
 class SkListViewPagination<T> extends StatefulWidget {
-  final ListPaginationProvider<T> provider;
+  final ApiProvider<T> provider;
   final Widget Function(T item) builder;
 
   const SkListViewPagination({
