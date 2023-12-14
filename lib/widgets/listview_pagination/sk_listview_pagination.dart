@@ -9,11 +9,16 @@ class SkListViewPagination<T> extends StatefulWidget {
   final ApiProvider<T> provider;
   final Widget Function(T item) builder;
 
+  final double paddingTop;
+  final double edgeOffset;
+
   const SkListViewPagination({
     super.key,
     required this.provider,
     required this.builder,
-  });
+    double? paddingTop,
+  })  : paddingTop = paddingTop ?? 10,
+        edgeOffset = paddingTop != null ? paddingTop - 20 : 0.0;
 
   @override
   State<SkListViewPagination> createState() => _SkListViewPaginationState<T>();
@@ -57,6 +62,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
       onRefresh: () async {
         _bloc.onEvent(ListPaginationRefresh());
       },
+      edgeOffset: widget.edgeOffset,
       child: StreamBuilder(
         stream: _bloc.stream,
         builder: (_, snapshot) {
@@ -81,7 +87,12 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
               return ListView.builder(
                 controller: _scrollController,
                 itemCount: data.items.length,
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.only(
+                  top: widget.paddingTop,
+                  left: 10,
+                  right: 10,
+                  bottom: 10,
+                ),
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
