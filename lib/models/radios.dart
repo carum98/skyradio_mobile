@@ -1,4 +1,4 @@
-import 'package:skyradio_mobile/models/models.dart';
+import 'models.dart';
 
 class Radios {
   final String code;

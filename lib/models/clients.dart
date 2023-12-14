@@ -1,6 +1,6 @@
 import 'dart:ui';
-import 'package:skyradio_mobile/models/modality.dart';
-import 'package:skyradio_mobile/models/seller.dart';
+import 'modality.dart';
+import 'seller.dart';
 
 class Clients {
   final String code;
