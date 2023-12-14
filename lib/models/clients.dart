@@ -7,7 +7,7 @@ class Clients {
   final String name;
   final Color color;
   final Modality modality;
-  final Seller seller;
+  final Seller? seller;
   final int radiosCount;
 
   Clients({
@@ -25,7 +25,7 @@ class Clients {
       name: json['name'],
       color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
       modality: Modality.fromJson(json['modality']),
-      seller: Seller.fromJson(json['seller']),
+      seller: json['seller'] != null ? Seller.fromJson(json['seller']) : null,
       radiosCount: json['radios_count'],
     );
   }
