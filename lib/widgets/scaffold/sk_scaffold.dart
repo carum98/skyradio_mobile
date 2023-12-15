@@ -31,11 +31,33 @@ class SkScaffold<T> extends StatelessWidget {
             child: Container(color: Colors.transparent),
           ),
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Buscar',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide.none,
+                ),
+                suffixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Theme.of(context).cardColor,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: SkListViewPagination<T>(
         provider: provider,
         builder: builder,
-        paddingTop: 130,
+        paddingTop: 190,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
