@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 
+part '_actions_buttons.dart';
+part '_search_input.dart';
+
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
   final Widget Function(T) builder;
@@ -34,22 +37,25 @@ class SkScaffold<T> extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Buscar',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide.none,
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _SearchInput(
+                    onChanged: (value) {},
+                  ),
                 ),
-                suffixIcon: const Icon(Icons.search),
-                filled: true,
-                fillColor: Theme.of(context).cardColor,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
+                const SizedBox(width: 10),
+                _ActionsButtons(
+                  onPressed: () {},
+                  icon: Icons.filter_list_alt,
                 ),
-              ),
+                const SizedBox(width: 10),
+                _ActionsButtons(
+                  onPressed: () {},
+                  icon: Icons.sort,
+                ),
+              ],
             ),
           ),
         ),
