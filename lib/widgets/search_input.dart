@@ -104,9 +104,6 @@ class _SearchInputActions extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
           backgroundColor: Theme.of(context).colorScheme.background,
           foregroundColor: Theme.of(context).textTheme.bodySmall!.color,
         ),

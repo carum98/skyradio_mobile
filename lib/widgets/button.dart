@@ -33,9 +33,6 @@ class SkButton extends StatelessWidget {
           vertical: 15,
           horizontal: 20,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
       ),
       child: Text(
         text,

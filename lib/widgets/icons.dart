@@ -13,13 +13,13 @@ enum SkIconData {
 
 class SkIcon extends StatelessWidget {
   final SkIconData icon;
-  final Color color;
+  final Color? color;
   final int size;
 
   const SkIcon(
     this.icon, {
     super.key,
-    this.color = Colors.white,
+    this.color,
     this.size = 24,
   });
 
@@ -28,7 +28,7 @@ class SkIcon extends StatelessWidget {
     return SvgPicture.asset(
       'assets/icons/${icon.name}.svg',
       colorFilter: ColorFilter.mode(
-        color,
+        color ?? Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black,
         BlendMode.srcIn,
       ),
       height: size.toDouble(),

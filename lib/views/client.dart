@@ -169,11 +169,13 @@ class _ActionsButtons extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
         ),
         backgroundColor: color,
-        elevation: 0,
-        padding: const EdgeInsets.all(0),
         minimumSize: const Size(50, 50),
       ),
-      child: SkIcon(icon, size: 28),
+      child: SkIcon(
+        icon,
+        size: 28,
+        color: Colors.white,
+      ),
     );
   }
 }

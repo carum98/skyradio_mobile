@@ -7,8 +7,6 @@ import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 
-part '_actions_buttons.dart';
-
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
   final Widget Function(T) builder;
@@ -50,19 +48,25 @@ class SkScaffold<T> extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
-                _ActionsButtons(
+                ElevatedButton(
                   onPressed: () {
                     skBottomSheet(context, Container());
                   },
-                  icon: SkIconData.filter,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(45, 45),
+                  ),
+                  child: const SkIcon(SkIconData.filter, size: 20),
                 ),
                 const SizedBox(width: 10),
-                _ActionsButtons(
+                ElevatedButton(
                   onPressed: () {
                     skBottomSheet(context, Container());
                   },
-                  icon: SkIconData.sort,
-                ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(45, 45),
+                  ),
+                  child: const SkIcon(SkIconData.sort, size: 20),
+                )
               ],
             ),
           ),
