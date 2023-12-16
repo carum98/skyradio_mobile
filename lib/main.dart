@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/theme.dart';
 
+import 'core/bottom_sheet.dart';
 import 'core/router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    DI(child: const MyApp()),
+    DI(
+      child: SkBottomSheet(
+        child: const MyApp(),
+      ),
+    ),
   );
 }
 
