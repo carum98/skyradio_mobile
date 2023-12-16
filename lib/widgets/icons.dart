@@ -9,6 +9,8 @@ enum SkIconData {
   arrows,
   filter,
   sort,
+  moon,
+  sun,
 }
 
 class SkIcon extends StatelessWidget {
