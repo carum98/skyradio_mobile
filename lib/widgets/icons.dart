@@ -11,6 +11,9 @@ enum SkIconData {
   sort,
   moon,
   sun,
+  radios,
+  clients,
+  sims,
 }
 
 class SkIcon extends StatelessWidget {

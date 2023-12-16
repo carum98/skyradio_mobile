@@ -28,30 +28,34 @@ class HomeView extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(CLIENTS_VIEW);
-              },
-              child: const Text('Clientes'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(RADIOS_VIEW);
-              },
-              child: const Text('Radios'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(SIMS_VIEW);
-              },
-              child: const Text('Sims'),
-            ),
-          ],
-        ),
+      body: GridView.count(
+        padding: const EdgeInsets.all(30),
+        crossAxisCount: 2,
+        mainAxisSpacing: 30,
+        crossAxisSpacing: 30,
+        children: [
+          _Button(
+            onPressed: () {
+              Navigator.of(context).pushNamed(CLIENTS_VIEW);
+            },
+            icon: SkIconData.clients,
+            text: 'Clientes',
+          ),
+          _Button(
+            onPressed: () {
+              Navigator.of(context).pushNamed(RADIOS_VIEW);
+            },
+            icon: SkIconData.radios,
+            text: 'Radios',
+          ),
+          _Button(
+            onPressed: () {
+              Navigator.of(context).pushNamed(SIMS_VIEW);
+            },
+            icon: SkIconData.sims,
+            text: 'SIMs',
+          ),
+        ],
       ),
     );
   }
@@ -83,6 +87,65 @@ class _SwitchThemeState extends State<SwitchTheme> {
         state.themeMode == ThemeMode.dark ? SkIconData.moon : SkIconData.sun,
         color: state.themeMode == ThemeMode.dark ? null : Colors.orange,
         size: 30,
+      ),
+    );
+  }
+}
+
+class _Button extends StatelessWidget {
+  final SkIconData icon;
+  final String text;
+  final Function() onPressed;
+
+  const _Button({
+    required this.onPressed,
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(35),
+      child: Ink(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(35),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).primaryColor.withOpacity(0.5),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: const Color(0xFFd2dff9),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: SkIcon(
+                icon,
+                color: const Color(0xFF2a5a8a),
+                size: 35,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              text,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Colors.white)
+                  .copyWith(fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
       ),
     );
   }
