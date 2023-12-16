@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/widgets/radios_tile.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
@@ -14,6 +15,10 @@ class RadiosView extends StatelessWidget {
       title: 'Radios',
       provider: provider,
       builder: (radio) => RadiosTile(radio: radio),
+      onTap: (radio) => SkBottomSheet.of(context).pushNamed(
+        RADIO_BOTTOM_SHEET,
+        arguments: radio,
+      ),
     );
   }
 }

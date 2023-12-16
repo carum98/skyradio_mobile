@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
@@ -20,6 +21,8 @@ class ClientView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -145,6 +148,10 @@ class _Radios extends StatelessWidget {
     return SkListViewPagination(
       provider: (params) => provider(client.code, params),
       builder: (radio) => RadiosTile(radio: radio),
+      onTap: (radio) => SkBottomSheet.of(context).pushNamed(
+        RADIO_BOTTOM_SHEET,
+        arguments: radio,
+      ),
     );
   }
 }
