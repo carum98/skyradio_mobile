@@ -18,4 +18,16 @@ class ClientsService {
 
     return response.data;
   }
+
+  Future<ResponseData> getRadios(String code, RequestParams params) async {
+    final response = await _http.get(
+      '/clients/$code/radios',
+      params: {
+        'per_page': 15,
+        ...params,
+      },
+    );
+
+    return response.data;
+  }
 }

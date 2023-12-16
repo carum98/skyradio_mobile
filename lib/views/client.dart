@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
 import 'package:skyradio_mobile/widgets/badget.dart';
+import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
+import 'package:skyradio_mobile/widgets/radios_tile.dart';
+import 'package:skyradio_mobile/widgets/search_input.dart';
 
 class ClientView extends StatelessWidget {
   final Clients client;
@@ -15,16 +19,27 @@ class ClientView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _Header(client: client),
-            const SizedBox(height: 20),
-            _Radios(client: client),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+            ),
+            child: _Header(client: client),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.6,
+            padding: const EdgeInsets.only(left: 10),
+            child: SkSearchInput(onChanged: (v) {}),
+          ),
+          Expanded(
+            child: _Radios(client: client),
+          ),
+        ],
       ),
     );
   }
@@ -95,6 +110,11 @@ class _Radios extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final provider = DI.of(context).clientsRepository.getRadios;
+
+    return SkListViewPagination(
+      provider: (params) => provider(client.code, params),
+      builder: (radio) => RadiosTile(radio: radio),
+    );
   }
 }
