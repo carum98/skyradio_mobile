@@ -1,17 +1,18 @@
-part of 'sk_scaffold.dart';
+import 'package:flutter/material.dart';
 
-class _SearchInput extends StatefulWidget {
+class SkSearchInput extends StatefulWidget {
   final void Function(String) onChanged;
 
-  const _SearchInput({
+  const SkSearchInput({
+    super.key,
     required this.onChanged,
   });
 
   @override
-  State<_SearchInput> createState() => _SearchInputState();
+  State<SkSearchInput> createState() => _SkSearchInputState();
 }
 
-class _SearchInputState extends State<_SearchInput> {
+class _SkSearchInputState extends State<SkSearchInput> {
   late final LayerLink layerLink;
   late final FocusNode focusNode;
   late final OverlayPortalController overlayPortalController;

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
+import 'package:skyradio_mobile/widgets/search_input.dart';
 
 part '_actions_buttons.dart';
-part '_search_input.dart';
 
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
@@ -44,7 +44,7 @@ class SkScaffold<T> extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: _SearchInput(
+                  child: SkSearchInput(
                     onChanged: (value) {},
                   ),
                 ),
