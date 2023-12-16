@@ -1,7 +1,9 @@
+import 'package:flutter/widgets.dart';
+
 class Modality {
   final String code;
   final String name;
-  final String color;
+  final Color color;
 
   Modality({
     required this.code,
@@ -13,7 +15,7 @@ class Modality {
     return Modality(
       code: json['code'],
       name: json['name'],
-      color: json['color'],
+      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
     );
   }
 

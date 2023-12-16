@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
@@ -15,6 +16,13 @@ class ClientsView extends StatelessWidget {
       title: 'Clientes',
       provider: provider,
       builder: (client) => _Tile(client: client),
+      onTap: (client) {
+        Navigator.pushNamed(
+          context,
+          CLIENT_VIEW,
+          arguments: client,
+        );
+      },
     );
   }
 }

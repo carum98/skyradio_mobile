@@ -11,12 +11,14 @@ part '_bottom_sheet.dart';
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
   final Widget Function(T) builder;
+  final void Function(T)? onTap;
 
   const SkScaffold({
     super.key,
     required this.title,
     required this.provider,
     required this.builder,
+    this.onTap,
   });
 
   final String title;
@@ -69,6 +71,7 @@ class SkScaffold<T> extends StatelessWidget {
         provider: provider,
         builder: builder,
         paddingTop: 190,
+        onTap: onTap,
         onLongPress: (item) {
           _bottomSheet(context, Container());
         },
