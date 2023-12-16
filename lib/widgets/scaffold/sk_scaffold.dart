@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 
 part '_actions_buttons.dart';
 part '_search_input.dart';
-part '_bottom_sheet.dart';
 
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
@@ -51,14 +51,14 @@ class SkScaffold<T> extends StatelessWidget {
                 const SizedBox(width: 10),
                 _ActionsButtons(
                   onPressed: () {
-                    _bottomSheet(context, Container());
+                    skBottomSheet(context, Container());
                   },
                   icon: Icons.filter_list_alt,
                 ),
                 const SizedBox(width: 10),
                 _ActionsButtons(
                   onPressed: () {
-                    _bottomSheet(context, Container());
+                    skBottomSheet(context, Container());
                   },
                   icon: Icons.sort,
                 ),
@@ -73,7 +73,7 @@ class SkScaffold<T> extends StatelessWidget {
         paddingTop: 190,
         onTap: onTap,
         onLongPress: (item) {
-          _bottomSheet(context, Container());
+          skBottomSheet(context, Container());
         },
       ),
       floatingActionButton: FloatingActionButton(

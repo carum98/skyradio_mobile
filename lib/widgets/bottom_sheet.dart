@@ -1,6 +1,6 @@
-part of 'sk_scaffold.dart';
+import 'package:flutter/material.dart';
 
-Future<T?> _bottomSheet<T>(BuildContext context, Widget child) async {
+Future<T?> skBottomSheet<T>(BuildContext context, Widget child) async {
   return await showModalBottomSheet<T>(
     context: context,
     builder: (context) => Container(
