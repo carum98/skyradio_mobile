@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SkInput extends StatelessWidget {
+class SkInput extends StatefulWidget {
   final String placeholder;
   final Function(String) onChanged;
 
@@ -31,32 +31,72 @@ class SkInput extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    const border = OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(15)),
-      borderSide: BorderSide(
-        width: 1.5,
-        color: Colors.grey,
-      ),
-    );
+  State<SkInput> createState() => _SkInputState();
+}
 
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: placeholder,
-        filled: true,
-        fillColor: Theme.of(context).cardColor,
-        focusedBorder: border.copyWith(
-          borderSide: border.borderSide.copyWith(
-            color: Theme.of(context).primaryColor,
+class _SkInputState extends State<SkInput> {
+  late final FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusNode();
+    focusNode.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    focusNode.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: focusNode.hasFocus
+            ? [
+                BoxShadow(
+                  color: Theme.of(context).primaryColor.withOpacity(0.4),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                )
+              ]
+            : null,
+      ),
+      child: TextFormField(
+        focusNode: focusNode,
+        onChanged: widget.onChanged,
+        decoration: _inputDecoration.copyWith(
+          hintText: widget.placeholder,
+          fillColor: Theme.of(context).cardColor,
+          focusedBorder: _border.copyWith(
+            borderSide: _border.borderSide.copyWith(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
-        enabledBorder: border,
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 18,
-          horizontal: 20,
-        ),
       ),
-      onChanged: onChanged,
     );
   }
 }
+
+const _border = OutlineInputBorder(
+  borderRadius: BorderRadius.all(Radius.circular(15)),
+  borderSide: BorderSide(
+    width: 1.3,
+    color: Color.fromRGBO(177, 177, 177, 1),
+  ),
+);
+
+const _inputDecoration = InputDecoration(
+  filled: true,
+  enabledBorder: _border,
+  contentPadding: EdgeInsets.symmetric(
+    vertical: 18,
+    horizontal: 25,
+  ),
+);
