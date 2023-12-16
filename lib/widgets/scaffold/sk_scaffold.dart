@@ -6,6 +6,7 @@ import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_paginati
 
 part '_actions_buttons.dart';
 part '_search_input.dart';
+part '_bottom_sheet.dart';
 
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
@@ -47,12 +48,16 @@ class SkScaffold<T> extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 _ActionsButtons(
-                  onPressed: () {},
+                  onPressed: () {
+                    _bottomSheet(context, Container());
+                  },
                   icon: Icons.filter_list_alt,
                 ),
                 const SizedBox(width: 10),
                 _ActionsButtons(
-                  onPressed: () {},
+                  onPressed: () {
+                    _bottomSheet(context, Container());
+                  },
                   icon: Icons.sort,
                 ),
               ],
@@ -64,6 +69,9 @@ class SkScaffold<T> extends StatelessWidget {
         provider: provider,
         builder: builder,
         paddingTop: 190,
+        onLongPress: (item) {
+          _bottomSheet(context, Container());
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
