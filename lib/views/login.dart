@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 
 class LoginView extends StatelessWidget {
@@ -29,22 +30,24 @@ class LoginView extends StatelessWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
         child: Form(
-          child: Wrap(
-            runSpacing: 10,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SkInput.label(
                 label: 'Correo',
                 placeholder: 'Correo',
                 onChanged: (value) => email = value,
               ),
+              const SizedBox(height: 10),
               SkInput.label(
                 label: 'Contraseña',
                 placeholder: 'Contraseña',
                 onChanged: (value) => password = value,
               ),
-              ElevatedButton(
+              const SizedBox(height: 30),
+              SkButton.block(
                 onPressed: login,
-                child: const Text('Iniciar sesión'),
+                text: 'Iniciar sesión',
               ),
             ],
           ),
