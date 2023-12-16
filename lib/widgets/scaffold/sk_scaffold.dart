@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
+import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 
@@ -53,14 +54,14 @@ class SkScaffold<T> extends StatelessWidget {
                   onPressed: () {
                     skBottomSheet(context, Container());
                   },
-                  icon: Icons.filter_list_alt,
+                  icon: SkIconData.filter,
                 ),
                 const SizedBox(width: 10),
                 _ActionsButtons(
                   onPressed: () {
                     skBottomSheet(context, Container());
                   },
-                  icon: Icons.sort,
+                  icon: SkIconData.sort,
                 ),
               ],
             ),

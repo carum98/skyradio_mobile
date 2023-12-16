@@ -3,6 +3,7 @@ import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
 import 'package:skyradio_mobile/widgets/badget.dart';
+import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/radios_tile.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
@@ -18,7 +19,28 @@ class ClientView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SkAvatar(
+              color: client.color,
+              alt: client.name,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              client.name,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,6 +60,27 @@ class ClientView extends StatelessWidget {
           ),
           Expanded(
             child: _Radios(client: client),
+          ),
+        ],
+      ),
+      floatingActionButton: Wrap(
+        spacing: 10,
+        direction: Axis.vertical,
+        children: [
+          _ActionsButtons(
+            onPressed: () {},
+            color: const Color.fromRGBO(7, 80, 188, 1),
+            icon: SkIconData.arrows,
+          ),
+          _ActionsButtons(
+            onPressed: () {},
+            color: const Color.fromRGBO(191, 42, 42, 1),
+            icon: SkIconData.arrow_up,
+          ),
+          _ActionsButtons(
+            onPressed: () {},
+            color: const Color.fromRGBO(58, 160, 58, 1),
+            icon: SkIconData.arrow_down,
           ),
         ],
       ),
@@ -62,19 +105,6 @@ class _Header extends StatelessWidget {
       child: Wrap(
         runSpacing: 15,
         children: [
-          Row(
-            children: [
-              SkAvatar(
-                color: client.color,
-                alt: client.name,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                client.name,
-                style: const TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
           Row(
             children: [
               const Text(
@@ -115,6 +145,35 @@ class _Radios extends StatelessWidget {
     return SkListViewPagination(
       provider: (params) => provider(client.code, params),
       builder: (radio) => RadiosTile(radio: radio),
+    );
+  }
+}
+
+class _ActionsButtons extends StatelessWidget {
+  final SkIconData icon;
+  final Color color;
+  final void Function() onPressed;
+
+  const _ActionsButtons({
+    required this.icon,
+    required this.color,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        backgroundColor: color,
+        elevation: 0,
+        padding: const EdgeInsets.all(0),
+        minimumSize: const Size(50, 50),
+      ),
+      child: SkIcon(icon, size: 28),
     );
   }
 }

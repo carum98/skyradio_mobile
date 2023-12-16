@@ -2,7 +2,7 @@ part of 'sk_scaffold.dart';
 
 class _ActionsButtons extends StatelessWidget {
   final void Function() onPressed;
-  final IconData icon;
+  final SkIconData icon;
 
   const _ActionsButtons({
     required this.onPressed,
@@ -22,10 +22,7 @@ class _ActionsButtons extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         minimumSize: const Size(45, 45),
       ),
-      child: Icon(
-        icon,
-        color: Theme.of(context).textTheme.bodySmall!.color,
-      ),
+      child: SkIcon(icon, size: 20),
     );
   }
 }
