@@ -31,4 +31,10 @@ class ClientsRepository {
       Radios.fromJson,
     );
   }
+
+  Future<ClientsStats> getStats(String code) async {
+    final data = await _clientsService.getStats(code);
+
+    return ClientsStats.fromJson(data);
+  }
 }

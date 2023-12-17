@@ -22,10 +22,11 @@ class SkChart extends StatelessWidget {
 }
 
 class SkChartData {
-  const SkChartData(this.label, this.color, this.percent);
+  const SkChartData(this.label, this.color, this.count, this.percent);
 
   final String label;
   final Color color;
+  final int count;
   final double percent;
 }
 
@@ -134,7 +135,7 @@ class _SkChartInfo extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Text(
-                '${data.label}: ${data.percent}%',
+                '${data.label}: ${data.count}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],

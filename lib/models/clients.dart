@@ -41,3 +41,53 @@ class Clients {
     );
   }
 }
+
+typedef StatsItem = ({
+  String name,
+  int count,
+  double percent,
+  Color color,
+});
+
+class ClientsStats {
+  final List<StatsItem> models;
+  final List<StatsItem> providers;
+
+  ClientsStats({
+    required this.models,
+    required this.providers,
+  });
+
+  factory ClientsStats.fromJson(Map<String, dynamic> json) {
+    final models = json['models'] as List;
+    final providers = json['sims_providers'] as List;
+
+    final modelsTotal =
+        models.fold<int>(0, (sum, model) => sum + model['count'] as int);
+    final providersTotal = providers.fold<int>(
+        0, (sum, provider) => sum + provider['count'] as int);
+
+    final modelsStats = models.map((e) {
+      return (
+        name: e['name'],
+        count: e['count'],
+        percent: e['count'] / modelsTotal * 100,
+        color: Color(int.parse(e['color'].replaceAll('#', '0xFF'))),
+      ) as StatsItem;
+    }).toList();
+
+    final providersStats = providers.map((e) {
+      return (
+        name: e['name'],
+        count: e['count'],
+        percent: e['count'] / providersTotal * 100,
+        color: Color(int.parse(e['color'].replaceAll('#', '0xFF'))),
+      ) as StatsItem;
+    }).toList();
+
+    return ClientsStats(
+      models: modelsStats,
+      providers: providersStats,
+    );
+  }
+}

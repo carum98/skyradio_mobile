@@ -30,4 +30,12 @@ class ClientsService {
 
     return response.data;
   }
+
+  Future<ResponseData> getStats(String code) async {
+    final response = await _http.get(
+      '/clients/$code/stats',
+    );
+
+    return response.data;
+  }
 }

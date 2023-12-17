@@ -58,30 +58,7 @@ class ClientView extends StatelessWidget {
             child: _Header(client: client),
           ),
           const SizedBox(height: 20),
-          SkTabs(
-            tabs: [
-              SkTab(
-                label: 'Modelos',
-                child: SkChart(
-                  size: 100,
-                  data: const [
-                    SkChartData('Item 1', Colors.purple, 50),
-                    SkChartData('Item 2', Colors.blue, 50),
-                  ],
-                ),
-              ),
-              SkTab(
-                label: 'Proveedores',
-                child: SkChart(
-                  size: 100,
-                  data: const [
-                    SkChartData('Item 3', Colors.orange, 35),
-                    SkChartData('Item 4', Colors.red, 65),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          _Charts(client: client),
           const SizedBox(height: 40),
           Row(
             children: [
@@ -183,6 +160,48 @@ class _Radios extends StatelessWidget {
         RADIO_BOTTOM_SHEET,
         arguments: radio,
       ),
+    );
+  }
+}
+
+class _Charts extends StatelessWidget {
+  final Clients client;
+  const _Charts({required this.client});
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = DI.of(context).clientsRepository.getStats;
+
+    return FutureBuilder<ClientsStats>(
+      future: provider(client.code),
+      builder: (_, snapshot) {
+        final models = snapshot.data?.models
+            .map((e) => SkChartData(e.name, e.color, e.count, e.percent))
+            .toList();
+
+        final providers = snapshot.data?.providers
+            .map((e) => SkChartData(e.name, e.color, e.count, e.percent))
+            .toList();
+
+        return SkTabs(
+          tabs: [
+            SkTab(
+              label: 'Modelos',
+              child: SkChart(
+                size: 100,
+                data: models ?? [],
+              ),
+            ),
+            SkTab(
+              label: 'Proveedores',
+              child: SkChart(
+                size: 100,
+                data: providers ?? [],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
