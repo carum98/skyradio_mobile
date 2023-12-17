@@ -29,10 +29,10 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: GridView.count(
-        padding: const EdgeInsets.all(30),
-        crossAxisCount: 2,
-        mainAxisSpacing: 30,
-        crossAxisSpacing: 30,
+        padding: const EdgeInsets.all(20),
+        crossAxisCount: 3,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
         children: [
           _Button(
             onPressed: () {
@@ -107,11 +107,11 @@ class _Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      borderRadius: BorderRadius.circular(35),
+      borderRadius: BorderRadius.circular(30),
       child: Ink(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(35),
+          borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
               color: Theme.of(context).primaryColor.withOpacity(0.5),
@@ -124,7 +124,7 @@ class _Button extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: const Color(0xFFd2dff9),
                 borderRadius: BorderRadius.circular(20),
@@ -135,12 +135,12 @@ class _Button extends StatelessWidget {
                 size: 35,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
               text,
               style: Theme.of(context)
                   .textTheme
-                  .titleLarge!
+                  .titleSmall!
                   .copyWith(color: Colors.white)
                   .copyWith(fontWeight: FontWeight.w400),
             ),
