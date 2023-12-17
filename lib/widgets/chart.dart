@@ -1,25 +1,30 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class SkChart extends StatelessWidget {
   final List<SkChartData> data;
+  final double size;
 
-  const SkChart({
-    super.key,
+  SkChart({
     required this.data,
-  });
+    required this.size,
+  }) : super(key: Key('${Random().nextInt(1000)}'));
 
   @override
   Widget build(BuildContext context) {
     return PieChart(
       data: data,
       strokeWidth: 20,
+      size: size,
     );
   }
 }
 
 class SkChartData {
-  const SkChartData(this.color, this.percent);
+  const SkChartData(this.label, this.color, this.percent);
 
+  final String label;
   final Color color;
   final double percent;
 }
@@ -27,8 +32,8 @@ class SkChartData {
 class PieChart extends StatelessWidget {
   PieChart({
     required this.data,
+    required this.size,
     this.strokeWidth = 8,
-    this.child,
     Key? key,
   })  : // make sure sum of data is never ovr 100 percent
         assert(data.fold<double>(0, (sum, data) => sum + data.percent) <= 100),
@@ -36,20 +41,28 @@ class PieChart extends StatelessWidget {
 
   final List<SkChartData> data;
   final double strokeWidth;
-  final Widget? child;
+  final double size;
 
   @override
   Widget build(context) {
-    return CustomPaint(
-      painter: _Painter(strokeWidth, data),
+    return GestureDetector(
+      onTapDown: (details) {
+        showMenuWidget(
+          context,
+          offset: details.globalPosition,
+          child: _SkChartInfo(data: data),
+        );
+      },
       child: SizedBox.square(
-        child: Center(child: child),
+        dimension: size,
+        child: CustomPaint(
+          painter: _Painter(strokeWidth, data),
+        ),
       ),
     );
   }
 }
 
-// responsible for painting our chart
 class _PainterData {
   const _PainterData(this.paint, this.radians);
 
@@ -95,6 +108,62 @@ class _Painter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return oldDelegate != this;
+    return false;
   }
+}
+
+class _SkChartInfo extends StatelessWidget {
+  final List<SkChartData> data;
+
+  const _SkChartInfo({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (final data in data)
+          Row(
+            children: [
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: data.color,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              const SizedBox(width: 5),
+              Text(
+                '${data.label}: ${data.percent}%',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
+      ],
+    );
+  }
+}
+
+Future<T?> showMenuWidget<T>(
+  BuildContext context, {
+  required Offset offset,
+  required Widget child,
+}) async {
+  final position = RelativeRect.fromLTRB(
+    offset.dx,
+    offset.dy,
+    MediaQuery.of(context).size.width - offset.dx,
+    MediaQuery.of(context).size.height - offset.dy,
+  );
+
+  return await showMenu<T>(
+    context: context,
+    position: position,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(18)),
+    ),
+    items: [
+      PopupMenuItem(child: child),
+    ],
+  );
 }
