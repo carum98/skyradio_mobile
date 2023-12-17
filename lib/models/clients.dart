@@ -30,12 +30,14 @@ class Clients {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'name': name,
-      'color': color.toString(),
-      'radios_count': radiosCount,
-    };
+  factory Clients.fromJsonSim(Map<String, dynamic> json) {
+    return Clients(
+      code: json['code'],
+      name: json['name'],
+      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
+      modality: Modality.placeholder(),
+      seller: null,
+      radiosCount: 0,
+    );
   }
 }

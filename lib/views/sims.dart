@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
@@ -14,6 +15,10 @@ class SimsView extends StatelessWidget {
       title: 'Sims',
       provider: provider,
       builder: (sim) => _Tile(sim: sim),
+      onTap: (sim) => SkBottomSheet.of(context).pushNamed(
+        SIM_BOTTOM_SHEET,
+        arguments: sim,
+      ),
     );
   }
 }

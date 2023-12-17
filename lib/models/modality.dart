@@ -19,11 +19,11 @@ class Modality {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'name': name,
-      'color': color,
-    };
+  factory Modality.placeholder() {
+    return Modality(
+      code: '',
+      name: '',
+      color: const Color(0xFF000000),
+    );
   }
 }

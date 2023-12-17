@@ -2,10 +2,13 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/views/radio.dart';
+import 'package:skyradio_mobile/views/sim.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 
 const RADIO_BOTTOM_SHEET = '/radios';
+const SIM_BOTTOM_SHEET = '/sims';
 
 class BottomSheetGenerator {
   static Widget generate(RouteSettings settings) {
@@ -14,6 +17,10 @@ class BottomSheetGenerator {
         final radio = settings.arguments as Radios;
 
         return RadioView(radio: radio);
+      case SIM_BOTTOM_SHEET:
+        final sim = settings.arguments as Sims;
+
+        return SimView(sim: sim);
       default:
         return Container();
     }

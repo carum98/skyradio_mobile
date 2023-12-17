@@ -19,11 +19,11 @@ class Models {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'name': name,
-      'color': color.toString(),
-    };
+  factory Models.placeholder() {
+    return Models(
+      code: '',
+      name: '',
+      color: const Color(0xFF000000),
+    );
   }
 }
