@@ -4,10 +4,12 @@ import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
 import 'package:skyradio_mobile/widgets/badget.dart';
+import 'package:skyradio_mobile/widgets/chart.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/radios_tile.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
+import 'package:skyradio_mobile/widgets/tabs.dart';
 
 class ClientView extends StatelessWidget {
   final Clients client;
@@ -45,7 +47,7 @@ class ClientView extends StatelessWidget {
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(
@@ -56,10 +58,39 @@ class ClientView extends StatelessWidget {
             child: _Header(client: client),
           ),
           const SizedBox(height: 20),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            padding: const EdgeInsets.only(left: 10),
-            child: SkSearchInput(onChanged: (v) {}),
+          SkTabs(
+            tabs: [
+              SkTab(
+                label: 'Modelos',
+                child: SkChart(
+                  size: 100,
+                  data: const [
+                    SkChartData('Item 1', Colors.purple, 50),
+                    SkChartData('Item 2', Colors.blue, 50),
+                  ],
+                ),
+              ),
+              SkTab(
+                label: 'Proveedores',
+                child: SkChart(
+                  size: 100,
+                  data: const [
+                    SkChartData('Item 3', Colors.orange, 35),
+                    SkChartData('Item 4', Colors.red, 65),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 40),
+          Row(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.6,
+                padding: const EdgeInsets.only(left: 10),
+                child: SkSearchInput(onChanged: (v) {}),
+              ),
+            ],
           ),
           Expanded(
             child: _Radios(client: client),
