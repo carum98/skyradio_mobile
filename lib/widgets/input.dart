@@ -65,33 +65,10 @@ class _SkInputState extends State<SkInput> {
       child: TextFormField(
         focusNode: focusNode,
         onChanged: widget.onChanged,
-        decoration: _inputDecoration.copyWith(
+        decoration: InputDecoration(
           hintText: widget.placeholder,
-          fillColor: Theme.of(context).cardColor,
-          focusedBorder: _border.copyWith(
-            borderSide: _border.borderSide.copyWith(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
         ),
       ),
     );
   }
 }
-
-const _border = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(15)),
-  borderSide: BorderSide(
-    width: 1.3,
-    color: Color.fromRGBO(177, 177, 177, 1),
-  ),
-);
-
-const _inputDecoration = InputDecoration(
-  filled: true,
-  enabledBorder: _border,
-  contentPadding: EdgeInsets.symmetric(
-    vertical: 18,
-    horizontal: 25,
-  ),
-);

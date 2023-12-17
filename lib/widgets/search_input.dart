@@ -51,13 +51,15 @@ class _SkSearchInputState extends State<SkSearchInput> {
           focusNode: focusNode,
           decoration: InputDecoration(
             hintText: 'Buscar',
-            border: OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
             suffixIcon: const Icon(Icons.search),
-            filled: true,
-            fillColor: Theme.of(context).cardColor,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 10,
