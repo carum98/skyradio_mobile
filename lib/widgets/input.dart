@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/widgets/label.dart';
 
 class SkInput extends StatefulWidget {
   final String placeholder;
@@ -15,18 +16,12 @@ class SkInput extends StatefulWidget {
     required String placeholder,
     required Function(String) onChanged,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(label, style: const TextStyle(fontSize: 18)),
-        ),
-        SkInput(
-          placeholder: placeholder,
-          onChanged: onChanged,
-        ),
-      ],
+    return SkLabel(
+      label: label,
+      child: SkInput(
+        placeholder: placeholder,
+        onChanged: onChanged,
+      ),
     );
   }
 
