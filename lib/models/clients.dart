@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:skyradio_mobile/utils/color.dart';
+
 import 'modality.dart';
 import 'seller.dart';
 
@@ -23,7 +25,7 @@ class Clients {
     return Clients(
       code: json['code'],
       name: json['name'],
-      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
+      color: (json['color'] as String).toColor(),
       modality: Modality.fromJson(json['modality']),
       seller: json['seller'] != null ? Seller.fromJson(json['seller']) : null,
       radiosCount: json['radios_count'],
@@ -34,7 +36,7 @@ class Clients {
     return Clients(
       code: json['code'],
       name: json['name'],
-      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
+      color: (json['color'] as String).toColor(),
       modality: Modality.placeholder(),
       seller: null,
       radiosCount: 0,
@@ -72,7 +74,7 @@ class ClientsStats {
         name: e['name'],
         count: e['count'],
         percent: e['count'] / modelsTotal * 100,
-        color: Color(int.parse(e['color'].replaceAll('#', '0xFF'))),
+        color: (e['color'] as String).toColor(),
       ) as StatsItem;
     }).toList();
 
@@ -81,7 +83,7 @@ class ClientsStats {
         name: e['name'],
         count: e['count'],
         percent: e['count'] / providersTotal * 100,
-        color: Color(int.parse(e['color'].replaceAll('#', '0xFF'))),
+        color: (e['color'] as String).toColor(),
       ) as StatsItem;
     }).toList();
 

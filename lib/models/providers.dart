@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:skyradio_mobile/utils/color.dart';
+
 class Providers {
   final String code;
   final String name;
@@ -15,15 +17,7 @@ class Providers {
     return Providers(
       code: json['code'],
       name: json['name'],
-      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
+      color: (json['color'] as String).toColor(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'name': name,
-      'color': color.toString(),
-    };
   }
 }

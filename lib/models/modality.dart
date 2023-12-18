@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:skyradio_mobile/utils/color.dart';
 
 class Modality {
   final String code;
@@ -15,7 +16,7 @@ class Modality {
     return Modality(
       code: json['code'],
       name: json['name'],
-      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
+      color: (json['color'] as String).toColor(),
     );
   }
 

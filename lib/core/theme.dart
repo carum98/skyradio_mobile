@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
-
-extension ColorToMaterialStateProperty on Color {
-  MaterialStateProperty<Color?> toMaterialStateProperty() {
-    return MaterialStateProperty.resolveWith<Color?>(
-      (Set<MaterialState> states) {
-        return this;
-      },
-    );
-  }
-}
+import 'package:skyradio_mobile/utils/color.dart';
 
 const _primaryColorDark = Color(0xFF014b9b);
 const _backgroundColorDark = Color(0xFF1e2023);

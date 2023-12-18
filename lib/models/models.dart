@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:skyradio_mobile/utils/color.dart';
+
 class Models {
   final String code;
   final String name;
@@ -15,7 +17,7 @@ class Models {
     return Models(
       code: json['code'],
       name: json['name'],
-      color: Color(int.parse(json['color'].replaceAll('#', '0xFF'))),
+      color: (json['color'] as String).toColor(),
     );
   }
 
