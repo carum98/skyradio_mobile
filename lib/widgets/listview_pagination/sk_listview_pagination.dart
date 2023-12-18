@@ -13,11 +13,13 @@ class SkListViewPagination<T> extends StatefulWidget {
 
   final double paddingTop;
   final double edgeOffset;
+  final double padding;
 
   const SkListViewPagination({
     super.key,
     required this.provider,
     required this.builder,
+    this.padding = 10,
     this.onTap,
     this.onLongPress,
     double? paddingTop,
@@ -93,9 +95,9 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
                 itemCount: data.items.length,
                 padding: EdgeInsets.only(
                   top: widget.paddingTop,
-                  left: 10,
-                  right: 10,
-                  bottom: 10,
+                  left: widget.padding,
+                  right: widget.padding,
+                  bottom: widget.padding,
                 ),
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
