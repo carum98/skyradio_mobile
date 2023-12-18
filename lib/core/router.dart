@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/views/client.dart';
+import 'package:skyradio_mobile/views/client_form.dart';
 import 'package:skyradio_mobile/views/clients.dart';
 import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
@@ -13,6 +14,7 @@ const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';
 const CLIENTS_VIEW = '/clients';
 const CLIENT_VIEW = '/clients/:id';
+const CLIENT_FORM_VIEW = '/clients/form';
 const RADIOS_VIEW = '/radios';
 const SIMS_VIEW = '/sims';
 
@@ -36,6 +38,10 @@ class RouterGenerator {
 
         return MaterialPageRoute(
           builder: (_) => ClientView(client: client),
+        );
+      case CLIENT_FORM_VIEW:
+        return MaterialPageRoute(
+          builder: (_) => const ClientsFormView(),
         );
       case RADIOS_VIEW:
         return MaterialPageRoute(

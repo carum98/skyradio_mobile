@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
@@ -82,7 +83,9 @@ class SkScaffold<T> extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(CLIENT_FORM_VIEW);
+        },
         child: const Icon(Icons.add),
       ),
     );

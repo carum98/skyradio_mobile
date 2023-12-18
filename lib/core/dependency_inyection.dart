@@ -5,11 +5,13 @@ import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/core/storage.dart';
 import 'package:skyradio_mobile/repository/auth.dart';
 import 'package:skyradio_mobile/repository/clients.dart';
+import 'package:skyradio_mobile/repository/common.dart';
 import 'package:skyradio_mobile/repository/radios.dart';
 import 'package:skyradio_mobile/repository/sims.dart';
 import 'package:skyradio_mobile/services/auth.dart';
 import 'package:skyradio_mobile/services/auth_storage.dart';
 import 'package:skyradio_mobile/services/clients.dart';
+import 'package:skyradio_mobile/services/common.dart';
 import 'package:skyradio_mobile/services/radios.dart';
 import 'package:skyradio_mobile/services/sims.dart';
 
@@ -25,11 +27,13 @@ class DI extends InheritedWidget {
   late final ClientsService clientsService;
   late final RadiosService radiosService;
   late final SimsService simsService;
+  late final CommonService commonService;
 
   late final AuthRepository authRepository;
   late final ClientsRepository clientsRepository;
   late final RadiosRepository radiosRepository;
   late final SimsRepository simsRepository;
+  late final CommonRepository commonRepository;
 
   DI({
     super.key,
@@ -63,6 +67,10 @@ class DI extends InheritedWidget {
       http: http,
     );
 
+    commonService = CommonService(
+      http: http,
+    );
+
     // Repository
     authRepository = AuthRepository(
       authStorageService: authStorageService,
@@ -79,6 +87,10 @@ class DI extends InheritedWidget {
 
     simsRepository = SimsRepository(
       simsService: simsService,
+    );
+
+    commonRepository = CommonRepository(
+      commonService: commonService,
     );
 
     /// Verify if the user is authenticated
