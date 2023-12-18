@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/utils/color.dart';
 
@@ -21,12 +23,14 @@ final _colors = [
   '#000080'.toColor(),
 ];
 
-class SkColorPicker extends StatelessWidget {
+class SkColorPicker extends StatefulWidget {
   final Color? initialColor;
+  final Function(Color)? onChanged;
 
   const SkColorPicker({
     super.key,
     this.initialColor,
+    this.onChanged,
   });
 
   static Widget label({
@@ -42,6 +46,21 @@ class SkColorPicker extends StatelessWidget {
   }
 
   @override
+  State<SkColorPicker> createState() => _SkColorPickerState();
+}
+
+class _SkColorPickerState extends State<SkColorPicker> {
+  Color? _color;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _color = widget.initialColor ??
+        _colors.elementAt(Random().nextInt(_colors.length));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 10,
@@ -49,15 +68,18 @@ class SkColorPicker extends StatelessWidget {
       children: _colors
           .map(
             (color) => GestureDetector(
-              onTap: () => Navigator.of(context).pop(color),
+              onTap: () {
+                widget.onChanged?.call(color);
+                setState(() => _color = color);
+              },
               child: Container(
-                width: 30,
-                height: 30,
+                width: 35,
+                height: 35,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                   color: color,
                 ),
-                child: color == initialColor
+                child: color == _color
                     ? const Icon(Icons.check, color: Colors.white)
                     : null,
               ),
