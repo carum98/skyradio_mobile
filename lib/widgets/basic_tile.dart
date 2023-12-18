@@ -12,16 +12,21 @@ class BasicTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: color != null
-          ? Icon(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
+      child: Row(
+        children: [
+          if (color != null) ...[
+            Icon(
               Icons.circle,
-              size: 14,
+              size: 15,
               color: color,
-            )
-          : null,
-      minLeadingWidth: 0,
-      title: Text(title),
+            ),
+            const SizedBox(width: 10),
+          ],
+          Text(title, style: Theme.of(context).textTheme.bodyLarge),
+        ],
+      ),
     );
   }
 }

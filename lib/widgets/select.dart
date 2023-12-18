@@ -56,18 +56,42 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
           onTap: () {
             skBottomSheet(
               context,
-              SkListViewPagination<T>(
-                provider: widget.provider,
-                builder: widget.itemBuilder,
-                padding: 0,
-                onTap: (item) {
-                  widget.onChanged(item);
-                  Navigator.pop(context);
+              Column(
+                children: [
+                  TextField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: 'Buscar...',
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 15,
+                      ),
+                      enabledBorder: Theme.of(context)
+                          .inputDecorationTheme
+                          .enabledBorder!
+                          .copyWith(
+                            borderSide:
+                                const BorderSide(color: Colors.transparent),
+                          ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: SkListViewPagination<T>(
+                      provider: widget.provider,
+                      builder: widget.itemBuilder,
+                      padding: 0,
+                      onTap: (item) {
+                        widget.onChanged(item);
+                        Navigator.pop(context);
 
-                  setState(() {
-                    _value = item;
-                  });
-                },
+                        setState(() {
+                          _value = item;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           },
