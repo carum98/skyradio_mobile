@@ -17,7 +17,13 @@ class SkLabel extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(label, style: const TextStyle(fontSize: 18)),
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
         child,
       ],

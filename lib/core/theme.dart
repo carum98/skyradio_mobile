@@ -25,8 +25,8 @@ const _floatingActionButton = FloatingActionButtonThemeData(
 const _inputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(15)),
   borderSide: BorderSide(
-    width: 1.3,
-    color: Color.fromRGBO(177, 177, 177, 1),
+    width: 1.5,
+    color: Color.fromRGBO(113, 113, 113, 1),
   ),
 );
 
