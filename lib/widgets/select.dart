@@ -8,6 +8,7 @@ import 'listview_pagination/sk_listview_pagination.dart';
 class SkSelect<T> extends StatefulWidget {
   final ApiProvider<T> provider;
   final String placeholder;
+  final T? initialValue;
   final Function(T) onChanged;
   final Widget Function(T item) itemBuilder;
 
@@ -17,6 +18,7 @@ class SkSelect<T> extends StatefulWidget {
     required this.placeholder,
     required this.onChanged,
     required this.itemBuilder,
+    this.initialValue,
   });
 
   static Widget label<T>({
@@ -25,12 +27,14 @@ class SkSelect<T> extends StatefulWidget {
     required String placeholder,
     required Function(T) onChanged,
     required Widget Function(T item) itemBuilder,
+    T? initialValue,
   }) {
     return SkLabel(
       label: label,
       child: SkSelect(
         provider: provider,
         placeholder: placeholder,
+        initialValue: initialValue,
         onChanged: onChanged,
         itemBuilder: itemBuilder,
       ),
@@ -43,6 +47,13 @@ class SkSelect<T> extends StatefulWidget {
 
 class _SkSelectState<T> extends State<SkSelect<T>> {
   T? _value;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _value = widget.initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
