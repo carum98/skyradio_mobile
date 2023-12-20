@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/clients.dart';
-import 'package:skyradio_mobile/widgets/basic_tile.dart';
 import 'package:skyradio_mobile/widgets/color_picker.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
-import 'package:skyradio_mobile/widgets/select.dart';
+import 'package:skyradio_mobile/widgets/selectors/modalities.dart';
+import 'package:skyradio_mobile/widgets/selectors/sellers.dart';
 
 class ClientsFormView extends StatelessWidget {
   final ClientsForm model;
@@ -35,24 +34,13 @@ class ClientsFormView extends StatelessWidget {
             model.name = value;
           },
         ),
-        SkSelect.label(
-          label: 'Modalidad',
-          placeholder: 'Modalidad',
-          provider: DI.of(context).commonRepository.getModalities,
+        ModalitiesSelector(
           initialValue: model.modality,
-          itemBuilder: (item) => BasicTile(
-            title: item.name,
-            color: item.color,
-          ),
           onChanged: (value) {
             model.modality = value;
           },
         ),
-        SkSelect.label(
-          label: 'Vendedor',
-          placeholder: 'Vendedor',
-          provider: DI.of(context).commonRepository.getSellers,
-          itemBuilder: (item) => BasicTile(title: item.name),
+        SellersSelector(
           initialValue: model.seller,
           onChanged: (value) {
             model.seller = value;
