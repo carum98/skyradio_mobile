@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/utils/color.dart';
 
 import 'modality.dart';
@@ -92,4 +93,42 @@ class ClientsStats {
       providers: providersStats,
     );
   }
+}
+
+class ClientsForm {
+  String? name;
+  Color? color;
+  Modality? modality;
+  Seller? seller;
+
+  ClientsForm({
+    this.name,
+    this.color,
+    this.modality,
+    this.seller,
+  });
+
+  factory ClientsForm.create() {
+    return ClientsForm();
+  }
+
+  factory ClientsForm.update(Clients client) {
+    return ClientsForm(
+      name: client.name,
+      color: client.color,
+      modality: client.modality,
+      seller: client.seller,
+    );
+  }
+
+  RequestData toRequestData() {
+    return {
+      'name': name,
+      'color': color?.toHex(),
+      'modality_code': modality?.code,
+      'seller_code': seller?.code,
+    };
+  }
+
+  bool get isValid => name != null && color != null && modality != null;
 }
