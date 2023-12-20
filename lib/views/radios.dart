@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/radios_tile.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
 
@@ -19,6 +21,18 @@ class RadiosView extends StatelessWidget {
         RADIO_BOTTOM_SHEET,
         arguments: radio,
       ),
+      onListActions: (action, callback) {
+        if (action == SkScaffoldAction.add) {
+          Navigator.pushNamed(context, RADIOS_CREATE_VIEW);
+        } else if (action == SkScaffoldAction.sort) {
+          skBottomSheet(context, Container());
+        } else if (action == SkScaffoldAction.filter) {
+          skBottomSheet(context, Container());
+        }
+      },
+      onItemActions: (client, callback) {
+        skBottomSheet(context, Container());
+      },
     );
   }
 }

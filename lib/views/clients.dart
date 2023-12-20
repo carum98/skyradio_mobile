@@ -3,6 +3,7 @@ import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
+import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
 
 class ClientsView extends StatelessWidget {
@@ -22,6 +23,18 @@ class ClientsView extends StatelessWidget {
           CLIENT_VIEW,
           arguments: client,
         );
+      },
+      onListActions: (action, callback) {
+        if (action == SkScaffoldAction.add) {
+          Navigator.pushNamed(context, CLIENT_CREATE_VIEW);
+        } else if (action == SkScaffoldAction.sort) {
+          skBottomSheet(context, Container());
+        } else if (action == SkScaffoldAction.filter) {
+          skBottomSheet(context, Container());
+        }
+      },
+      onItemActions: (client, callback) {
+        skBottomSheet(context, Container());
       },
     );
   }

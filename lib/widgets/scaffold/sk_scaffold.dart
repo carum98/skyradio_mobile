@@ -1,17 +1,19 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/core/types.dart';
-import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
+
+enum SkScaffoldAction { add, filter, sort }
 
 class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
   final Widget Function(T) builder;
   final void Function(T)? onTap;
+  final void Function(SkScaffoldAction, VoidCallback)? onListActions;
+  final void Function(T, VoidCallback)? onItemActions;
 
   const SkScaffold({
     super.key,
@@ -19,6 +21,8 @@ class SkScaffold<T> extends StatelessWidget {
     required this.provider,
     required this.builder,
     this.onTap,
+    this.onListActions,
+    this.onItemActions,
   });
 
   final String title;
@@ -53,7 +57,10 @@ class SkScaffold<T> extends StatelessWidget {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    skBottomSheet(context, Container());
+                    onListActions?.call(
+                      SkScaffoldAction.filter,
+                      controller.refresh,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(45, 45),
@@ -63,7 +70,10 @@ class SkScaffold<T> extends StatelessWidget {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    skBottomSheet(context, Container());
+                    onListActions?.call(
+                      SkScaffoldAction.sort,
+                      controller.refresh,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(45, 45),
@@ -81,12 +91,15 @@ class SkScaffold<T> extends StatelessWidget {
         paddingTop: 190,
         onTap: onTap,
         onLongPress: (item) {
-          skBottomSheet(context, Container());
+          onItemActions?.call(item, controller.refresh);
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(SIMS_CREATE_VIEW);
+          onListActions?.call(
+            SkScaffoldAction.add,
+            controller.refresh,
+          );
         },
         child: const Icon(Icons.add),
       ),

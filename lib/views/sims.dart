@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
 
 class SimsView extends StatelessWidget {
@@ -19,6 +21,18 @@ class SimsView extends StatelessWidget {
         SIM_BOTTOM_SHEET,
         arguments: sim,
       ),
+      onListActions: (action, callback) {
+        if (action == SkScaffoldAction.add) {
+          Navigator.pushNamed(context, RADIOS_CREATE_VIEW);
+        } else if (action == SkScaffoldAction.sort) {
+          skBottomSheet(context, Container());
+        } else if (action == SkScaffoldAction.filter) {
+          skBottomSheet(context, Container());
+        }
+      },
+      onItemActions: (client, callback) {
+        skBottomSheet(context, Container());
+      },
     );
   }
 }
