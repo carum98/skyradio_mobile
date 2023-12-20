@@ -8,6 +8,7 @@ import 'package:skyradio_mobile/views/clients.dart';
 import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
 import 'package:skyradio_mobile/views/radios.dart';
+import 'package:skyradio_mobile/views/radios_form.dart';
 import 'package:skyradio_mobile/views/sims.dart';
 
 const HOME_VIEW = '/home';
@@ -16,6 +17,7 @@ const CLIENTS_VIEW = '/clients';
 const CLIENT_VIEW = '/clients/:id';
 const CLIENT_FORM_VIEW = '/clients/form';
 const RADIOS_VIEW = '/radios';
+const RADIOS_FORM_VIEW = '/radios/form';
 const SIMS_VIEW = '/sims';
 
 class RouterGenerator {
@@ -46,6 +48,10 @@ class RouterGenerator {
       case RADIOS_VIEW:
         return MaterialPageRoute(
           builder: (_) => const RadiosView(),
+        );
+      case RADIOS_FORM_VIEW:
+        return MaterialPageRoute(
+          builder: (_) => const RadiosFormView(),
         );
       case SIMS_VIEW:
         return MaterialPageRoute(
