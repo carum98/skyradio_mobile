@@ -15,6 +15,8 @@ class _ListPaginationBloc<T>
       await _getAll();
     } else if (event is ListPaginationGetNextPage) {
       await _getNextPage();
+    } else if (event is ListPaginationSearch) {
+      await _getSearch(event.query);
     } else if (event is ListPaginationRefresh) {
       await _refresh();
     }
@@ -68,6 +70,16 @@ class _ListPaginationBloc<T>
         },
       );
     }
+  }
+
+  Future<void> _getSearch(String query) async {
+    emit(ListPaginationLoading<T>());
+
+    await _fetch(
+      {
+        'search': query,
+      },
+    );
   }
 }
 

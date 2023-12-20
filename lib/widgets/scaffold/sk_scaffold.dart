@@ -25,6 +25,8 @@ class SkScaffold<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = SkListViewPaginationController<T>(provider: provider);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -45,7 +47,7 @@ class SkScaffold<T> extends StatelessWidget {
               children: [
                 Expanded(
                   child: SkSearchInput(
-                    onChanged: (value) {},
+                    onChanged: controller.search,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -74,7 +76,7 @@ class SkScaffold<T> extends StatelessWidget {
         ),
       ),
       body: SkListViewPagination<T>(
-        provider: provider,
+        controller: controller,
         builder: builder,
         paddingTop: 190,
         onTap: onTap,
@@ -84,7 +86,7 @@ class SkScaffold<T> extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(CLIENT_FORM_VIEW);
+          Navigator.of(context).pushNamed(SIMS_CREATE_VIEW);
         },
         child: const Icon(Icons.add),
       ),

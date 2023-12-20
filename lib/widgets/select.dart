@@ -57,6 +57,10 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = SkListViewPaginationController<T>(
+      provider: widget.provider,
+    );
+
     return Stack(
       children: [
         TextFormField(
@@ -71,6 +75,7 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
                 children: [
                   TextField(
                     autofocus: true,
+                    onChanged: controller.search,
                     decoration: InputDecoration(
                       hintText: 'Buscar...',
                       contentPadding: const EdgeInsets.symmetric(
@@ -89,7 +94,7 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
                   const SizedBox(height: 10),
                   Expanded(
                     child: SkListViewPagination<T>(
-                      provider: widget.provider,
+                      controller: controller,
                       builder: widget.itemBuilder,
                       padding: 0,
                       onTap: (item) {

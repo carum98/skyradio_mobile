@@ -154,7 +154,9 @@ class _Radios extends StatelessWidget {
     final provider = DI.of(context).clientsRepository.getRadios;
 
     return SkListViewPagination(
-      provider: (params) => provider(client.code, params),
+      controller: SkListViewPaginationController(
+        provider: (params) => provider(client.code, params),
+      ),
       builder: (radio) => RadiosTile(radio: radio),
       onTap: (radio) => SkBottomSheet.of(context).pushNamed(
         RADIO_BOTTOM_SHEET,

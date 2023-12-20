@@ -7,7 +7,7 @@ part '_controller.dart';
 part '_response_list.dart';
 
 class SkListViewPagination<T> extends StatefulWidget {
-  final ApiProvider<T> provider;
+  final SkListViewPaginationController<T> controller;
   final Widget Function(T item) builder;
   final void Function(T item)? onTap;
   final void Function(T item)? onLongPress;
@@ -18,7 +18,7 @@ class SkListViewPagination<T> extends StatefulWidget {
 
   const SkListViewPagination({
     super.key,
-    required this.provider,
+    required this.controller,
     required this.builder,
     this.padding = 10,
     this.onTap,
@@ -39,9 +39,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
   void initState() {
     super.initState();
 
-    _controller = SkListViewPaginationController<T>(
-      provider: widget.provider,
-    );
+    _controller = widget.controller;
 
     _scrollController = ScrollController();
 
