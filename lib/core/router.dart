@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/views/client.dart';
 import 'package:skyradio_mobile/views/client_form.dart';
 import 'package:skyradio_mobile/views/clients.dart';
@@ -23,7 +24,8 @@ const RADIOS_VIEW = '/radios';
 const RADIOS_CREATE_VIEW = '/radios/form';
 const RADIOS_UPDATE_VIEW = '/radios/:id/edit';
 const SIMS_VIEW = '/sims';
-const SIMS_FORM_VIEW = '/sims/form';
+const SIMS_CREATE_VIEW = '/sims/form';
+const SIMS_UPDATE_VIEW = '/sims/:id/edit';
 
 class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
@@ -78,9 +80,18 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => const SimsView(),
         );
-      case SIMS_FORM_VIEW:
+      case SIMS_CREATE_VIEW:
+        final sim = SimsForm.create();
+
         return MaterialPageRoute(
-          builder: (_) => const SimsFormView(),
+          builder: (_) => SimsFormView(model: sim),
+        );
+
+      case SIMS_UPDATE_VIEW:
+        final sim = settings.arguments as Sims;
+
+        return MaterialPageRoute(
+          builder: (_) => SimsFormView(model: SimsForm.update(sim)),
         );
       default:
         return MaterialPageRoute(builder: (_) => Container());

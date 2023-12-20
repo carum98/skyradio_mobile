@@ -1,51 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/basic_tile.dart';
-import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
+import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 import 'package:skyradio_mobile/widgets/select.dart';
 
 class SimsFormView extends StatelessWidget {
-  const SimsFormView({super.key});
+  final SimsForm model;
+
+  const SimsFormView({
+    super.key,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-        child: Wrap(
-          runSpacing: 20,
-          children: [
-            SkInput.label(
-              label: 'Numero',
-              placeholder: 'Numero de sim',
-              onChanged: (value) {},
-            ),
-            SkInput.label(
-              label: 'Serial',
-              placeholder: 'Serial',
-              onChanged: (value) {},
-            ),
-            SkSelect.label(
-              label: 'Proveedor',
-              placeholder: 'Proveedor',
-              provider: DI.of(context).commonRepository.getProviders,
-              itemBuilder: (item) => BasicTile(
-                title: item.name,
-                color: item.color,
-              ),
-              onChanged: (value) {},
-            )
-          ],
+    return SkScaffoldForm(
+      model: model,
+      onSend: (params) {
+        if (model.isEditing) {
+          print('update: $params');
+        } else {
+          print('create: $params');
+        }
+      },
+      builder: (value) => [
+        SkInput.label(
+          label: 'Numero',
+          placeholder: 'Numero de sim',
+          initialValue: model.number,
+          onChanged: (value) {
+            model.number = value;
+          },
         ),
-      ),
-      floatingActionButton: SkButton(
-        onPressed: () {},
-        text: 'Guardar',
-      ),
+        SkInput.label(
+          label: 'Serial',
+          placeholder: 'Serial',
+          initialValue: model.serial,
+          onChanged: (value) {
+            model.serial = value;
+          },
+        ),
+        SkSelect.label(
+          label: 'Proveedor',
+          placeholder: 'Proveedor',
+          provider: DI.of(context).commonRepository.getProviders,
+          initialValue: model.provider,
+          itemBuilder: (item) => BasicTile(
+            title: item.name,
+            color: item.color,
+          ),
+          onChanged: (value) {
+            model.provider = value;
+          },
+        )
+      ],
     );
   }
 }
