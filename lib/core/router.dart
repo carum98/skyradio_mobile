@@ -16,7 +16,8 @@ const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';
 const CLIENTS_VIEW = '/clients';
 const CLIENT_VIEW = '/clients/:id';
-const CLIENT_FORM_VIEW = '/clients/form';
+const CLIENT_CREATE_VIEW = '/clients/create';
+const CLIENT_UPDATE_VIEW = '/clients/:id/edit';
 const RADIOS_VIEW = '/radios';
 const RADIOS_FORM_VIEW = '/radios/form';
 const SIMS_VIEW = '/sims';
@@ -43,9 +44,17 @@ class RouterGenerator {
         return MaterialPageRoute(
           builder: (_) => ClientView(client: client),
         );
-      case CLIENT_FORM_VIEW:
+      case CLIENT_UPDATE_VIEW:
+        final client = settings.arguments as Clients;
+
         return MaterialPageRoute(
-          builder: (_) => const ClientsFormView(),
+          builder: (_) => ClientsFormView(model: ClientsForm.update(client)),
+        );
+      case CLIENT_CREATE_VIEW:
+        final client = ClientsForm.create();
+
+        return MaterialPageRoute(
+          builder: (_) => ClientsFormView(model: client),
         );
       case RADIOS_VIEW:
         return MaterialPageRoute(

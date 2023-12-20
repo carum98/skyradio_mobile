@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/utils/color.dart';
+import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'modality.dart';
 import 'seller.dart';
@@ -95,18 +96,50 @@ class ClientsStats {
   }
 }
 
-class ClientsForm {
-  String? name;
-  Color? color;
-  Modality? modality;
-  Seller? seller;
+class ClientsForm extends SkScaffoldFormModel {
+  String? _name;
+  Color? _color;
+  Modality? _modality;
+  Seller? _seller;
 
   ClientsForm({
-    this.name,
-    this.color,
-    this.modality,
-    this.seller,
-  });
+    String? name,
+    Color? color,
+    Modality? modality,
+    Seller? seller,
+    super.code,
+  })  : _name = name,
+        _color = color,
+        _modality = modality,
+        _seller = seller;
+
+  set name(String? value) {
+    _name = value;
+    notifyListeners();
+  }
+
+  String? get name => _name;
+
+  set color(Color? value) {
+    _color = value;
+    notifyListeners();
+  }
+
+  Color? get color => _color;
+
+  set modality(Modality? value) {
+    _modality = value;
+    notifyListeners();
+  }
+
+  Modality? get modality => _modality;
+
+  set seller(Seller? value) {
+    _seller = value;
+    notifyListeners();
+  }
+
+  Seller? get seller => _seller;
 
   factory ClientsForm.create() {
     return ClientsForm();
@@ -118,17 +151,23 @@ class ClientsForm {
       color: client.color,
       modality: client.modality,
       seller: client.seller,
+      code: client.code,
     );
   }
 
-  RequestData toRequestData() {
+  @override
+  RequestData getParams() {
     return {
-      'name': name,
-      'color': color?.toHex(),
-      'modality_code': modality?.code,
-      'seller_code': seller?.code,
+      'name': _name,
+      'color': _color?.toHex(),
+      'modality_code': _modality?.code,
+      'seller_code': _seller?.code,
     };
   }
 
-  bool get isValid => name != null && color != null && modality != null;
+  @override
+  bool get isValid =>
+      (_name != null && _name!.isNotEmpty) &&
+      _color != null &&
+      _modality != null;
 }

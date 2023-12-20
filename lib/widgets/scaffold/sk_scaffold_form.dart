@@ -19,7 +19,7 @@ abstract class SkScaffoldFormModel with ChangeNotifier {
     if (isEditing) {
       return mapEquals(_data, getParams());
     } else {
-      return true;
+      return false;
     }
   }
 }
