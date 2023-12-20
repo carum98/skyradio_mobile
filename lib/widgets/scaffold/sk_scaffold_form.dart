@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
 
-abstract class SkScaffoldFormModel with ChangeNotifier {
+abstract class SkFormModel with ChangeNotifier {
   late final RequestData _data;
 
   final String? code;
-  SkScaffoldFormModel({this.code}) {
+  SkFormModel({this.code}) {
     _data = getParams();
   }
 
@@ -24,7 +24,7 @@ abstract class SkScaffoldFormModel with ChangeNotifier {
   }
 }
 
-class SkScaffoldForm<T extends SkScaffoldFormModel> extends StatelessWidget {
+class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
   final T model;
   final List<Widget> Function(T) builder;
   final Function(RequestParams) onSend;

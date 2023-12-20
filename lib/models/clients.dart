@@ -96,7 +96,7 @@ class ClientsStats {
   }
 }
 
-class ClientsForm extends SkScaffoldFormModel {
+class ClientsForm extends SkFormModel {
   String? _name;
   Color? _color;
   Modality? _modality;

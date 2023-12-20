@@ -30,7 +30,7 @@ class Sims {
   }
 }
 
-class SimsForm extends SkScaffoldFormModel {
+class SimsForm extends SkFormModel {
   String? _number;
   String? _serial;
   Providers? _provider;

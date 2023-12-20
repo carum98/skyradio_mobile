@@ -49,7 +49,7 @@ class Radios {
   }
 }
 
-class RadiosForm extends SkScaffoldFormModel {
+class RadiosForm extends SkFormModel {
   String? _name;
   String? _imei;
   String? _serial;
