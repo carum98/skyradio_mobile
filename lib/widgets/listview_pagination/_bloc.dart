@@ -104,3 +104,8 @@ class ListPaginationGetAll extends ListPaginationEvent {}
 class ListPaginationGetNextPage extends ListPaginationEvent {}
 
 class ListPaginationRefresh extends ListPaginationEvent {}
+
+class ListPaginationSearch extends ListPaginationEvent {
+  final String query;
+  ListPaginationSearch(this.query);
+}

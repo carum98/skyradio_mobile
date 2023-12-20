@@ -3,6 +3,7 @@ import 'package:skyradio_mobile/core/bloc.dart';
 import 'package:skyradio_mobile/core/types.dart';
 
 part '_bloc.dart';
+part '_controller.dart';
 part '_response_list.dart';
 
 class SkListViewPagination<T> extends StatefulWidget {
@@ -31,25 +32,25 @@ class SkListViewPagination<T> extends StatefulWidget {
 }
 
 class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
-  late final _ListPaginationBloc _bloc;
+  late final SkListViewPaginationController<T> _controller;
   late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
 
-    _bloc = _ListPaginationBloc(
+    _controller = SkListViewPaginationController<T>(
       provider: widget.provider,
     );
 
     _scrollController = ScrollController();
 
-    _bloc.onEvent(ListPaginationGetAll());
+    _controller.getAll();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        _bloc.onEvent(ListPaginationGetNextPage());
+        _controller.nextPage();
       }
     });
   }
@@ -58,19 +59,17 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
   void dispose() {
     super.dispose();
 
-    _bloc.dispose();
+    _controller.dispose();
     _scrollController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async {
-        _bloc.onEvent(ListPaginationRefresh());
-      },
+      onRefresh: _controller.refresh,
       edgeOffset: widget.edgeOffset,
       child: StreamBuilder(
-        stream: _bloc.stream,
+        stream: _controller.stream,
         builder: (_, snapshot) {
           if (snapshot.hasError) {
             return Center(
