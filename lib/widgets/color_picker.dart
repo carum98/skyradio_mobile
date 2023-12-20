@@ -25,22 +25,24 @@ final _colors = [
 
 class SkColorPicker extends StatefulWidget {
   final Color? initialColor;
-  final Function(Color)? onChanged;
+  final Function(Color) onChanged;
 
   const SkColorPicker({
     super.key,
     this.initialColor,
-    this.onChanged,
+    required this.onChanged,
   });
 
   static Widget label({
     required String label,
     final Color? initialColor,
+    required final Function(Color) onChanged,
   }) {
     return SkLabel(
       label: label,
       child: SkColorPicker(
         initialColor: initialColor,
+        onChanged: onChanged,
       ),
     );
   }
@@ -69,7 +71,7 @@ class _SkColorPickerState extends State<SkColorPicker> {
           .map(
             (color) => GestureDetector(
               onTap: () {
-                widget.onChanged?.call(color);
+                widget.onChanged.call(color);
                 setState(() => _color = color);
               },
               child: Container(
