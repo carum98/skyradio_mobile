@@ -10,6 +10,7 @@ import 'package:skyradio_mobile/views/login.dart';
 import 'package:skyradio_mobile/views/radios.dart';
 import 'package:skyradio_mobile/views/radios_form.dart';
 import 'package:skyradio_mobile/views/sims.dart';
+import 'package:skyradio_mobile/views/sims_form.dart';
 
 const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';
@@ -19,6 +20,7 @@ const CLIENT_FORM_VIEW = '/clients/form';
 const RADIOS_VIEW = '/radios';
 const RADIOS_FORM_VIEW = '/radios/form';
 const SIMS_VIEW = '/sims';
+const SIMS_FORM_VIEW = '/sims/form';
 
 class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
@@ -56,6 +58,10 @@ class RouterGenerator {
       case SIMS_VIEW:
         return MaterialPageRoute(
           builder: (_) => const SimsView(),
+        );
+      case SIMS_FORM_VIEW:
+        return MaterialPageRoute(
+          builder: (_) => const SimsFormView(),
         );
       default:
         return MaterialPageRoute(builder: (_) => Container());
