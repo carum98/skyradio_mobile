@@ -1,5 +1,7 @@
+import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'models.dart';
 
@@ -45,4 +47,75 @@ class Radios {
           json['client'] != null ? Clients.fromJsonSim(json['client']) : null,
     );
   }
+}
+
+class RadiosForm extends SkScaffoldFormModel {
+  String? _name;
+  String? _imei;
+  String? _serial;
+  Models? _model;
+
+  RadiosForm({
+    String? name,
+    String? imei,
+    String? serial,
+    Models? model,
+    super.code,
+  })  : _name = name,
+        _imei = imei,
+        _serial = serial,
+        _model = model;
+
+  String? get name => _name;
+  String? get imei => _imei;
+  String? get serial => _serial;
+  Models? get model => _model;
+
+  set name(String? value) {
+    _name = value;
+    notifyListeners();
+  }
+
+  set imei(String? value) {
+    _imei = value;
+    notifyListeners();
+  }
+
+  set serial(String? value) {
+    _serial = value;
+    notifyListeners();
+  }
+
+  set model(Models? value) {
+    _model = value;
+    notifyListeners();
+  }
+
+  factory RadiosForm.create() {
+    return RadiosForm();
+  }
+
+  factory RadiosForm.update(Radios radio) {
+    return RadiosForm(
+      code: radio.code,
+      name: radio.name,
+      imei: radio.imei,
+      serial: radio.serial,
+      model: radio.model,
+    );
+  }
+
+  @override
+  RequestData getParams() {
+    return {
+      'name': name,
+      'imei': imei,
+      'serial': serial,
+      'model_code': model?.code,
+    };
+  }
+
+  @override
+  bool get isValid =>
+      (_name != null && _name!.isNotEmpty) && imei != null && model != null;
 }

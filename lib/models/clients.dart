@@ -113,33 +113,30 @@ class ClientsForm extends SkScaffoldFormModel {
         _modality = modality,
         _seller = seller;
 
+  String? get name => _name;
+  Color? get color => _color;
+  Modality? get modality => _modality;
+  Seller? get seller => _seller;
+
   set name(String? value) {
     _name = value;
     notifyListeners();
   }
-
-  String? get name => _name;
 
   set color(Color? value) {
     _color = value;
     notifyListeners();
   }
 
-  Color? get color => _color;
-
   set modality(Modality? value) {
     _modality = value;
     notifyListeners();
   }
 
-  Modality? get modality => _modality;
-
   set seller(Seller? value) {
     _seller = value;
     notifyListeners();
   }
-
-  Seller? get seller => _seller;
 
   factory ClientsForm.create() {
     return ClientsForm();

@@ -1,56 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/basic_tile.dart';
-import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
+import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 import 'package:skyradio_mobile/widgets/select.dart';
 
 class RadiosFormView extends StatelessWidget {
-  const RadiosFormView({super.key});
+  final RadiosForm model;
+
+  const RadiosFormView({
+    super.key,
+    required this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-        child: Wrap(
-          runSpacing: 20,
-          children: [
-            SkInput.label(
-              label: 'Nombre',
-              placeholder: 'Nombre del radio',
-              onChanged: (value) {},
-            ),
-            SkInput.label(
-              label: 'IMEI',
-              placeholder: 'IMEI',
-              onChanged: (value) {},
-            ),
-            SkInput.label(
-              label: 'Serial',
-              placeholder: 'Serial',
-              onChanged: (value) {},
-            ),
-            SkSelect.label(
-              label: 'Modelo',
-              placeholder: 'Modelo',
-              provider: DI.of(context).commonRepository.getModels,
-              itemBuilder: (item) => BasicTile(
-                title: item.name,
-                color: item.color,
-              ),
-              onChanged: (value) {},
-            )
-          ],
+    return SkScaffoldForm(
+      model: model,
+      onSend: (params) {
+        if (model.isEditing) {
+          print('update: $params');
+        } else {
+          print('create: $params');
+        }
+      },
+      builder: (value) => [
+        SkInput.label(
+          label: 'Nombre',
+          placeholder: 'Nombre del radio',
+          initialValue: model.name,
+          onChanged: (value) {
+            model.name = value;
+          },
         ),
-      ),
-      floatingActionButton: SkButton(
-        onPressed: () {},
-        text: 'Guardar',
-      ),
+        SkInput.label(
+          label: 'IMEI',
+          placeholder: 'IMEI',
+          initialValue: model.imei,
+          onChanged: (value) {
+            model.imei = value;
+          },
+        ),
+        SkInput.label(
+          label: 'Serial',
+          placeholder: 'Serial',
+          initialValue: model.serial,
+          onChanged: (value) {
+            model.serial = value;
+          },
+        ),
+        SkSelect.label(
+          label: 'Modelo',
+          placeholder: 'Modelo',
+          provider: DI.of(context).commonRepository.getModels,
+          initialValue: model.model,
+          itemBuilder: (item) => BasicTile(
+            title: item.name,
+            color: item.color,
+          ),
+          onChanged: (value) {
+            model.model = value;
+          },
+        ),
+      ],
     );
   }
 }
