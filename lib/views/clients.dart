@@ -34,7 +34,7 @@ class ClientsView extends StatelessWidget {
           Navigator.pushNamed(context, CLIENT_CREATE_VIEW);
         } else if (action == SkScaffoldAction.sort) {
           SkBottomSheet.of(context).pushNamed(
-            CLIENTS_SORT_BOTTOM_SHEET,
+            SORT_LIST_BOTTOM_SHEET,
             arguments: {
               'sort': controller.params.sort,
               'onRefresh': controller.refresh,

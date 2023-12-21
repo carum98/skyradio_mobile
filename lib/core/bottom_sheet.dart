@@ -7,7 +7,7 @@ import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/views/clients_actions.dart';
 import 'package:skyradio_mobile/views/clients_filter.dart';
-import 'package:skyradio_mobile/views/clients_sort.dart';
+import 'package:skyradio_mobile/views/sort_list.dart';
 import 'package:skyradio_mobile/views/radio.dart';
 import 'package:skyradio_mobile/views/sim.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
@@ -15,7 +15,7 @@ import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 const RADIO_BOTTOM_SHEET = '/radios';
 const SIM_BOTTOM_SHEET = '/sims';
 const CLIENTS_FILTER_BOTTOM_SHEET = '/clients_filter';
-const CLIENTS_SORT_BOTTOM_SHEET = '/clients_sort';
+const SORT_LIST_BOTTOM_SHEET = '/clients_sort';
 const CLIENTS_ACTIONS_BOTTOM_SHEET = '/clients_actions';
 
 class BottomSheetGenerator {
@@ -39,13 +39,13 @@ class BottomSheetGenerator {
           filter: filter,
           onRefresh: onRefresh,
         );
-      case CLIENTS_SORT_BOTTOM_SHEET:
+      case SORT_LIST_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 
         final sort = args['sort'] as ApiSortModel;
         final onRefresh = args['onRefresh'] as VoidCallback;
 
-        return ClientsSortView(
+        return SortListView(
           sort: sort,
           onRefresh: onRefresh,
         );

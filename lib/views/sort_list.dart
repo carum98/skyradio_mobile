@@ -15,21 +15,21 @@ const List<ItemValue> _order = [
   (name: 'Descendente', value: 'desc'),
 ];
 
-class ClientsSortView extends StatefulWidget {
+class SortListView extends StatefulWidget {
   final ApiSortModel sort;
   final VoidCallback onRefresh;
 
-  const ClientsSortView({
+  const SortListView({
     super.key,
     required this.onRefresh,
     required this.sort,
   });
 
   @override
-  State<ClientsSortView> createState() => _ClientsSortViewState();
+  State<SortListView> createState() => _SortListViewState();
 }
 
-class _ClientsSortViewState extends State<ClientsSortView> {
+class _SortListViewState extends State<SortListView> {
   @override
   Widget build(BuildContext context) {
     return Row(
