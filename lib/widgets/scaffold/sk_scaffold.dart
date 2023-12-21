@@ -29,7 +29,9 @@ class SkScaffold<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = SkListViewPaginationController<T>(provider: provider);
+    final controller = SkListViewPaginationController<T>(
+      provider: provider,
+    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
