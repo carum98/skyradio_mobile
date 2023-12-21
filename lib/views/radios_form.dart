@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/radios.dart';
-import 'package:skyradio_mobile/widgets/basic_tile.dart';
+import 'package:skyradio_mobile/widgets/tiles/basic.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 import 'package:skyradio_mobile/widgets/select.dart';

@@ -7,7 +7,7 @@ import 'package:skyradio_mobile/widgets/badget.dart';
 import 'package:skyradio_mobile/widgets/chart.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
-import 'package:skyradio_mobile/widgets/radios_tile.dart';
+import 'package:skyradio_mobile/widgets/tiles/radios.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/tabs.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/modality.dart';
-import 'package:skyradio_mobile/widgets/basic_tile.dart';
+import 'package:skyradio_mobile/widgets/tiles/basic.dart';
 import 'package:skyradio_mobile/widgets/select.dart';
 
 class ModalitiesSelector extends StatelessWidget {
