@@ -93,7 +93,9 @@ class _SortButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: selected ? Theme.of(context).primaryColor : null,
-          foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
+          foregroundColor: selected
+              ? Colors.white
+              : Theme.of(context).textTheme.bodyMedium!.color,
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
@@ -104,7 +106,13 @@ class _SortButton extends StatelessWidget {
           child: Row(
             children: [
               if (icon != null) ...[
-                SkIcon(icon!, size: 16),
+                SkIcon(
+                  icon!,
+                  size: 16,
+                  color: selected
+                      ? Colors.white
+                      : Theme.of(context).textTheme.bodyMedium!.color,
+                ),
                 const SizedBox(width: 5),
               ],
               Expanded(
