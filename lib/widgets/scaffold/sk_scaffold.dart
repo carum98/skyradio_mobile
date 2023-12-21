@@ -9,30 +9,29 @@ import 'package:skyradio_mobile/widgets/search_input.dart';
 enum SkScaffoldAction { add, filter, sort }
 
 class SkScaffold<T> extends StatelessWidget {
-  final ApiProvider<T> provider;
+  final SkListViewPaginationController<T> controller;
   final Widget Function(T) builder;
   final void Function(T)? onTap;
   final void Function(SkScaffoldAction, Function)? onListActions;
   final void Function(T, VoidCallback)? onItemActions;
 
-  const SkScaffold({
+  SkScaffold({
     super.key,
     required this.title,
-    required this.provider,
     required this.builder,
     this.onTap,
     this.onListActions,
     this.onItemActions,
-  });
+    ApiProvider<T>? provider,
+    SkListViewPaginationController<T>? controller,
+  })  : assert(provider != null || controller != null),
+        controller =
+            controller ?? SkListViewPaginationController(provider: provider!);
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
-    final controller = SkListViewPaginationController<T>(
-      provider: provider,
-    );
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

@@ -5,10 +5,15 @@ class SkListViewPaginationController<T> {
 
   SkListViewPaginationController({
     required ApiProvider<T> provider,
-  }) : _bloc = _ListPaginationBloc(provider: provider);
+    ApiParams? params,
+  }) : _bloc = _ListPaginationBloc(
+          provider: provider,
+          params: params ?? ApiParams(),
+        );
 
   get state => _bloc.state;
   get stream => _bloc.stream;
+  get params => _bloc.params;
 
   void search(String query) {
     _bloc.onEvent(ListPaginationSearch(query));

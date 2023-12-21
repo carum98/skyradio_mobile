@@ -3,11 +3,16 @@ part of 'sk_listview_pagination.dart';
 class _ListPaginationBloc<T>
     extends SkBloc<ListPaginationState<T>, ListPaginationEvent> {
   final ApiProvider<T> _provider;
+  final ApiParams _params;
 
   _ListPaginationBloc({
     required ApiProvider<T> provider,
+    required ApiParams params,
   })  : _provider = provider,
+        _params = params,
         super(ListPaginationLoading<T>());
+
+  get params => _params;
 
   @override
   Future<void> onEvent(ListPaginationEvent event) async {
@@ -19,16 +24,12 @@ class _ListPaginationBloc<T>
       await _getSearch(event.query);
     } else if (event is ListPaginationRefresh) {
       await _refresh();
-    } else if (event is ListPaginationFilter) {
-      await _getFilter(event.filter);
-    } else if (event is ListPaginationSort) {
-      await _getSort(event.sort);
     }
   }
 
-  Future<void> _fetch(RequestParams params, {List<T>? items}) async {
+  Future<void> _fetch(ApiParams params, {List<T>? items}) async {
     try {
-      final data = await _provider(params);
+      final data = await _provider(params.toRequestParams());
 
       emit(ListPaginationLoaded<T>(
         items: (items ?? []) + data.items,
@@ -43,11 +44,9 @@ class _ListPaginationBloc<T>
   Future<void> _getAll() async {
     emit(ListPaginationLoading<T>());
 
-    await _fetch(
-      {
-        'page': 1,
-      },
-    );
+    _params.base.page = 1;
+
+    await _fetch(_params);
   }
 
   Future<void> _getNextPage() async {
@@ -55,10 +54,9 @@ class _ListPaginationBloc<T>
 
     if (currentState is ListPaginationLoaded<T> &&
         currentState.page < currentState.totalPages) {
+      _params.base.page = currentState.page + 1;
       await _fetch(
-        {
-          'page': currentState.page + 1,
-        },
+        _params,
         items: currentState.items,
       );
     }
@@ -68,34 +66,17 @@ class _ListPaginationBloc<T>
     final currentState = state;
 
     if (currentState is ListPaginationLoaded<T>) {
-      await _fetch(
-        {
-          'page': 1,
-        },
-      );
+      _params.base.page = 1;
+
+      await _fetch(_params);
     }
   }
 
   Future<void> _getSearch(String query) async {
     emit(ListPaginationLoading<T>());
 
-    await _fetch(
-      {
-        'search': query,
-      },
-    );
-  }
-
-  Future<void> _getFilter(RequestParams filter) async {
-    emit(ListPaginationLoading<T>());
-
-    await _fetch(filter);
-  }
-
-  Future<void> _getSort(RequestParams sort) async {
-    emit(ListPaginationLoading<T>());
-
-    await _fetch(sort);
+    _params.base.search = query;
+    await _fetch(_params);
   }
 }
 
