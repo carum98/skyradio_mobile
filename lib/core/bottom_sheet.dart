@@ -1,10 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/widgets.dart';
-import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/views/clients_actions.dart';
 import 'package:skyradio_mobile/views/clients_filter.dart';
 import 'package:skyradio_mobile/views/clients_sort.dart';
@@ -35,13 +35,20 @@ class BottomSheetGenerator {
         final filter = args['filter'] as ClientsFilter;
         final onRefresh = args['onRefresh'] as VoidCallback;
 
-        return ClientsFilterView(filter: filter, onRefresh: onRefresh);
+        return ClientsFilterView(
+          filter: filter,
+          onRefresh: onRefresh,
+        );
       case CLIENTS_SORT_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 
-        final onSort = args['onSort'] as Function(RequestParams);
+        final sort = args['sort'] as ApiSortModel;
+        final onRefresh = args['onRefresh'] as VoidCallback;
 
-        return ClientsSortView(onSort: onSort);
+        return ClientsSortView(
+          sort: sort,
+          onRefresh: onRefresh,
+        );
       case CLIENTS_ACTIONS_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 

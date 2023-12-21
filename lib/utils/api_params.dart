@@ -48,6 +48,14 @@ abstract class ApiFilterModel {
   RequestParams toRequestParams();
 }
 
-abstract class ApiSortModel {
-  RequestParams toRequestParams();
+class ApiSortModel {
+  String field = 'created_at';
+  String order = 'desc';
+
+  RequestParams toRequestParams() {
+    return {
+      'sort_by': field,
+      'sort_order': order,
+    };
+  }
 }

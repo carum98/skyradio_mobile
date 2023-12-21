@@ -15,7 +15,7 @@ class ClientsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = SkListViewPaginationController(
       provider: DI.of(context).clientsRepository.getClients,
-      params: ApiParams(filter: ClientsFilter()),
+      params: ApiParams(filter: ClientsFilter(), sort: ApiSortModel()),
     );
 
     return SkScaffold(
@@ -29,14 +29,15 @@ class ClientsView extends StatelessWidget {
           arguments: client,
         );
       },
-      onListActions: (action, callback) {
+      onListActions: (action) {
         if (action == SkScaffoldAction.add) {
           Navigator.pushNamed(context, CLIENT_CREATE_VIEW);
         } else if (action == SkScaffoldAction.sort) {
           SkBottomSheet.of(context).pushNamed(
             CLIENTS_SORT_BOTTOM_SHEET,
             arguments: {
-              'onSort': callback,
+              'sort': controller.params.sort,
+              'onRefresh': controller.refresh,
             },
           );
         } else if (action == SkScaffoldAction.filter) {

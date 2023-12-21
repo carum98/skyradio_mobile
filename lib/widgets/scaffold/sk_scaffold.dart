@@ -12,7 +12,7 @@ class SkScaffold<T> extends StatelessWidget {
   final SkListViewPaginationController<T> controller;
   final Widget Function(T) builder;
   final void Function(T)? onTap;
-  final void Function(SkScaffoldAction, Function)? onListActions;
+  final void Function(SkScaffoldAction)? onListActions;
   final void Function(T, VoidCallback)? onItemActions;
 
   SkScaffold({
@@ -58,10 +58,7 @@ class SkScaffold<T> extends StatelessWidget {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    onListActions?.call(
-                      SkScaffoldAction.filter,
-                      controller.filter,
-                    );
+                    onListActions?.call(SkScaffoldAction.filter);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(45, 45),
@@ -71,10 +68,7 @@ class SkScaffold<T> extends StatelessWidget {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    onListActions?.call(
-                      SkScaffoldAction.sort,
-                      controller.sort,
-                    );
+                    onListActions?.call(SkScaffoldAction.sort);
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(45, 45),
@@ -97,10 +91,7 @@ class SkScaffold<T> extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          onListActions?.call(
-            SkScaffoldAction.add,
-            controller.refresh,
-          );
+          onListActions?.call(SkScaffoldAction.add);
         },
         child: const Icon(Icons.add),
       ),

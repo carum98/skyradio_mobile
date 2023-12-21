@@ -21,7 +21,7 @@ class SimsView extends StatelessWidget {
         SIM_BOTTOM_SHEET,
         arguments: sim,
       ),
-      onListActions: (action, callback) {
+      onListActions: (action) {
         if (action == SkScaffoldAction.add) {
           Navigator.pushNamed(context, RADIOS_CREATE_VIEW);
         } else if (action == SkScaffoldAction.sort) {
