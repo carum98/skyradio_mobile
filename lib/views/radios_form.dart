@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/radios.dart';
-import 'package:skyradio_mobile/widgets/tiles/basic.dart';
+import 'package:skyradio_mobile/widgets/label.dart';
+import 'package:skyradio_mobile/widgets/selectors/models.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
-import 'package:skyradio_mobile/widgets/select.dart';
 
 class RadiosFormView extends StatelessWidget {
   final RadiosForm model;
@@ -50,18 +49,14 @@ class RadiosFormView extends StatelessWidget {
             model.serial = value;
           },
         ),
-        SkSelect.label(
+        SkLabel(
           label: 'Modelo',
-          placeholder: 'Modelo',
-          provider: DI.of(context).commonRepository.getModels,
-          initialValue: model.model,
-          itemBuilder: (item) => BasicTile(
-            title: item.name,
-            color: item.color,
+          child: ModelsSelectors(
+            initialValue: model.model,
+            onChanged: (value) {
+              model.model = value;
+            },
           ),
-          onChanged: (value) {
-            model.model = value;
-          },
         ),
       ],
     );

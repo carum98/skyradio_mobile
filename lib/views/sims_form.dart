@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/sims.dart';
-import 'package:skyradio_mobile/widgets/tiles/basic.dart';
+import 'package:skyradio_mobile/widgets/label.dart';
+import 'package:skyradio_mobile/widgets/selectors/providers.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
-import 'package:skyradio_mobile/widgets/select.dart';
 
 class SimsFormView extends StatelessWidget {
   final SimsForm model;
@@ -42,19 +41,15 @@ class SimsFormView extends StatelessWidget {
             model.serial = value;
           },
         ),
-        SkSelect.label(
+        SkLabel(
           label: 'Proveedor',
-          placeholder: 'Proveedor',
-          provider: DI.of(context).commonRepository.getProviders,
-          initialValue: model.provider,
-          itemBuilder: (item) => BasicTile(
-            title: item.name,
-            color: item.color,
+          child: ProvidersSelector(
+            initialValue: model.provider,
+            onChanged: (value) {
+              model.provider = value;
+            },
           ),
-          onChanged: (value) {
-            model.provider = value;
-          },
-        )
+        ),
       ],
     );
   }
