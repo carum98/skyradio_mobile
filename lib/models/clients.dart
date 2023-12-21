@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/utils/color.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
@@ -169,7 +170,7 @@ class ClientsForm extends SkFormModel {
       _modality != null;
 }
 
-class ClientsFilter {
+class ClientsFilter extends ApiFilterModel {
   Modality? modality;
   Seller? seller;
 
@@ -178,7 +179,8 @@ class ClientsFilter {
     this.seller,
   });
 
-  RequestParams getParams() {
+  @override
+  RequestParams toRequestParams() {
     final params = {
       'clients_modality[code][equal]': modality?.code,
       'sellers[code][equal]': seller?.code,

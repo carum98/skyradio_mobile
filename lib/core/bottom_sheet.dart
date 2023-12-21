@@ -33,9 +33,9 @@ class BottomSheetGenerator {
         final args = settings.arguments as Map<String, dynamic>;
 
         final filter = args['filter'] as ClientsFilter;
-        final onFilter = args['onFilter'] as Function(RequestParams);
+        final onRefresh = args['onRefresh'] as VoidCallback;
 
-        return ClientsFilterView(filter: filter, onFilter: onFilter);
+        return ClientsFilterView(filter: filter, onRefresh: onRefresh);
       case CLIENTS_SORT_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 

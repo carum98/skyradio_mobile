@@ -3,6 +3,8 @@ import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
+import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
 import 'package:skyradio_mobile/widgets/tiles/clients.dart';
 
@@ -11,12 +13,14 @@ class ClientsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = DI.of(context).clientsRepository.getClients;
-    final filter = ClientsFilter();
+    final controller = SkListViewPaginationController(
+      provider: DI.of(context).clientsRepository.getClients,
+      params: ApiParams(filter: ClientsFilter()),
+    );
 
     return SkScaffold(
       title: 'Clientes',
-      provider: provider,
+      controller: controller,
       builder: (client) => ClientsTile(client: client),
       onTap: (client) {
         Navigator.pushNamed(
@@ -39,8 +43,8 @@ class ClientsView extends StatelessWidget {
           SkBottomSheet.of(context).pushNamed(
             CLIENTS_FILTER_BOTTOM_SHEET,
             arguments: {
-              'filter': filter,
-              'onFilter': callback,
+              'filter': controller.params.filter,
+              'onRefresh': controller.refresh,
             },
           );
         }

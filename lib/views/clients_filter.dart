@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/selectors/modalities.dart';
 import 'package:skyradio_mobile/widgets/selectors/sellers.dart';
 
 class ClientsFilterView extends StatelessWidget {
   final ClientsFilter filter;
-  final Function(RequestParams) onFilter;
+  final VoidCallback onRefresh;
 
   const ClientsFilterView({
     super.key,
     required this.filter,
-    required this.onFilter,
+    required this.onRefresh,
   });
 
   @override
@@ -23,14 +22,14 @@ class ClientsFilterView extends StatelessWidget {
           initialValue: filter.modality,
           onChanged: (value) {
             filter.modality = value;
-            onFilter(filter.getParams());
+            onRefresh();
           },
         ),
         SellersSelector(
           initialValue: filter.seller,
           onChanged: (value) {
             filter.seller = value;
-            onFilter(filter.getParams());
+            onRefresh();
           },
         ),
       ],
