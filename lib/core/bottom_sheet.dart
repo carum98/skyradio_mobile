@@ -1,14 +1,22 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/widgets.dart';
+import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/views/clients_actions.dart';
+import 'package:skyradio_mobile/views/clients_filter.dart';
+import 'package:skyradio_mobile/views/clients_sort.dart';
 import 'package:skyradio_mobile/views/radio.dart';
 import 'package:skyradio_mobile/views/sim.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 
 const RADIO_BOTTOM_SHEET = '/radios';
 const SIM_BOTTOM_SHEET = '/sims';
+const CLIENTS_FILTER_BOTTOM_SHEET = '/clients_filter';
+const CLIENTS_SORT_BOTTOM_SHEET = '/clients_sort';
+const CLIENTS_ACTIONS_BOTTOM_SHEET = '/clients_actions';
 
 class BottomSheetGenerator {
   static Widget generate(RouteSettings settings) {
@@ -21,6 +29,26 @@ class BottomSheetGenerator {
         final sim = settings.arguments as Sims;
 
         return SimView(sim: sim);
+      case CLIENTS_FILTER_BOTTOM_SHEET:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final filter = args['filter'] as ClientsFilter;
+        final onFilter = args['onFilter'] as Function(RequestParams);
+
+        return ClientsFilterView(filter: filter, onFilter: onFilter);
+      case CLIENTS_SORT_BOTTOM_SHEET:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final onSort = args['onSort'] as Function(RequestParams);
+
+        return ClientsSortView(onSort: onSort);
+      case CLIENTS_ACTIONS_BOTTOM_SHEET:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final client = args['client'] as Clients;
+        final onRefresh = args['onRefresh'] as Function;
+
+        return ClientsActionsView(client: client, onRefresh: onRefresh);
       default:
         return Container();
     }

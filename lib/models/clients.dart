@@ -168,3 +168,24 @@ class ClientsForm extends SkFormModel {
       _color != null &&
       _modality != null;
 }
+
+class ClientsFilter {
+  Modality? modality;
+  Seller? seller;
+
+  ClientsFilter({
+    this.modality,
+    this.seller,
+  });
+
+  RequestParams getParams() {
+    final params = {
+      'clients_modality[code][equal]': modality?.code,
+      'sellers[code][equal]': seller?.code,
+    };
+
+    params.removeWhere((key, value) => value == null);
+
+    return params;
+  }
+}

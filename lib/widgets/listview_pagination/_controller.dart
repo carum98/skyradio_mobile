@@ -26,6 +26,14 @@ class SkListViewPaginationController<T> {
     await _bloc.onEvent(ListPaginationRefresh());
   }
 
+  void filter(RequestParams filter) {
+    _bloc.onEvent(ListPaginationFilter(filter));
+  }
+
+  void sort(RequestParams sort) {
+    _bloc.onEvent(ListPaginationSort(sort));
+  }
+
   dispose() {
     _bloc.dispose();
   }

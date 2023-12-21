@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/avatar.dart';
-import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
 
 class ClientsView extends StatelessWidget {
@@ -12,6 +12,7 @@ class ClientsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = DI.of(context).clientsRepository.getClients;
+    final filter = ClientsFilter();
 
     return SkScaffold(
       title: 'Clientes',
@@ -28,13 +29,30 @@ class ClientsView extends StatelessWidget {
         if (action == SkScaffoldAction.add) {
           Navigator.pushNamed(context, CLIENT_CREATE_VIEW);
         } else if (action == SkScaffoldAction.sort) {
-          skBottomSheet(context, Container());
+          SkBottomSheet.of(context).pushNamed(
+            CLIENTS_SORT_BOTTOM_SHEET,
+            arguments: {
+              'onSort': callback,
+            },
+          );
         } else if (action == SkScaffoldAction.filter) {
-          skBottomSheet(context, Container());
+          SkBottomSheet.of(context).pushNamed(
+            CLIENTS_FILTER_BOTTOM_SHEET,
+            arguments: {
+              'filter': filter,
+              'onFilter': callback,
+            },
+          );
         }
       },
       onItemActions: (client, callback) {
-        skBottomSheet(context, Container());
+        SkBottomSheet.of(context).pushNamed(
+          CLIENTS_ACTIONS_BOTTOM_SHEET,
+          arguments: {
+            'client': client,
+            'onRefresh': callback,
+          },
+        );
       },
     );
   }

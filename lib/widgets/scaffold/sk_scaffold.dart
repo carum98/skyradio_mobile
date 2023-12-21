@@ -12,7 +12,7 @@ class SkScaffold<T> extends StatelessWidget {
   final ApiProvider<T> provider;
   final Widget Function(T) builder;
   final void Function(T)? onTap;
-  final void Function(SkScaffoldAction, VoidCallback)? onListActions;
+  final void Function(SkScaffoldAction, Function)? onListActions;
   final void Function(T, VoidCallback)? onItemActions;
 
   const SkScaffold({
@@ -59,7 +59,7 @@ class SkScaffold<T> extends StatelessWidget {
                   onPressed: () {
                     onListActions?.call(
                       SkScaffoldAction.filter,
-                      controller.refresh,
+                      controller.filter,
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -72,7 +72,7 @@ class SkScaffold<T> extends StatelessWidget {
                   onPressed: () {
                     onListActions?.call(
                       SkScaffoldAction.sort,
-                      controller.refresh,
+                      controller.sort,
                     );
                   },
                   style: ElevatedButton.styleFrom(

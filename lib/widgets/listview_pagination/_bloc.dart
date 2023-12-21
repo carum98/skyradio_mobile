@@ -19,6 +19,10 @@ class _ListPaginationBloc<T>
       await _getSearch(event.query);
     } else if (event is ListPaginationRefresh) {
       await _refresh();
+    } else if (event is ListPaginationFilter) {
+      await _getFilter(event.filter);
+    } else if (event is ListPaginationSort) {
+      await _getSort(event.sort);
     }
   }
 
@@ -81,6 +85,18 @@ class _ListPaginationBloc<T>
       },
     );
   }
+
+  Future<void> _getFilter(RequestParams filter) async {
+    emit(ListPaginationLoading<T>());
+
+    await _fetch(filter);
+  }
+
+  Future<void> _getSort(RequestParams sort) async {
+    emit(ListPaginationLoading<T>());
+
+    await _fetch(sort);
+  }
 }
 
 // State
@@ -120,4 +136,14 @@ class ListPaginationRefresh extends ListPaginationEvent {}
 class ListPaginationSearch extends ListPaginationEvent {
   final String query;
   ListPaginationSearch(this.query);
+}
+
+class ListPaginationFilter extends ListPaginationEvent {
+  final RequestParams filter;
+  ListPaginationFilter(this.filter);
+}
+
+class ListPaginationSort extends ListPaginationEvent {
+  final RequestParams sort;
+  ListPaginationSort(this.sort);
 }
