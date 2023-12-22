@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/theme.dart';
 
 import 'core/bottom_sheet.dart';
@@ -11,7 +12,9 @@ void main() {
   runApp(
     DI(
       child: SkBottomSheet(
-        child: const MyApp(),
+        child: SkDialog(
+          child: const MyApp(),
+        ),
       ),
     ),
   );
