@@ -1,5 +1,6 @@
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'providers.dart';
@@ -90,4 +91,23 @@ class SimsForm extends SkFormModel {
       (number != null && number!.isNotEmpty) &&
       (serial != null && serial!.isNotEmpty) &&
       provider != null;
+}
+
+class SimsFilter extends ApiFilterModel {
+  Providers? simProvider;
+
+  SimsFilter({
+    this.simProvider,
+  });
+
+  @override
+  RequestParams toRequestParams() {
+    final params = {
+      'sims_provider[code][equal]': simProvider?.code,
+    };
+
+    params.removeWhere((key, value) => value == null);
+
+    return params;
+  }
 }

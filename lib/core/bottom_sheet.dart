@@ -8,6 +8,7 @@ import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/views/clients_actions.dart';
 import 'package:skyradio_mobile/views/clients_filter.dart';
 import 'package:skyradio_mobile/views/radios_filter.dart';
+import 'package:skyradio_mobile/views/sims_filter.dart';
 import 'package:skyradio_mobile/views/sort_list.dart';
 import 'package:skyradio_mobile/views/radio.dart';
 import 'package:skyradio_mobile/views/sim.dart';
@@ -16,6 +17,7 @@ import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 const RADIO_BOTTOM_SHEET = '/radios';
 const RADIOS_FILTER_BOTTOM_SHEET = '/radios_filter';
 const SIM_BOTTOM_SHEET = '/sims';
+const SIMS_FILTER_BOTTOM_SHEET = '/sims_filter';
 const CLIENTS_FILTER_BOTTOM_SHEET = '/clients_filter';
 const SORT_LIST_BOTTOM_SHEET = '/clients_sort';
 const CLIENTS_ACTIONS_BOTTOM_SHEET = '/clients_actions';
@@ -31,6 +33,16 @@ class BottomSheetGenerator {
         final sim = settings.arguments as Sims;
 
         return SimView(sim: sim);
+      case SIMS_FILTER_BOTTOM_SHEET:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final filter = args['filter'] as SimsFilter;
+        final onRefresh = args['onRefresh'] as VoidCallback;
+
+        return SimsFilterView(
+          filter: filter,
+          onRefresh: onRefresh,
+        );
       case CLIENTS_FILTER_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 

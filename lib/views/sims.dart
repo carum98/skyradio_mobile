@@ -3,7 +3,9 @@ import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
+import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
 
 class SimsView extends StatelessWidget {
@@ -11,11 +13,14 @@ class SimsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = DI.of(context).simsRepository.getSims;
+    final controller = SkListViewPaginationController(
+      provider: DI.of(context).simsRepository.getSims,
+      params: ApiParams(filter: SimsFilter(), sort: ApiSortModel()),
+    );
 
     return SkScaffold(
       title: 'Sims',
-      provider: provider,
+      controller: controller,
       builder: (sim) => _Tile(sim: sim),
       onTap: (sim) => SkBottomSheet.of(context).pushNamed(
         SIM_BOTTOM_SHEET,
@@ -25,9 +30,21 @@ class SimsView extends StatelessWidget {
         if (action == SkScaffoldAction.add) {
           Navigator.pushNamed(context, RADIOS_CREATE_VIEW);
         } else if (action == SkScaffoldAction.sort) {
-          skBottomSheet(context, Container());
+          SkBottomSheet.of(context).pushNamed(
+            SORT_LIST_BOTTOM_SHEET,
+            arguments: {
+              'sort': controller.params.sort,
+              'onRefresh': controller.refresh,
+            },
+          );
         } else if (action == SkScaffoldAction.filter) {
-          skBottomSheet(context, Container());
+          SkBottomSheet.of(context).pushNamed(
+            SIMS_FILTER_BOTTOM_SHEET,
+            arguments: {
+              'filter': controller.params.filter,
+              'onRefresh': controller.refresh,
+            },
+          );
         }
       },
       onItemActions: (client, callback) {
