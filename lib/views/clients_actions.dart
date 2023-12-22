@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
+import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 
 class ClientsActionsView extends StatelessWidget {
@@ -17,94 +18,55 @@ class ClientsActionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _ActionButton(
-          label: 'Historial',
+        SkButton.block(
+          text: 'Historial',
           icon: SkIconData.history,
+          backgroundColor: Colors.transparent,
+          textLeft: true,
           onPressed: () {},
         ),
         const Divider(),
-        _ActionButton(
-          label: 'Cambio',
+        SkButton.block(
+          text: 'Cambio',
           icon: SkIconData.arrows,
+          backgroundColor: Colors.transparent,
+          textLeft: true,
           onPressed: () {},
         ),
-        _ActionButton(
-          label: 'Entrega',
+        SkButton.block(
+          text: 'Entrega',
           icon: SkIconData.arrow_down,
+          backgroundColor: Colors.transparent,
+          textLeft: true,
           onPressed: () {},
         ),
-        _ActionButton(
-          label: 'Devolución',
+        SkButton.block(
+          text: 'Devolución',
           icon: SkIconData.arrow_up,
+          backgroundColor: Colors.transparent,
+          textLeft: true,
           onPressed: () {},
         ),
         const Divider(),
-        _ActionButton(
-          label: 'Actualizar',
+        SkButton.block(
+          text: 'Actualizar',
           icon: SkIconData.update,
+          backgroundColor: Colors.transparent,
+          textLeft: true,
           onPressed: () {
             Navigator.of(context)
                 .pushNamed(CLIENT_UPDATE_VIEW, arguments: client)
                 .then((value) => {if (value == true) onRefresh()});
           },
         ),
-        _ActionButton(
-          label: 'Eliminar',
+        SkButton.block(
+          text: 'Eliminar',
           icon: SkIconData.trash,
+          backgroundColor: Colors.transparent,
+          textLeft: true,
           onPressed: () {},
         ),
       ],
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  final String label;
-  final SkIconData icon;
-  final VoidCallback onPressed;
-
-  const _ActionButton({
-    required this.label,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Theme.of(context).textTheme.bodyMedium!.color,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
-          ),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-          onPressed();
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SkIcon(
-              icon,
-              size: 20,
-              color: Colors.grey,
-            ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Text(
-                label,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
