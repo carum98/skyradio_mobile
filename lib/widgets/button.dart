@@ -46,6 +46,10 @@ class SkButton extends StatelessWidget {
     final mainAxisAlignment =
         textLeft ? MainAxisAlignment.start : MainAxisAlignment.center;
 
+    final textColor = backgroundColor == Colors.transparent
+        ? Theme.of(context).textTheme.bodyMedium!.color
+        : Colors.white;
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -70,7 +74,7 @@ class SkButton extends StatelessWidget {
           Text(
             text,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 18, color: Colors.white),
+            style: TextStyle(fontSize: 18, color: textColor),
           ),
         ],
       ),
