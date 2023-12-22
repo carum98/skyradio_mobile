@@ -7,6 +7,7 @@ import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/views/clients_actions.dart';
 import 'package:skyradio_mobile/views/clients_filter.dart';
+import 'package:skyradio_mobile/views/radios_actions.dart';
 import 'package:skyradio_mobile/views/radios_filter.dart';
 import 'package:skyradio_mobile/views/sims_filter.dart';
 import 'package:skyradio_mobile/views/sort_list.dart';
@@ -16,6 +17,7 @@ import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 
 const RADIO_BOTTOM_SHEET = '/radios';
 const RADIOS_FILTER_BOTTOM_SHEET = '/radios_filter';
+const RADIOS_ACTIONS_BOTTOM_SHEET = '/radios_actions';
 const SIM_BOTTOM_SHEET = '/sims';
 const SIMS_FILTER_BOTTOM_SHEET = '/sims_filter';
 const CLIENTS_FILTER_BOTTOM_SHEET = '/clients_filter';
@@ -80,6 +82,13 @@ class BottomSheetGenerator {
           filter: filter,
           onRefresh: onRefresh,
         );
+      case RADIOS_ACTIONS_BOTTOM_SHEET:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final radio = args['radio'] as Radios;
+        final onRefresh = args['onRefresh'] as Function;
+
+        return RadiosActionsView(radio: radio, onRefresh: onRefresh);
       default:
         return Container();
     }

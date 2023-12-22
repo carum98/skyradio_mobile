@@ -4,7 +4,6 @@ import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
-import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/tiles/radios.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold.dart';
@@ -48,8 +47,14 @@ class RadiosView extends StatelessWidget {
           );
         }
       },
-      onItemActions: (client, callback) {
-        skBottomSheet(context, Container());
+      onItemActions: (radio, callback) {
+        SkBottomSheet.of(context).pushNamed(
+          RADIOS_ACTIONS_BOTTOM_SHEET,
+          arguments: {
+            'radio': radio,
+            'onRefresh': callback,
+          },
+        );
       },
     );
   }
