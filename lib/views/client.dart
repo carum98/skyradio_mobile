@@ -41,7 +41,12 @@ class ClientView extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              SkBottomSheet.of(context).pushNamed(
+                CLIENTS_ACTIONS_BOTTOM_SHEET,
+                arguments: {'client': client, 'onRefresh': () {}},
+              );
+            },
             icon: const Icon(Icons.more_vert),
           ),
         ],
