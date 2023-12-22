@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/router.dart';
-import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 
-class RadiosActionsView extends StatelessWidget {
-  final Radios radio;
+class SimsActionsView extends StatelessWidget {
+  final Sims sim;
   final Function onRefresh;
 
-  const RadiosActionsView({
+  const SimsActionsView({
     super.key,
-    required this.radio,
+    required this.sim,
     required this.onRefresh,
   });
 
@@ -19,27 +19,12 @@ class RadiosActionsView extends StatelessWidget {
     return Column(
       children: [
         SkButton.block(
-          text: 'Cambio',
-          icon: SkIconData.arrows,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
-        SkButton.block(
-          text: 'Entrega',
-          icon: SkIconData.arrow_down,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
-        SkButton.block(
-          text: 'Devolución',
+          text: 'Relacionar Radio',
           icon: SkIconData.arrow_up,
           backgroundColor: Colors.transparent,
           textLeft: true,
           onPressed: () {},
         ),
-        const Divider(),
         SkButton.block(
           text: 'Cambiar SIM',
           icon: SkIconData.arrows,
@@ -48,7 +33,7 @@ class RadiosActionsView extends StatelessWidget {
           onPressed: () {},
         ),
         SkButton.block(
-          text: 'Desvicular SIM',
+          text: 'Desvincular SIM',
           icon: SkIconData.arrow_up,
           backgroundColor: Colors.transparent,
           textLeft: true,
@@ -62,7 +47,7 @@ class RadiosActionsView extends StatelessWidget {
           textLeft: true,
           onPressed: () {
             Navigator.of(context)
-                .pushNamed(RADIOS_UPDATE_VIEW, arguments: radio)
+                .pushNamed(SIMS_UPDATE_VIEW, arguments: sim)
                 .then((value) => {if (value == true) onRefresh()});
           },
         ),
