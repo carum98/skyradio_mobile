@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/color_picker.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
@@ -18,11 +19,11 @@ class ClientsFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SkScaffoldForm(
       model: model,
-      onSend: (params) {
+      onSend: (params) async {
         if (model.isEditing) {
-          print('update: $params');
+          await DI.of(context).clientsRepository.update(model.code!, params);
         } else {
-          print('create: $params');
+          await DI.of(context).clientsRepository.create(params);
         }
       },
       builder: (model) => [

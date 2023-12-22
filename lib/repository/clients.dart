@@ -37,4 +37,14 @@ class ClientsRepository {
 
     return ClientsStats.fromJson(data);
   }
+
+  Future<Clients> create(RequestParams params) async {
+    final data = await _clientsService.create(params);
+
+    return Clients.fromJson(data);
+  }
+
+  Future<void> update(String code, RequestParams params) async {
+    await _clientsService.update(code, params);
+  }
 }

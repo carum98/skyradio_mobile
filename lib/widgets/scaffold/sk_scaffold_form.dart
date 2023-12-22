@@ -27,7 +27,7 @@ abstract class SkFormModel with ChangeNotifier {
 class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
   final T model;
   final List<Widget> Function(T) builder;
-  final Function(RequestParams) onSend;
+  final Future<void> Function(RequestParams) onSend;
 
   const SkScaffoldForm({
     super.key,
@@ -59,8 +59,11 @@ class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
           child: child,
         ),
         child: SkButton(
-          onPressed: () {
-            onSend(model.getParams());
+          onPressed: () async {
+            await onSend(model.getParams());
+
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pop(true);
           },
           text: 'Guardar',
         ),

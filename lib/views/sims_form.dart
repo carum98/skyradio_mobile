@@ -17,7 +17,7 @@ class SimsFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SkScaffoldForm(
       model: model,
-      onSend: (params) {
+      onSend: (params) async {
         if (model.isEditing) {
           print('update: $params');
         } else {
