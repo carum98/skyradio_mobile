@@ -1,6 +1,8 @@
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/clients.dart';
+import 'package:skyradio_mobile/models/providers.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'models.dart';
@@ -118,4 +120,29 @@ class RadiosForm extends SkFormModel {
   @override
   bool get isValid =>
       (_name != null && _name!.isNotEmpty) && imei != null && model != null;
+}
+
+class RadiosFilter extends ApiFilterModel {
+  Models? model;
+  Providers? simProvider;
+  Clients? client;
+
+  RadiosFilter({
+    this.model,
+    this.simProvider,
+    this.client,
+  });
+
+  @override
+  RequestParams toRequestParams() {
+    final params = {
+      'radios_model[code][equal]': model?.code,
+      'sims_provider[code][equal]': simProvider?.code,
+      'clients[code][equal]': client?.code,
+    };
+
+    params.removeWhere((key, value) => value == null);
+
+    return params;
+  }
 }
