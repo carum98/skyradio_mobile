@@ -12,6 +12,7 @@ Future<T?> skDialog<T>(BuildContext context, Widget child) async {
         sigmaY: 5,
       ),
       child: Dialog(
+        surfaceTintColor: Theme.of(context).cardColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
