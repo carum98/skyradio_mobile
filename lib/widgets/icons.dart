@@ -18,6 +18,7 @@ enum SkIconData {
   desc,
   trash,
   update,
+  history,
 }
 
 class SkIcon extends StatelessWidget {
