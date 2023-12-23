@@ -130,9 +130,11 @@ class SkHttp {
         );
       }
 
-      if (response.statusCode != 200 &&
-          response.statusCode != 201 &&
-          response.statusCode != 204) {
+      if (response.statusCode == 204) {
+        return Response(http.Response('{}', 204));
+      }
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
         throw SkHttpException(
           message: jsonDecode(response.body)['message'],
         );
