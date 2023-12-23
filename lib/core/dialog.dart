@@ -2,7 +2,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/widgets.dart';
+import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/views/clients_remove.dart';
 import 'package:skyradio_mobile/views/radios_remove.dart';
 import 'package:skyradio_mobile/widgets/dialog.dart';
 
@@ -39,6 +41,7 @@ class SkDialog extends InheritedWidget {
 }
 
 const RADIOS_REMOVE_DIALOG = '/radio_remove_dialog';
+const CLIENTS_REMOVE_DIALOG = '/client_remove_dialog';
 
 class DialogGenerator {
   static Widget generate(RouteSettings settings) {
@@ -46,6 +49,10 @@ class DialogGenerator {
       case RADIOS_REMOVE_DIALOG:
         return RadiosRemoveView(
           radio: settings.arguments as Radios,
+        );
+      case CLIENTS_REMOVE_DIALOG:
+        return ClientsRemoveView(
+          client: settings.arguments as Clients,
         );
       default:
         return Container();

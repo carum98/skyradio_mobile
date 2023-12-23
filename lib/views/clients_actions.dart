@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -64,7 +65,11 @@ class ClientsActionsView extends StatelessWidget {
           icon: SkIconData.trash,
           backgroundColor: Colors.transparent,
           textLeft: true,
-          onPressed: () {},
+          onPressed: () {
+            SkDialog.of(context)
+                .pushNamed(CLIENTS_REMOVE_DIALOG, arguments: client)
+                .then((value) => {if (value == true) onRefresh()});
+          },
         ),
       ],
     );

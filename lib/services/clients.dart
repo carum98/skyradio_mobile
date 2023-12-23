@@ -54,4 +54,10 @@ class ClientsService {
       params,
     );
   }
+
+  Future<void> delete(String code) async {
+    await _http.delete(
+      '/clients/$code',
+    );
+  }
 }

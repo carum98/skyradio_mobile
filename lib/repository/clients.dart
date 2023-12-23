@@ -47,4 +47,8 @@ class ClientsRepository {
   Future<void> update(String code, RequestParams params) async {
     await _clientsService.update(code, params);
   }
+
+  Future<void> delete(String code) async {
+    await _clientsService.delete(code);
+  }
 }

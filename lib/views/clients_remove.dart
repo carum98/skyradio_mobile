@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
-import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/widgets/scaffold/remove_scaffold.dart';
 
-class RadiosRemoveView extends StatelessWidget {
-  final Radios radio;
+class ClientsRemoveView extends StatelessWidget {
+  final Clients client;
 
-  const RadiosRemoveView({
+  const ClientsRemoveView({
     super.key,
-    required this.radio,
+    required this.client,
   });
 
   @override
   Widget build(BuildContext context) {
     return RemoveScaffold(
-      instance: 'radio',
-      onRemove: () => DI.of(context).radiosRepository.delete(radio.code),
+      instance: 'cliente',
+      onRemove: () => DI.of(context).clientsRepository.delete(client.code),
     );
   }
 }
