@@ -28,7 +28,9 @@ class RadiosView extends StatelessWidget {
       ),
       onListActions: (action) {
         if (action == SkScaffoldAction.add) {
-          Navigator.pushNamed(context, RADIOS_CREATE_VIEW);
+          Navigator.pushNamed(context, RADIOS_CREATE_VIEW).then((value) {
+            if (value == true) controller.refresh();
+          });
         } else if (action == SkScaffoldAction.sort) {
           SkBottomSheet.of(context).pushNamed(
             SORT_LIST_BOTTOM_SHEET,

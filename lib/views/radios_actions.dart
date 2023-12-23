@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -71,7 +72,11 @@ class RadiosActionsView extends StatelessWidget {
           icon: SkIconData.trash,
           backgroundColor: Colors.transparent,
           textLeft: true,
-          onPressed: () {},
+          onPressed: () {
+            SkDialog.of(context)
+                .pushNamed(RADIOS_REMOVE_DIALOG, arguments: radio)
+                .then((value) => {if (value == true) onRefresh()});
+          },
         ),
       ],
     );
