@@ -9,8 +9,8 @@ import 'package:skyradio_mobile/views/client_form.dart';
 import 'package:skyradio_mobile/views/clients.dart';
 import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
-import 'package:skyradio_mobile/views/radios.dart';
-import 'package:skyradio_mobile/views/radios_form.dart';
+import 'package:skyradio_mobile/views/radios/form.dart';
+import 'package:skyradio_mobile/views/radios/list.dart';
 import 'package:skyradio_mobile/views/sims.dart';
 import 'package:skyradio_mobile/views/sims_form.dart';
 

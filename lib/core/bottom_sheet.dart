@@ -7,12 +7,12 @@ import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/views/clients_actions.dart';
 import 'package:skyradio_mobile/views/clients_filter.dart';
-import 'package:skyradio_mobile/views/radios_actions.dart';
-import 'package:skyradio_mobile/views/radios_filter.dart';
+import 'package:skyradio_mobile/views/radios/actions.dart';
+import 'package:skyradio_mobile/views/radios/filter.dart';
 import 'package:skyradio_mobile/views/sims_actions.dart';
 import 'package:skyradio_mobile/views/sims_filter.dart';
 import 'package:skyradio_mobile/views/sort_list.dart';
-import 'package:skyradio_mobile/views/radio.dart';
+import 'package:skyradio_mobile/views/radios/profile.dart';
 import 'package:skyradio_mobile/views/sim.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 
