@@ -2,7 +2,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/widgets.dart';
-import 'package:skyradio_mobile/views/remove.dart';
+import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/views/radios_remove.dart';
 import 'package:skyradio_mobile/widgets/dialog.dart';
 
 class SkDialog extends InheritedWidget {
@@ -37,14 +38,14 @@ class SkDialog extends InheritedWidget {
   bool updateShouldNotify(SkDialog oldWidget) => false;
 }
 
-const REMOVE_DIALOG = '/remove_dialog';
+const RADIOS_REMOVE_DIALOG = '/radio_remove_dialog';
 
 class DialogGenerator {
   static Widget generate(RouteSettings settings) {
     switch (settings.name) {
-      case REMOVE_DIALOG:
-        return RemoveDialogView(
-          instance: settings.arguments as String,
+      case RADIOS_REMOVE_DIALOG:
+        return RadiosRemoveView(
+          radio: settings.arguments as Radios,
         );
       default:
         return Container();
