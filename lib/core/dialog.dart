@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
-import 'package:skyradio_mobile/views/clients_remove.dart';
+import 'package:skyradio_mobile/views/clients/remove.dart';
 import 'package:skyradio_mobile/views/radios/remove.dart';
 import 'package:skyradio_mobile/views/sims_remove.dart';
 import 'package:skyradio_mobile/widgets/dialog.dart';
