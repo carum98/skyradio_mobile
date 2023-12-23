@@ -9,11 +9,11 @@ import 'package:skyradio_mobile/views/clients/actions.dart';
 import 'package:skyradio_mobile/views/clients/filter.dart';
 import 'package:skyradio_mobile/views/radios/actions.dart';
 import 'package:skyradio_mobile/views/radios/filter.dart';
-import 'package:skyradio_mobile/views/sims_actions.dart';
-import 'package:skyradio_mobile/views/sims_filter.dart';
+import 'package:skyradio_mobile/views/sims/actions.dart';
+import 'package:skyradio_mobile/views/sims/filter.dart';
+import 'package:skyradio_mobile/views/sims/profile.dart';
 import 'package:skyradio_mobile/views/sort_list.dart';
 import 'package:skyradio_mobile/views/radios/profile.dart';
-import 'package:skyradio_mobile/views/sim.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 
 const RADIO_BOTTOM_SHEET = '/radios';

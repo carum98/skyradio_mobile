@@ -11,8 +11,8 @@ import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
 import 'package:skyradio_mobile/views/radios/form.dart';
 import 'package:skyradio_mobile/views/radios/list.dart';
-import 'package:skyradio_mobile/views/sims.dart';
-import 'package:skyradio_mobile/views/sims_form.dart';
+import 'package:skyradio_mobile/views/sims/form.dart';
+import 'package:skyradio_mobile/views/sims/list.dart';
 
 const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';

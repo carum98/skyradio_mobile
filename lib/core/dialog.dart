@@ -7,7 +7,7 @@ import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/views/clients/remove.dart';
 import 'package:skyradio_mobile/views/radios/remove.dart';
-import 'package:skyradio_mobile/views/sims_remove.dart';
+import 'package:skyradio_mobile/views/sims/remove.dart';
 import 'package:skyradio_mobile/widgets/dialog.dart';
 
 class SkDialog extends InheritedWidget {
