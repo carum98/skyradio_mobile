@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -56,7 +57,11 @@ class SimsActionsView extends StatelessWidget {
           icon: SkIconData.trash,
           backgroundColor: Colors.transparent,
           textLeft: true,
-          onPressed: () {},
+          onPressed: () {
+            SkDialog.of(context)
+                .pushNamed(SIMS_REMOVE_DIALOG, arguments: sim)
+                .then((value) => {if (value == true) onRefresh()});
+          },
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/label.dart';
 import 'package:skyradio_mobile/widgets/selectors/providers.dart';
@@ -19,9 +20,9 @@ class SimsFormView extends StatelessWidget {
       model: model,
       onSend: (params) async {
         if (model.isEditing) {
-          print('update: $params');
+          await DI.of(context).simsRepository.update(model.code!, params);
         } else {
-          print('create: $params');
+          await DI.of(context).simsRepository.create(params);
         }
       },
       builder: (value) => [

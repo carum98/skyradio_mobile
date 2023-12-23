@@ -18,4 +18,24 @@ class SimsRepository {
       Sims.fromJson,
     );
   }
+
+  Future<Sims> getSim(String code) async {
+    final data = await _simsService.get(code);
+
+    return Sims.fromJson(data);
+  }
+
+  Future<Sims> create(RequestParams params) async {
+    final data = await _simsService.create(params);
+
+    return Sims.fromJson(data);
+  }
+
+  Future<void> update(String code, RequestParams params) async {
+    await _simsService.update(code, params);
+  }
+
+  Future<void> delete(String code) async {
+    await _simsService.delete(code);
+  }
 }
