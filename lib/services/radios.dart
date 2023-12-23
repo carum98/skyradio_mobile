@@ -18,4 +18,38 @@ class RadiosService {
 
     return response.data;
   }
+
+  Future<ResponseData> get(String code) async {
+    final response = await _http.get(
+      '/radios/$code',
+    );
+
+    return response.data;
+  }
+
+  Future<ResponseData> create(RequestParams params) async {
+    final response = await _http.post(
+      '/radios',
+      params,
+    );
+
+    return response.data;
+  }
+
+  Future<ResponseData> update(String code, RequestParams params) async {
+    final response = await _http.put(
+      '/radios/$code',
+      params,
+    );
+
+    return response.data;
+  }
+
+  Future<ResponseData> delete(String code) async {
+    final response = await _http.delete(
+      '/radios/$code',
+    );
+
+    return response.data;
+  }
 }

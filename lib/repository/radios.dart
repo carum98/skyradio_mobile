@@ -18,4 +18,24 @@ class RadiosRepository {
       Radios.fromJson,
     );
   }
+
+  Future<Radios> getRadio(String code) async {
+    final data = await _radiosService.get(code);
+
+    return Radios.fromJson(data);
+  }
+
+  Future<Radios> create(RequestParams params) async {
+    final data = await _radiosService.create(params);
+
+    return Radios.fromJson(data);
+  }
+
+  Future<void> update(String code, RequestParams params) async {
+    await _radiosService.update(code, params);
+  }
+
+  Future<void> delete(String code) async {
+    await _radiosService.delete(code);
+  }
 }

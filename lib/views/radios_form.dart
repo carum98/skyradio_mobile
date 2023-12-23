@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/label.dart';
 import 'package:skyradio_mobile/widgets/selectors/models.dart';
@@ -19,9 +20,9 @@ class RadiosFormView extends StatelessWidget {
       model: model,
       onSend: (params) async {
         if (model.isEditing) {
-          print('update: $params');
+          await DI.of(context).radiosRepository.update(model.code!, params);
         } else {
-          print('create: $params');
+          await DI.of(context).radiosRepository.create(params);
         }
       },
       builder: (value) => [
