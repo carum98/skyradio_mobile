@@ -146,3 +146,19 @@ class RadiosFilter extends ApiFilterModel {
     return params;
   }
 }
+
+class RadiosSelectorFilter extends ApiFilterModel {
+  final List<Radios> radios;
+
+  RadiosSelectorFilter({
+    required this.radios,
+  });
+
+  @override
+  RequestParams toRequestParams() {
+    return {
+      if (radios.isNotEmpty)
+        'radios[code][not_in]': radios.map((e) => e.code).join(','),
+    };
+  }
+}

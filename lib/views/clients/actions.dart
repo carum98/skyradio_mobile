@@ -39,7 +39,11 @@ class ClientsActionsView extends StatelessWidget {
           icon: SkIconData.arrow_down,
           backgroundColor: Colors.transparent,
           textLeft: true,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(RADIOS_ADD_VIEW, arguments: client)
+                .then((value) => {if (value == true) onRefresh()});
+          },
         ),
         SkButton.block(
           text: 'Devolución',

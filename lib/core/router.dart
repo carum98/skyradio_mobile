@@ -9,20 +9,27 @@ import 'package:skyradio_mobile/views/clients/list.dart';
 import 'package:skyradio_mobile/views/clients/profile.dart';
 import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
+import 'package:skyradio_mobile/views/radios/add.dart';
 import 'package:skyradio_mobile/views/radios/form.dart';
 import 'package:skyradio_mobile/views/radios/list.dart';
+import 'package:skyradio_mobile/views/radios/selector.dart';
 import 'package:skyradio_mobile/views/sims/form.dart';
 import 'package:skyradio_mobile/views/sims/list.dart';
 
 const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';
+
 const CLIENTS_VIEW = '/clients';
 const CLIENT_VIEW = '/clients/:id';
 const CLIENT_CREATE_VIEW = '/clients/create';
 const CLIENT_UPDATE_VIEW = '/clients/:id/edit';
+
 const RADIOS_VIEW = '/radios';
 const RADIOS_CREATE_VIEW = '/radios/form';
 const RADIOS_UPDATE_VIEW = '/radios/:id/edit';
+const RADIOS_ADD_VIEW = '/radios/add';
+const RADIOS_SELECTOR_VIEW = '/radios/selector';
+
 const SIMS_VIEW = '/sims';
 const SIMS_CREATE_VIEW = '/sims/form';
 const SIMS_UPDATE_VIEW = '/sims/:id/edit';
@@ -75,6 +82,19 @@ class RouterGenerator {
 
         return MaterialPageRoute(
           builder: (_) => RadiosFormView(model: RadiosForm.update(radio)),
+        );
+
+      case RADIOS_ADD_VIEW:
+        final client = settings.arguments as Clients;
+
+        return MaterialPageRoute(
+          builder: (_) => AddRadiosView(client: client),
+        );
+      case RADIOS_SELECTOR_VIEW:
+        final radios = settings.arguments as List<Radios>;
+
+        return MaterialPageRoute(
+          builder: (_) => RadiosSelectorView(valuesSelected: radios),
         );
       case SIMS_VIEW:
         return MaterialPageRoute(
