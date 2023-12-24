@@ -50,7 +50,11 @@ class ClientsActionsView extends StatelessWidget {
           icon: SkIconData.arrow_up,
           backgroundColor: Colors.transparent,
           textLeft: true,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
+                .then((value) => {if (value == true) onRefresh()});
+          },
         ),
         const Divider(),
         SkButton.block(

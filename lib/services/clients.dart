@@ -69,4 +69,11 @@ class ClientsService {
 
     return response.data;
   }
+
+  Future<void> removeRadios(String code, RequestParams params) async {
+    await _http.delete(
+      '/clients/$code/radios',
+      data: params,
+    );
+  }
 }

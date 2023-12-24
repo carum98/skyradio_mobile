@@ -52,10 +52,11 @@ class SkHttp {
     );
   }
 
-  Future<Response> delete(String path) async {
+  Future<Response> delete(String path, {RequestData? data}) async {
     return await _request(
       path: path,
       method: Method.delete,
+      data: data,
     );
   }
 
@@ -119,10 +120,21 @@ class SkHttp {
             body: data,
           );
         case Method.delete:
-          response = await http.delete(
-            _uri(path),
-            headers: headers,
-          );
+          if (data != null) {
+            response = await http.delete(
+              _uri(path),
+              headers: {
+                ...headers ?? {},
+                'Content-Type': 'application/json',
+              },
+              body: json.encode(data),
+            );
+          } else {
+            response = await http.delete(
+              _uri(path),
+              headers: headers,
+            );
+          }
       }
 
       if (response.statusCode == 401) {

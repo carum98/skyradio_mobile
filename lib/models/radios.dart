@@ -133,10 +133,14 @@ class RadiosItemForm {
         sim = radio.sim;
 
   ResponseData getParams() {
-    return {
+    final params = {
       'name': name,
       'sim_code': sim?.code,
     };
+
+    params.removeWhere((key, value) => value == null);
+
+    return params;
   }
 }
 
