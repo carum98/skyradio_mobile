@@ -19,25 +19,18 @@ class ClientsActionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SkButton.block(
-          text: 'Historial',
-          icon: SkIconData.history,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
-        const Divider(),
-        SkButton.block(
-          text: 'Cambio',
-          icon: SkIconData.arrows,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
-                .then((value) => {if (value == true) onRefresh()});
-          },
-        ),
+        if (client.radiosCount > 0)
+          SkButton.block(
+            text: 'Cambio',
+            icon: SkIconData.arrows,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
+          ),
         SkButton.block(
           text: 'Entrega',
           icon: SkIconData.arrow_down,
@@ -49,17 +42,18 @@ class ClientsActionsView extends StatelessWidget {
                 .then((value) => {if (value == true) onRefresh()});
           },
         ),
-        SkButton.block(
-          text: 'Devolución',
-          icon: SkIconData.arrow_up,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {
-            Navigator.of(context)
-                .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
-                .then((value) => {if (value == true) onRefresh()});
-          },
-        ),
+        if (client.radiosCount > 0)
+          SkButton.block(
+            text: 'Devolución',
+            icon: SkIconData.arrow_up,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
+          ),
         const Divider(),
         SkButton.block(
           text: 'Actualizar',
