@@ -26,7 +26,11 @@ class RadiosActionsView extends StatelessWidget {
             icon: SkIconData.arrows,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RADIOS_SWAP_VIEW, arguments: radio)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         if (radio.client == null)
           SkButton.block(
@@ -34,7 +38,11 @@ class RadiosActionsView extends StatelessWidget {
             icon: SkIconData.arrow_down,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RADIOS_ADD_VIEW, arguments: radio)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         if (radio.client != null)
           SkButton.block(
@@ -42,7 +50,11 @@ class RadiosActionsView extends StatelessWidget {
             icon: SkIconData.arrow_up,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RADIOS_REMOVE_VIEW, arguments: radio)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         const Divider(),
         if (radio.sim != null)

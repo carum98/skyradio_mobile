@@ -90,24 +90,42 @@ class RouterGenerator {
         );
 
       case RADIOS_ADD_VIEW:
-        final client = settings.arguments as Clients;
+        final args = settings.arguments;
+
+        final client = args is Clients ? args : null;
+        final radio = args is Radios ? args : null;
 
         return MaterialPageRoute(
-          builder: (_) => AddRadiosView(client: client),
+          builder: (_) => AddRadiosView(
+            client: client ?? radio!.client!,
+            radio: radio,
+          ),
         );
 
       case RADIOS_REMOVE_VIEW:
-        final client = settings.arguments as Clients;
+        final args = settings.arguments;
+
+        final client = args is Clients ? args : null;
+        final radio = args is Radios ? args : null;
 
         return MaterialPageRoute(
-          builder: (_) => RemoveRadiosView(client: client),
+          builder: (_) => RemoveRadiosView(
+            client: client ?? radio!.client!,
+            radio: radio,
+          ),
         );
 
       case RADIOS_SWAP_VIEW:
-        final client = settings.arguments as Clients;
+        final args = settings.arguments;
+
+        final client = args is Clients ? args : null;
+        final radio = args is Radios ? args : null;
 
         return MaterialPageRoute(
-          builder: (_) => SwapRadiosView(client: client),
+          builder: (_) => SwapRadiosView(
+            client: client ?? radio!.client!,
+            radio: radio,
+          ),
         );
 
       case RADIOS_SELECTOR_VIEW:

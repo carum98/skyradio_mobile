@@ -10,10 +10,12 @@ import 'package:skyradio_mobile/widgets/tiles/radios.dart';
 
 class SwapRadiosView extends StatefulWidget {
   final Clients client;
+  final Radios? radio;
 
   const SwapRadiosView({
     super.key,
     required this.client,
+    this.radio,
   });
 
   @override
@@ -23,6 +25,15 @@ class SwapRadiosView extends StatefulWidget {
 class _SwapRadiosViewState extends State<SwapRadiosView> {
   RadiosItemForm? itemFrom;
   RadiosItemForm? itemTo;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.radio != null) {
+      itemFrom = RadiosItemForm(radio: widget.radio!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
