@@ -4,8 +4,10 @@ Future<T?> skBottomSheet<T>(BuildContext context, Widget child) async {
   return await showModalBottomSheet<T>(
     context: context,
     backgroundColor: Theme.of(context).cardColor,
+    constraints: BoxConstraints(
+      maxHeight: MediaQuery.of(context).size.height * 0.5,
+    ),
     builder: (context) => Container(
-      height: MediaQuery.of(context).size.height * 0.5,
       padding: const EdgeInsets.all(20),
       child: child,
     ),
