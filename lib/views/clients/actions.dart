@@ -32,7 +32,11 @@ class ClientsActionsView extends StatelessWidget {
           icon: SkIconData.arrows,
           backgroundColor: Colors.transparent,
           textLeft: true,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
+                .then((value) => {if (value == true) onRefresh()});
+          },
         ),
         SkButton.block(
           text: 'Entrega',

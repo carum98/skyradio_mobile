@@ -132,6 +132,8 @@ class RadiosItemForm {
   })  : name = radio.name,
         sim = radio.sim;
 
+  String get code => radio.code;
+
   ResponseData getParams() {
     final params = {
       'name': name,

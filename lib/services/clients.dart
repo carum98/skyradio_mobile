@@ -76,4 +76,11 @@ class ClientsService {
       data: params,
     );
   }
+
+  Future<void> swapRadio(String code, RequestParams params) async {
+    await _http.put(
+      '/clients/$code/radios',
+      params,
+    );
+  }
 }
