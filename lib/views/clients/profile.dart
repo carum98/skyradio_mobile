@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
@@ -116,15 +117,7 @@ class _SliverAppBar extends StatelessWidget {
         ],
       ),
       actions: [
-        IconButton(
-          onPressed: () {
-            SkBottomSheet.of(context).pushNamed(
-              CLIENTS_ACTIONS_BOTTOM_SHEET,
-              arguments: {'client': client, 'onRefresh': () {}},
-            );
-          },
-          icon: const Icon(Icons.more_vert),
-        ),
+        _ClientActions(client: client),
       ],
     );
   }
@@ -297,6 +290,64 @@ class _ActionsButtons extends StatelessWidget {
         size: 28,
         color: Colors.white,
       ),
+    );
+  }
+}
+
+class _ClientActions extends StatelessWidget {
+  final Clients client;
+
+  const _ClientActions({required this.client});
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      icon: const Icon(Icons.more_vert),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      offset: const Offset(0, 40),
+      onSelected: (value) {
+        switch (value) {
+          case 'edit':
+            Navigator.of(context)
+                .pushNamed(CLIENT_UPDATE_VIEW, arguments: client)
+                .then((value) => {if (value == true) () {}});
+            break;
+          case 'delete':
+            SkDialog.of(context)
+                .pushNamed(CLIENTS_REMOVE_DIALOG, arguments: client)
+                .then((value) =>
+                    {if (value == true) Navigator.of(context).pop()});
+            break;
+        }
+      },
+      itemBuilder: (_) => const [
+        PopupMenuItem(
+          value: 'edit',
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SkIcon(SkIconData.update, size: 20),
+              SizedBox(width: 10),
+              Text('Actualizar', style: TextStyle(fontSize: 16)),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SkIcon(SkIconData.trash, size: 20),
+              SizedBox(width: 10),
+              Text('Eliminar', style: TextStyle(fontSize: 16)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
