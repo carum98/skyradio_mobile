@@ -106,8 +106,11 @@ class SkHttp {
         case Method.post:
           response = await http.post(
             _uri(path),
-            headers: headers,
-            body: data,
+            headers: {
+              ...headers ?? {},
+              'Content-Type': 'application/json',
+            },
+            body: json.encode(data),
           );
         case Method.put:
           response = await http.put(
