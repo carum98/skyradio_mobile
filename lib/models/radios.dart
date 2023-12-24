@@ -122,6 +122,24 @@ class RadiosForm extends SkFormModel {
       (_name != null && _name!.isNotEmpty) && imei != null && model != null;
 }
 
+class RadiosItemForm {
+  final Radios radio;
+  String? name;
+  Sims? sim;
+
+  RadiosItemForm({
+    required this.radio,
+  })  : name = radio.name,
+        sim = radio.sim;
+
+  ResponseData getParams() {
+    return {
+      'name': name,
+      'sim_code': sim?.code,
+    };
+  }
+}
+
 class RadiosFilter extends ApiFilterModel {
   Models? model;
   Providers? simProvider;
@@ -159,6 +177,7 @@ class RadiosSelectorFilter extends ApiFilterModel {
     return {
       if (radios.isNotEmpty)
         'radios[code][not_in]': radios.map((e) => e.code).join(','),
+      'clients[code][is_null]': '',
     };
   }
 }

@@ -51,4 +51,8 @@ class ClientsRepository {
   Future<void> delete(String code) async {
     await _clientsService.delete(code);
   }
+
+  Future<void> addRadio(String code, RequestParams params) async {
+    await _clientsService.addRadios(code, params);
+  }
 }

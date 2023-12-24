@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
@@ -23,7 +24,7 @@ class AddRadiosView extends StatefulWidget {
 }
 
 class _AddRadiosViewState extends State<AddRadiosView> {
-  final List<Radios> radios = [];
+  final List<RadiosItemForm> items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +41,28 @@ class _AddRadiosViewState extends State<AddRadiosView> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            if (radios.isNotEmpty)
-              ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: radios.length,
-                shrinkWrap: true,
-                separatorBuilder: (_, __) => const SizedBox(height: 15),
-                itemBuilder: (_, index) => _Tile(radio: radios[index]),
-              ),
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              shrinkWrap: true,
+              separatorBuilder: (_, __) => const SizedBox(height: 15),
+              itemBuilder: (_, index) => _Tile(item: items[index]),
+            ),
             PickerSkeleton(
               title: 'Seleccionar Radio',
               onPressed: () async {
                 final radio = await Navigator.of(context).pushNamed(
                   RADIOS_SELECTOR_VIEW,
-                  arguments: radios,
+                  arguments: items.map((e) => e.radio).toList(),
                 ) as Radios?;
 
                 if (radio != null) {
                   setState(() {
-                    radios.add(radio);
+                    items.add(RadiosItemForm(radio: radio));
                   });
                 }
               },
@@ -72,16 +72,31 @@ class _AddRadiosViewState extends State<AddRadiosView> {
       ),
       floatingActionButton: SkButton(
         text: 'Guardar',
-        onPressed: () {},
+        onPressed: () {
+          final clientsRepository = DI.of(context).clientsRepository;
+          final radiosRepository = DI.of(context).radiosRepository;
+
+          final addRadios = clientsRepository.addRadio(widget.client.code, {
+            'radios_codes': items.map((e) => e.radio.code).toList(),
+          });
+
+          final updateRadios = items
+              .map((e) => radiosRepository.update(e.radio.code, e.getParams()))
+              .toList();
+
+          Future.wait([addRadios, ...updateRadios]).then((value) {
+            Navigator.pop(context, true);
+          });
+        },
       ),
     );
   }
 }
 
 class _Tile extends StatelessWidget {
-  final Radios radio;
+  final RadiosItemForm item;
 
-  const _Tile({required this.radio});
+  const _Tile({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -103,22 +118,26 @@ class _Tile extends StatelessWidget {
                 Expanded(
                   child: SkInput(
                     placeholder: 'Nombre',
-                    initialValue: radio.name,
-                    onChanged: (v) {},
+                    initialValue: item.name,
+                    onChanged: (value) {
+                      item.name = value;
+                    },
                   ),
                 ),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: 130,
                   child: SimsSelector(
-                    initialValue: radio.sim,
-                    onChanged: (v) {},
+                    initialValue: item.sim,
+                    onChanged: (value) {
+                      item.sim = value;
+                    },
                   ),
                 ),
               ],
             ),
           ),
-          RadiosTile(radio: radio),
+          RadiosTile(radio: item.radio),
         ],
       ),
     );

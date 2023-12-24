@@ -60,4 +60,13 @@ class ClientsService {
       '/clients/$code',
     );
   }
+
+  Future<ResponseData> addRadios(String code, RequestParams params) async {
+    final response = await _http.post(
+      '/clients/$code/radios',
+      params,
+    );
+
+    return response.data;
+  }
 }
