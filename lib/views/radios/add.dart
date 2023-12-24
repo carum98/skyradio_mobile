@@ -1,14 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
-import 'package:skyradio_mobile/widgets/input.dart';
 import 'package:skyradio_mobile/widgets/picker_skeleton.dart';
-import 'package:skyradio_mobile/widgets/selectors/sims.dart';
 import 'package:skyradio_mobile/widgets/tiles/radios.dart';
 
 class AddRadiosView extends StatefulWidget {
@@ -29,20 +25,11 @@ class _AddRadiosViewState extends State<AddRadiosView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: Colors.transparent,
-        flexibleSpace: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-            child: Container(color: Colors.transparent),
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
             ListView.separated(
@@ -50,7 +37,7 @@ class _AddRadiosViewState extends State<AddRadiosView> {
               itemCount: items.length,
               shrinkWrap: true,
               separatorBuilder: (_, __) => const SizedBox(height: 15),
-              itemBuilder: (_, index) => _Tile(item: items[index]),
+              itemBuilder: (_, index) => RadiosFormTile(item: items[index]),
             ),
             PickerSkeleton(
               title: 'Seleccionar Radio',
@@ -96,56 +83,5 @@ class _AddRadiosViewState extends State<AddRadiosView> {
         items.add(RadiosItemForm(radio: radio));
       });
     }
-  }
-}
-
-class _Tile extends StatelessWidget {
-  final RadiosItemForm item;
-
-  const _Tile({required this.item});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 15,
-              top: 15,
-              right: 15,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: SkInput(
-                    placeholder: 'Nombre',
-                    initialValue: item.name,
-                    onChanged: (value) {
-                      item.name = value;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: 130,
-                  child: SimsSelector(
-                    initialValue: item.sim,
-                    onChanged: (value) {
-                      item.sim = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          RadiosTile(radio: item.radio),
-        ],
-      ),
-    );
   }
 }
