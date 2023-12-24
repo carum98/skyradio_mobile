@@ -54,18 +54,7 @@ class _AddRadiosViewState extends State<AddRadiosView> {
             ),
             PickerSkeleton(
               title: 'Seleccionar Radio',
-              onPressed: () async {
-                final radio = await Navigator.of(context).pushNamed(
-                  RADIOS_SELECTOR_VIEW,
-                  arguments: items.map((e) => e.radio).toList(),
-                ) as Radios?;
-
-                if (radio != null) {
-                  setState(() {
-                    items.add(RadiosItemForm(radio: radio));
-                  });
-                }
-              },
+              onPressed: _pickRadio,
             ),
           ],
         ),
@@ -90,6 +79,23 @@ class _AddRadiosViewState extends State<AddRadiosView> {
         },
       ),
     );
+  }
+
+  void _pickRadio() async {
+    final radio = await Navigator.of(context).pushNamed(
+      RADIOS_SELECTOR_VIEW,
+      arguments: {
+        'clients[code][is_null]': '',
+        if (items.isNotEmpty)
+          'radios[code][not_in]': items.map((e) => e.radio.code).join(','),
+      },
+    ) as Radios?;
+
+    if (radio != null) {
+      setState(() {
+        items.add(RadiosItemForm(radio: radio));
+      });
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
@@ -91,10 +92,10 @@ class RouterGenerator {
           builder: (_) => AddRadiosView(client: client),
         );
       case RADIOS_SELECTOR_VIEW:
-        final radios = settings.arguments as List<Radios>;
+        final filters = settings.arguments as RequestParams;
 
         return MaterialPageRoute(
-          builder: (_) => RadiosSelectorView(valuesSelected: radios),
+          builder: (_) => RadiosSelectorView(filters: filters),
         );
       case SIMS_VIEW:
         return MaterialPageRoute(
