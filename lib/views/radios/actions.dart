@@ -18,43 +18,57 @@ class RadiosActionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        SkButton.block(
-          text: 'Cambio',
-          icon: SkIconData.arrows,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
-        SkButton.block(
-          text: 'Entrega',
-          icon: SkIconData.arrow_down,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
-        SkButton.block(
-          text: 'Devolución',
-          icon: SkIconData.arrow_up,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
+        if (radio.client != null)
+          SkButton.block(
+            text: 'Cambio',
+            icon: SkIconData.arrows,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {},
+          ),
+        if (radio.client == null)
+          SkButton.block(
+            text: 'Entrega',
+            icon: SkIconData.arrow_down,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {},
+          ),
+        if (radio.client != null)
+          SkButton.block(
+            text: 'Devolución',
+            icon: SkIconData.arrow_up,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {},
+          ),
         const Divider(),
-        SkButton.block(
-          text: 'Cambiar SIM',
-          icon: SkIconData.arrows,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
-        SkButton.block(
-          text: 'Desvicular SIM',
-          icon: SkIconData.arrow_up,
-          backgroundColor: Colors.transparent,
-          textLeft: true,
-          onPressed: () {},
-        ),
+        if (radio.sim != null)
+          SkButton.block(
+            text: 'Cambiar SIM',
+            icon: SkIconData.arrows,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {},
+          ),
+        if (radio.sim != null)
+          SkButton.block(
+            text: 'Desvicular SIM',
+            icon: SkIconData.arrow_up,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {},
+          ),
+        if (radio.sim == null)
+          SkButton.block(
+            text: 'Relacionar SIM',
+            icon: SkIconData.arrow_down,
+            backgroundColor: Colors.transparent,
+            textLeft: true,
+            onPressed: () {},
+          ),
         const Divider(),
         SkButton.block(
           text: 'Actualizar',

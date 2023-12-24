@@ -18,6 +18,7 @@ class ClientsActionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (client.radiosCount > 0)
           SkButton.block(
