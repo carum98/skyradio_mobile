@@ -5,10 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
-import 'package:skyradio_mobile/views/clients/remove.dart';
-import 'package:skyradio_mobile/views/radios/remove.dart';
-import 'package:skyradio_mobile/views/sims/remove.dart';
 import 'package:skyradio_mobile/widgets/dialog.dart';
+import 'package:skyradio_mobile/widgets/scaffold/remove_scaffold.dart';
+
+import 'dependency_inyection.dart';
 
 class SkDialog extends InheritedWidget {
   late BuildContext _context;
@@ -26,7 +26,7 @@ class SkDialog extends InheritedWidget {
 
     return skDialog<T>(
       _context,
-      DialogGenerator.generate(settings),
+      DialogGenerator.generate(settings, _context),
     );
   }
 
@@ -47,19 +47,30 @@ const CLIENTS_REMOVE_DIALOG = '/client_remove_dialog';
 const SIMS_REMOVE_DIALOG = '/sim_remove_dialog';
 
 class DialogGenerator {
-  static Widget generate(RouteSettings settings) {
+  static Widget generate(RouteSettings settings, BuildContext context) {
     switch (settings.name) {
       case RADIOS_REMOVE_DIALOG:
-        return RadiosRemoveView(
-          radio: settings.arguments as Radios,
+        final radio = settings.arguments as Radios;
+
+        return RemoveScaffold(
+          instance: 'radio',
+          onRemove: () => DI.of(context).radiosRepository.delete(radio.code),
         );
+
       case CLIENTS_REMOVE_DIALOG:
-        return ClientsRemoveView(
-          client: settings.arguments as Clients,
+        final client = settings.arguments as Clients;
+
+        return RemoveScaffold(
+          instance: 'cliente',
+          onRemove: () => DI.of(context).clientsRepository.delete(client.code),
         );
+
       case SIMS_REMOVE_DIALOG:
-        return SimsRemoveView(
-          sim: settings.arguments as Sims,
+        final sim = settings.arguments as Sims;
+
+        return RemoveScaffold(
+          instance: 'SIM',
+          onRemove: () => DI.of(context).simsRepository.delete(sim.code),
         );
       default:
         return Container();
