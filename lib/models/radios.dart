@@ -34,6 +34,8 @@ class Radios {
       serial: json['serial'],
       model: Models.fromJson(json['model']),
       sim: json['sim'] != null ? Sims.fromJson(json['sim']) : null,
+      client:
+          json['client'] != null ? Clients.fromJsonSim(json['client']) : null,
     );
   }
 
