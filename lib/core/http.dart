@@ -135,8 +135,9 @@ class SkHttp {
       }
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        throw SkHttpException(
-          message: jsonDecode(response.body)['message'],
+        throw SkHttpException.withErrors(
+          'API errors',
+          jsonDecode(response.body),
         );
       }
 
@@ -177,8 +178,27 @@ class Response {
 
 class SkHttpException implements Exception {
   final String message;
+  final List<Map<String, dynamic>>? errors;
 
-  SkHttpException({required this.message});
+  SkHttpException({
+    required this.message,
+    this.errors,
+  });
+
+  factory SkHttpException.withErrors(
+    String message,
+    Map<String, dynamic> errors,
+  ) {
+    return SkHttpException(
+      message: message,
+      errors: List<Map<String, dynamic>>.from(errors['errors']),
+    );
+  }
+
+  @override
+  String toString() {
+    return 'SkHttpException: $message, $errors';
+  }
 }
 
 class UnauthorizedException implements SkHttpException {
@@ -186,4 +206,7 @@ class UnauthorizedException implements SkHttpException {
   final String message;
 
   UnauthorizedException({required this.message});
+
+  @override
+  List<Map<String, dynamic>>? get errors => throw UnimplementedError();
 }
