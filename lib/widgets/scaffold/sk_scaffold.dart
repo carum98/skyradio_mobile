@@ -13,7 +13,7 @@ class SkScaffold<T> extends StatelessWidget {
   final Widget Function(T) builder;
   final void Function(T)? onTap;
   final void Function(SkScaffoldAction)? onListActions;
-  final void Function(T, VoidCallback)? onItemActions;
+  final void Function(T)? onItemActions;
 
   SkScaffold({
     super.key,
@@ -85,9 +85,7 @@ class SkScaffold<T> extends StatelessWidget {
         builder: builder,
         paddingTop: 190,
         onTap: onTap,
-        onLongPress: (item) {
-          onItemActions?.call(item, controller.refresh);
-        },
+        onLongPress: onItemActions,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

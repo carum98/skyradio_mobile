@@ -52,12 +52,12 @@ class ClientsView extends StatelessWidget {
           );
         }
       },
-      onItemActions: (client, callback) {
+      onItemActions: (client) {
         SkBottomSheet.of(context).pushNamed(
           CLIENTS_ACTIONS_BOTTOM_SHEET,
           arguments: {
             'client': client,
-            'onRefresh': callback,
+            'onRefresh': controller.refresh,
           },
         );
       },

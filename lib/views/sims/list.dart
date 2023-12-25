@@ -49,12 +49,12 @@ class SimsView extends StatelessWidget {
           );
         }
       },
-      onItemActions: (sim, callback) {
+      onItemActions: (sim) {
         SkBottomSheet.of(context).pushNamed(
           SIMS_ACTIONS_BOTTOM_SHEET,
           arguments: {
             'sim': sim,
-            'onRefresh': callback,
+            'onRefresh': controller.refresh,
           },
         );
       },

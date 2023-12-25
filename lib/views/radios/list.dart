@@ -49,12 +49,12 @@ class RadiosView extends StatelessWidget {
           );
         }
       },
-      onItemActions: (radio, callback) {
+      onItemActions: (radio) {
         SkBottomSheet.of(context).pushNamed(
           RADIOS_ACTIONS_BOTTOM_SHEET,
           arguments: {
             'radio': radio,
-            'onRefresh': callback,
+            'onRefresh': controller.refresh,
           },
         );
       },
