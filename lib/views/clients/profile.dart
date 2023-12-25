@@ -26,7 +26,7 @@ class ClientView extends StatelessWidget {
     final listController = SkListViewPaginationController(
       provider: (params) =>
           DI.of(context).clientsRepository.getRadios(client.code, params),
-      params: ApiParams(),
+      params: ApiParams(filter: RadiosFilter(), sort: ApiSortModel()),
     );
 
     final rebuildController = RebuildController();
@@ -237,14 +237,47 @@ class _SliverRadios extends StatelessWidget {
         height: MediaQuery.of(context).size.height - 140,
         child: Column(
           children: [
-            Row(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  padding: const EdgeInsets.only(left: 10),
-                  child: SkSearchInput(onChanged: controller.search),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SkSearchInput(onChanged: controller.search),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(45, 45),
+                    ),
+                    child: const SkIcon(SkIconData.filter, size: 20),
+                    onPressed: () {
+                      SkBottomSheet.of(context).pushNamed(
+                        RADIOS_FILTER_BOTTOM_SHEET,
+                        arguments: {
+                          'filter': controller.params.filter,
+                          'onRefresh': controller.refresh,
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(45, 45),
+                    ),
+                    child: const SkIcon(SkIconData.sort, size: 20),
+                    onPressed: () {
+                      SkBottomSheet.of(context).pushNamed(
+                        SORT_LIST_BOTTOM_SHEET,
+                        arguments: {
+                          'sort': controller.params.sort,
+                          'onRefresh': controller.refresh,
+                        },
+                      );
+                    },
+                  )
+                ],
+              ),
             ),
             Expanded(
               child: SkListViewPagination(
