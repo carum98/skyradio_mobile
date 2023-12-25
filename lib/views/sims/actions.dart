@@ -51,7 +51,11 @@ class SimsActionsView extends StatelessWidget {
             icon: SkIconData.arrow_up,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              SkDialog.of(context)
+                  .pushNamed(SIM_REMOVE_DIALOG, arguments: sim)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         const Divider(),
         SkButton.block(

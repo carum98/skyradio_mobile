@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/views/sims/remove.dart';
 import 'package:skyradio_mobile/widgets/dialog.dart';
 import 'package:skyradio_mobile/widgets/scaffold/remove_scaffold.dart';
 
@@ -44,7 +45,8 @@ class SkDialog extends InheritedWidget {
 
 const RADIOS_REMOVE_DIALOG = '/radio_remove_dialog';
 const CLIENTS_REMOVE_DIALOG = '/client_remove_dialog';
-const SIMS_REMOVE_DIALOG = '/sim_remove_dialog';
+const SIMS_REMOVE_DIALOG = '/sims_remove_dialog';
+const SIM_REMOVE_DIALOG = '/sim_remove_dialog';
 
 class DialogGenerator {
   static Widget generate(RouteSettings settings, BuildContext context) {
@@ -71,6 +73,17 @@ class DialogGenerator {
         return RemoveScaffold(
           instance: 'SIM',
           onRemove: () => DI.of(context).simsRepository.delete(sim.code),
+        );
+
+      case SIM_REMOVE_DIALOG:
+        final args = settings.arguments;
+
+        final radio = args is Radios ? args : null;
+        final sim = args is Sims ? args : null;
+
+        return RemoveSimsView(
+          radio: radio ?? sim!.radio!,
+          sim: sim ?? radio!.sim!,
         );
       default:
         return Container();

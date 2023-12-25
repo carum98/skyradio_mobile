@@ -61,4 +61,12 @@ class SimsService {
 
     return response.data;
   }
+
+  Future<ResponseData> removeRadio(String code) async {
+    final response = await _http.delete(
+      '/sims/$code/radios',
+    );
+
+    return response.data;
+  }
 }

@@ -76,7 +76,11 @@ class RadiosActionsView extends StatelessWidget {
             icon: SkIconData.arrow_up,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              SkDialog.of(context)
+                  .pushNamed(SIM_REMOVE_DIALOG, arguments: radio)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         if (radio.sim == null)
           SkButton.block(
@@ -88,9 +92,6 @@ class RadiosActionsView extends StatelessWidget {
               SkBottomSheet.of(context)
                   .pushNamed(SIMS_ADD_BOTTOM_SHEET, arguments: radio)
                   .then((value) => {if (value == true) onRefresh()});
-              // Navigator.of(context)
-              //     .pushNamed(SIMS_ADD_VIEW, arguments: radio)
-              //     .then((value) => {if (value == true) onRefresh()});
             },
           ),
         const Divider(),

@@ -70,4 +70,12 @@ class RadiosService {
 
     return response.data;
   }
+
+  Future<ResponseData> removeSim(String code) async {
+    final response = await _http.delete(
+      '/radios/$code/sims',
+    );
+
+    return response.data;
+  }
 }

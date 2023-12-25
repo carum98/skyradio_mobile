@@ -46,4 +46,8 @@ class RadiosRepository {
   Future<void> swapSim(String code, RequestParams params) async {
     await _radiosService.swapSim(code, params);
   }
+
+  Future<void> removeSim(String code) async {
+    await _radiosService.removeSim(code);
+  }
 }
