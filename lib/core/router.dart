@@ -16,11 +16,9 @@ import 'package:skyradio_mobile/views/radios/list.dart';
 import 'package:skyradio_mobile/views/radios/remove.dart';
 import 'package:skyradio_mobile/views/radios/selector.dart';
 import 'package:skyradio_mobile/views/radios/swap.dart';
-import 'package:skyradio_mobile/views/sims/add.dart';
 import 'package:skyradio_mobile/views/sims/form.dart';
 import 'package:skyradio_mobile/views/sims/list.dart';
 import 'package:skyradio_mobile/views/sims/selector.dart';
-import 'package:skyradio_mobile/views/sims/swap.dart';
 
 const HOME_VIEW = '/home';
 const LOGIN_VIEW = '/login';
@@ -41,8 +39,6 @@ const RADIOS_SWAP_VIEW = '/radios/swap';
 const SIMS_VIEW = '/sims';
 const SIMS_CREATE_VIEW = '/sims/form';
 const SIMS_UPDATE_VIEW = '/sims/:id/edit';
-const SIMS_ADD_VIEW = '/sims/add';
-const SIMS_SWAP_VIEW = '/sims/swap';
 const SIMS_SELECTOR_VIEW = '/sims/selector';
 
 class RouterGenerator {
@@ -156,29 +152,6 @@ class RouterGenerator {
 
         return MaterialPageRoute(
           builder: (_) => SimsFormView(model: SimsForm.update(sim)),
-        );
-
-      case SIMS_ADD_VIEW:
-        final args = settings.arguments;
-
-        final radio = args is Radios ? args : null;
-        final sim = args is Sims ? args : null;
-
-        return MaterialPageRoute(
-          builder: (_) => AddSimsView(
-            radio: radio ?? sim!.radio!,
-            sim: sim,
-          ),
-        );
-
-      case SIMS_SWAP_VIEW:
-        final radio = settings.arguments as Radios;
-
-        return MaterialPageRoute(
-          builder: (_) => SwapSimsView(
-            radio: radio,
-            sim: radio.sim!,
-          ),
         );
 
       case SIMS_SELECTOR_VIEW:

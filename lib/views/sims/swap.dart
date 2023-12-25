@@ -28,29 +28,24 @@ class _SwapSimViewState extends State<SwapSimsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            SimsFormTile(sim: widget.sim),
-            const SizedBox(height: 15),
-            const RotatedBox(
-              quarterTurns: 1,
-              child: SkIcon(SkIconData.arrows, size: 40),
-            ),
-            const SizedBox(height: 15),
-            if (itemTo == null)
-              PickerSkeleton(
-                title: 'Seleccionar SIM',
-                onPressed: _pickSimTo,
-              )
-            else
-              SimsFormTile(sim: itemTo!),
-          ],
-        ),
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          SimsFormTile(sim: widget.sim),
+          const SizedBox(height: 15),
+          const RotatedBox(
+            quarterTurns: 1,
+            child: SkIcon(SkIconData.arrows, size: 40),
+          ),
+          const SizedBox(height: 15),
+          if (itemTo == null)
+            PickerSkeleton(
+              title: 'Seleccionar SIM',
+              onPressed: _pickSimTo,
+            )
+          else
+            SimsFormTile(sim: itemTo!),
+        ],
       ),
       floatingActionButton: SkButton(
         text: 'Guardar',

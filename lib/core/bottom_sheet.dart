@@ -10,8 +10,10 @@ import 'package:skyradio_mobile/views/clients/filter.dart';
 import 'package:skyradio_mobile/views/radios/actions.dart';
 import 'package:skyradio_mobile/views/radios/filter.dart';
 import 'package:skyradio_mobile/views/sims/actions.dart';
+import 'package:skyradio_mobile/views/sims/add.dart';
 import 'package:skyradio_mobile/views/sims/filter.dart';
 import 'package:skyradio_mobile/views/sims/profile.dart';
+import 'package:skyradio_mobile/views/sims/swap.dart';
 import 'package:skyradio_mobile/views/sort_list.dart';
 import 'package:skyradio_mobile/views/radios/profile.dart';
 import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
@@ -25,6 +27,8 @@ const SIMS_ACTIONS_BOTTOM_SHEET = '/sims_actions';
 const CLIENTS_FILTER_BOTTOM_SHEET = '/clients_filter';
 const SORT_LIST_BOTTOM_SHEET = '/clients_sort';
 const CLIENTS_ACTIONS_BOTTOM_SHEET = '/clients_actions';
+const SIMS_ADD_BOTTOM_SHEET = '/sims_add';
+const SIMS_SWAP_BOTTOM_SHEET = '/sims_swap';
 
 class BottomSheetGenerator {
   static Widget generate(RouteSettings settings) {
@@ -98,6 +102,24 @@ class BottomSheetGenerator {
         final onRefresh = args['onRefresh'] as Function;
 
         return SimsActionsView(sim: sim, onRefresh: onRefresh);
+      case SIMS_ADD_BOTTOM_SHEET:
+        final args = settings.arguments;
+
+        final radio = args is Radios ? args : null;
+        final sim = args is Sims ? args : null;
+
+        return AddSimsView(
+          radio: radio ?? sim!.radio!,
+          sim: sim,
+        );
+
+      case SIMS_SWAP_BOTTOM_SHEET:
+        final radio = settings.arguments as Radios;
+
+        return SwapSimsView(
+          radio: radio,
+          sim: radio.sim!,
+        );
       default:
         return Container();
     }

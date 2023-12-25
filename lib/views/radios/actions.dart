@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/radios.dart';
@@ -64,8 +65,8 @@ class RadiosActionsView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             textLeft: true,
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(SIMS_SWAP_VIEW, arguments: radio)
+              SkBottomSheet.of(context)
+                  .pushNamed(SIMS_SWAP_BOTTOM_SHEET, arguments: radio)
                   .then((value) => {if (value == true) onRefresh()});
             },
           ),
@@ -84,9 +85,12 @@ class RadiosActionsView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             textLeft: true,
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(SIMS_ADD_VIEW, arguments: radio)
+              SkBottomSheet.of(context)
+                  .pushNamed(SIMS_ADD_BOTTOM_SHEET, arguments: radio)
                   .then((value) => {if (value == true) onRefresh()});
+              // Navigator.of(context)
+              //     .pushNamed(SIMS_ADD_VIEW, arguments: radio)
+              //     .then((value) => {if (value == true) onRefresh()});
             },
           ),
         const Divider(),

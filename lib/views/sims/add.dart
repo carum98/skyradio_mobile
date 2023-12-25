@@ -27,22 +27,17 @@ class _AddSimsViewState extends State<AddSimsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          children: [
-            if (item != null)
-              SimsFormTile(sim: item!)
-            else
-              PickerSkeleton(
-                title: 'Seleccionar SIM',
-                onPressed: _pickSim,
-              ),
-          ],
-        ),
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          if (item != null)
+            SimsFormTile(sim: item!)
+          else
+            PickerSkeleton(
+              title: 'Seleccionar SIM',
+              onPressed: _pickSim,
+            ),
+        ],
       ),
       floatingActionButton: SkButton(
         text: 'Guardar',
