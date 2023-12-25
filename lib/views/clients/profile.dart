@@ -254,6 +254,13 @@ class _SliverRadios extends StatelessWidget {
                   RADIO_BOTTOM_SHEET,
                   arguments: radio,
                 ),
+                onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
+                  RADIOS_ACTIONS_BOTTOM_SHEET,
+                  arguments: {
+                    'radio': radio,
+                    'onRefresh': controller.refresh,
+                  },
+                ),
               ),
             ),
           ],
