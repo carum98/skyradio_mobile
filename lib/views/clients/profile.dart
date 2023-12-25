@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
@@ -101,6 +103,12 @@ class _SliverAppBar extends StatelessWidget {
     return SliverAppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      flexibleSpace: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+          child: Container(color: Colors.transparent),
+        ),
+      ),
       pinned: true,
       title: Row(
         mainAxisSize: MainAxisSize.min,

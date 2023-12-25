@@ -61,6 +61,8 @@ class SimView extends StatelessWidget {
                     ),
                   ],
                 ),
+              ],
+              if (sim.radio?.client != null) ...[
                 const SizedBox(height: 10),
                 Row(
                   children: [
