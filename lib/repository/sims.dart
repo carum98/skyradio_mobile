@@ -38,4 +38,8 @@ class SimsRepository {
   Future<void> delete(String code) async {
     await _simsService.delete(code);
   }
+
+  Future<void> addRadio(String code, RequestParams params) async {
+    await _simsService.addRadio(code, params);
+  }
 }

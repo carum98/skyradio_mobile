@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/sims.dart';
@@ -26,7 +27,11 @@ class SimsActionsView extends StatelessWidget {
             icon: SkIconData.arrow_up,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              SkBottomSheet.of(context)
+                  .pushNamed(RADIO_ADD_BOTTOM_SHEET, arguments: sim)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         if (sim.radio != null)
           SkButton.block(
@@ -34,7 +39,11 @@ class SimsActionsView extends StatelessWidget {
             icon: SkIconData.arrows,
             backgroundColor: Colors.transparent,
             textLeft: true,
-            onPressed: () {},
+            onPressed: () {
+              SkBottomSheet.of(context)
+                  .pushNamed(SIMS_SWAP_BOTTOM_SHEET, arguments: sim)
+                  .then((value) => {if (value == true) onRefresh()});
+            },
           ),
         if (sim.radio != null)
           SkButton.block(

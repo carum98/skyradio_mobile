@@ -3,6 +3,7 @@ import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/picker_skeleton.dart';
 import 'package:skyradio_mobile/widgets/tiles/radios.dart';
@@ -92,6 +93,77 @@ class _AddRadiosViewState extends State<AddRadiosView> {
     if (radio != null) {
       setState(() {
         items.add(RadiosItemForm(radio: radio));
+      });
+    }
+  }
+}
+
+class AddRadioView extends StatefulWidget {
+  final Sims sim;
+
+  const AddRadioView({
+    super.key,
+    required this.sim,
+  });
+
+  @override
+  State<AddRadioView> createState() => _AddRadioViewState();
+}
+
+class _AddRadioViewState extends State<AddRadioView> {
+  Radios? item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          if (item != null)
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: RadiosTile(radio: item!),
+              ),
+            )
+          else
+            PickerSkeleton(
+              title: 'Seleccionar Radio',
+              onPressed: _pickRadio,
+            ),
+        ],
+      ),
+      floatingActionButton: SkButton(
+        text: 'Guardar',
+        onPressed: () {
+          final simsRepository = DI.of(context).simsRepository;
+
+          simsRepository.addRadio(widget.sim.code, {
+            'radio_code': item!.code,
+          }).then((_) {
+            Navigator.pop(context, true);
+          });
+        },
+      ),
+    );
+  }
+
+  void _pickRadio() async {
+    final radio = await Navigator.of(context).pushNamed(
+      RADIOS_SELECTOR_VIEW,
+      arguments: {
+        'clients[code][is_null]': '',
+        if (item != null) 'radios[code][not_equal]': item!.code,
+      },
+    ) as Radios?;
+
+    if (radio != null) {
+      setState(() {
+        item = radio;
       });
     }
   }
