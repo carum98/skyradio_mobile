@@ -38,4 +38,12 @@ class RadiosRepository {
   Future<void> delete(String code) async {
     await _radiosService.delete(code);
   }
+
+  Future<void> addSim(String code, RequestParams params) async {
+    await _radiosService.addSim(code, params);
+  }
+
+  Future<void> swapSim(String code, RequestParams params) async {
+    await _radiosService.swapSim(code, params);
+  }
 }

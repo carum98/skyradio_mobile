@@ -52,4 +52,22 @@ class RadiosService {
 
     return response.data;
   }
+
+  Future<ResponseData> addSim(String code, RequestParams params) async {
+    final response = await _http.post(
+      '/radios/$code/sims',
+      params,
+    );
+
+    return response.data;
+  }
+
+  Future<ResponseData> swapSim(String code, RequestParams params) async {
+    final response = await _http.post(
+      '/radios/$code/sims',
+      params,
+    );
+
+    return response.data;
+  }
 }

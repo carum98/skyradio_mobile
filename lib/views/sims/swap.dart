@@ -1,0 +1,85 @@
+import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/models/radios.dart';
+import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/widgets/button.dart';
+import 'package:skyradio_mobile/widgets/icons.dart';
+import 'package:skyradio_mobile/widgets/picker_skeleton.dart';
+import 'package:skyradio_mobile/widgets/tiles/sims.dart';
+
+class SwapSimsView extends StatefulWidget {
+  final Radios radio;
+  final Sims sim;
+
+  const SwapSimsView({
+    super.key,
+    required this.radio,
+    required this.sim,
+  });
+
+  @override
+  State<SwapSimsView> createState() => _SwapSimViewState();
+}
+
+class _SwapSimViewState extends State<SwapSimsView> {
+  Sims? itemTo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            SimsFormTile(sim: widget.sim),
+            const SizedBox(height: 15),
+            const RotatedBox(
+              quarterTurns: 1,
+              child: SkIcon(SkIconData.arrows, size: 40),
+            ),
+            const SizedBox(height: 15),
+            if (itemTo == null)
+              PickerSkeleton(
+                title: 'Seleccionar SIM',
+                onPressed: _pickSimTo,
+              )
+            else
+              SimsFormTile(sim: itemTo!),
+          ],
+        ),
+      ),
+      floatingActionButton: SkButton(
+        text: 'Guardar',
+        onPressed: () {
+          final radiosRepository = DI.of(context).radiosRepository;
+
+          radiosRepository.swapSim(widget.radio.code, {
+            'sim_code': itemTo!.code,
+          }).then((_) {
+            Navigator.pop(context, true);
+          });
+        },
+      ),
+    );
+  }
+
+  void _pickSimTo() async {
+    final sim = await Navigator.of(context).pushNamed(
+      SIMS_SELECTOR_VIEW,
+      arguments: {
+        'clients[code][is_null]': '',
+        'sims[code][not_equal]': widget.sim.code,
+      },
+    ) as Sims?;
+
+    if (sim != null) {
+      setState(() {
+        itemTo = sim;
+      });
+    }
+  }
+}
