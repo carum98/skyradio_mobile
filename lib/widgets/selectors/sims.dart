@@ -19,6 +19,9 @@ class SimsSelector extends StatelessWidget {
     return SkSelect(
       placeholder: 'SIM',
       provider: DI.of(context).simsRepository.getSims,
+      filters: const {
+        'radios[code][is_null]': '',
+      },
       initialValue: initialValue,
       itemBuilder: (item) => BasicTile(title: item.number),
       onChanged: onChanged,

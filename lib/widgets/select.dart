@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/utils/api_params.dart';
 
 import 'bottom_sheet.dart';
 import 'label.dart';
@@ -7,6 +8,7 @@ import 'listview_pagination/sk_listview_pagination.dart';
 
 class SkSelect<T> extends StatefulWidget {
   final ApiProvider<T> provider;
+  final RequestParams? filters;
   final String placeholder;
   final T? initialValue;
   final Function(T) onChanged;
@@ -19,6 +21,7 @@ class SkSelect<T> extends StatefulWidget {
     required this.onChanged,
     required this.itemBuilder,
     this.initialValue,
+    this.filters,
   });
 
   static Widget label<T>({
@@ -59,6 +62,9 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
   Widget build(BuildContext context) {
     final controller = SkListViewPaginationController<T>(
       provider: widget.provider,
+      params: ApiParams(
+        filter: widget.filters != null ? _SelectFilters(widget.filters!) : null,
+      ),
     );
 
     return Stack(
@@ -128,4 +134,12 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
       ],
     );
   }
+}
+
+class _SelectFilters extends ApiFilterModel {
+  final RequestParams filters;
+  _SelectFilters(this.filters);
+
+  @override
+  RequestParams toRequestParams() => filters;
 }
