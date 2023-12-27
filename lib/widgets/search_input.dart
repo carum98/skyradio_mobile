@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/views/scan_code.dart';
 
 class SkSearchInput extends StatefulWidget {
   final void Function(String) onChanged;
@@ -132,7 +133,14 @@ class _SearchInputActions extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const BarcodeScannerWithScanWindow(),
+                ),
+              );
+            },
             label: 'Escanear codigos QR/Barra',
             icon: Icons.qr_code_scanner,
           ),
