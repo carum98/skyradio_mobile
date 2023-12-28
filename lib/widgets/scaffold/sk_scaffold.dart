@@ -36,6 +36,7 @@ class SkScaffold<T> extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(title),
+        centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: ClipRRect(
@@ -83,7 +84,7 @@ class SkScaffold<T> extends StatelessWidget {
       body: SkListViewPagination<T>(
         controller: controller,
         builder: builder,
-        paddingTop: 190,
+        paddingTop: MediaQuery.of(context).padding.top + kToolbarHeight + 70,
         onTap: onTap,
         onLongPress: onItemActions,
       ),
