@@ -70,7 +70,7 @@ class SkHttp {
 
     return Uri(
       scheme: 'http',
-      host: '192.168.10.158',
+      host: '192.168.10.101',
       port: 8080,
       path: path,
       queryParameters: queryParameters,

@@ -4,16 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class BarcodeScannerWithScanWindow extends StatefulWidget {
-  const BarcodeScannerWithScanWindow({super.key});
+class ScanCodeView extends StatefulWidget {
+  const ScanCodeView({super.key});
 
   @override
-  State<BarcodeScannerWithScanWindow> createState() =>
-      _BarcodeScannerWithScanWindowState();
+  State<ScanCodeView> createState() => _ScanCodeViewState();
 }
 
-class _BarcodeScannerWithScanWindowState
-    extends State<BarcodeScannerWithScanWindow> {
+class _ScanCodeViewState extends State<ScanCodeView> {
   late MobileScannerController controller;
 
   ValueNotifier<BarcodeCapture?> capture = ValueNotifier(null);
@@ -36,39 +34,35 @@ class _BarcodeScannerWithScanWindowState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      backgroundColor: Colors.black,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          MobileScanner(
-            fit: BoxFit.contain,
-            controller: controller,
-            startDelay: true,
-            onScannerStarted: (value) {
-              arguments = value;
-            },
-            onDetect: (value) {
-              capture.value = value;
-            },
-          ),
-          ValueListenableBuilder(
-            valueListenable: capture,
-            builder: (_, value, __) {
-              return (value != null && arguments != null)
-                  ? CustomPaint(
-                      painter: BarcodeOverlay(
-                        barcode: value.barcodes.first,
-                        arguments: arguments!,
-                        capture: value,
-                      ),
-                    )
-                  : Container();
-            },
-          )
-        ],
-      ),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        MobileScanner(
+          fit: BoxFit.contain,
+          controller: controller,
+          startDelay: true,
+          onScannerStarted: (value) {
+            arguments = value;
+          },
+          onDetect: (value) {
+            capture.value = value;
+          },
+        ),
+        ValueListenableBuilder(
+          valueListenable: capture,
+          builder: (_, value, __) {
+            return (value != null && arguments != null)
+                ? CustomPaint(
+                    painter: BarcodeOverlay(
+                      barcode: value.barcodes.first,
+                      arguments: arguments!,
+                      capture: value,
+                    ),
+                  )
+                : Container();
+          },
+        )
+      ],
     );
   }
 }

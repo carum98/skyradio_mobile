@@ -10,6 +10,7 @@ import 'package:skyradio_mobile/views/clients/filter.dart';
 import 'package:skyradio_mobile/views/radios/actions.dart';
 import 'package:skyradio_mobile/views/radios/add.dart';
 import 'package:skyradio_mobile/views/radios/filter.dart';
+import 'package:skyradio_mobile/views/scan_code.dart';
 import 'package:skyradio_mobile/views/sims/actions.dart';
 import 'package:skyradio_mobile/views/sims/add.dart';
 import 'package:skyradio_mobile/views/sims/filter.dart';
@@ -31,6 +32,8 @@ const CLIENTS_ACTIONS_BOTTOM_SHEET = '/clients_actions';
 const SIMS_ADD_BOTTOM_SHEET = '/sims_add';
 const SIMS_SWAP_BOTTOM_SHEET = '/sims_swap';
 const RADIO_ADD_BOTTOM_SHEET = '/radio_add';
+
+const SCAN_CODE = '/scan_code';
 
 class BottomSheetGenerator {
   static Widget generate(RouteSettings settings) {
@@ -131,6 +134,8 @@ class BottomSheetGenerator {
 
         return AddRadioView(sim: sim);
 
+      case SCAN_CODE:
+        return const ScanCodeView();
       default:
         return Container();
     }
@@ -146,7 +151,12 @@ class SkBottomSheet extends InheritedWidget {
     required Widget child,
   }) : super(child: child);
 
-  Future<T?> pushNamed<T>(String name, {Object? arguments}) async {
+  Future<T?> pushNamed<T>(
+    String name, {
+    Object? arguments,
+    EdgeInsets? padding,
+    double? height,
+  }) async {
     final settings = RouteSettings(
       name: name,
       arguments: arguments,
@@ -155,6 +165,8 @@ class SkBottomSheet extends InheritedWidget {
     return skBottomSheet<T>(
       _context,
       BottomSheetGenerator.generate(settings),
+      height: height,
+      padding: padding,
     );
   }
 

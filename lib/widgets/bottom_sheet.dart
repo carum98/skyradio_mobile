@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-Future<T?> skBottomSheet<T>(BuildContext context, Widget child) async {
+Future<T?> skBottomSheet<T>(
+  BuildContext context,
+  Widget child, {
+  EdgeInsets? padding,
+  double? height,
+}) async {
   return await showModalBottomSheet<T>(
     context: context,
     backgroundColor: Theme.of(context).cardColor,
+    clipBehavior: Clip.antiAliasWithSaveLayer,
     constraints: BoxConstraints(
-      maxHeight: MediaQuery.of(context).size.height * 0.5,
+      maxHeight: MediaQuery.of(context).size.height * (height ?? 0.5),
     ),
     builder: (context) => Container(
-      padding: const EdgeInsets.all(20),
+      padding: padding ?? const EdgeInsets.all(20),
       child: child,
     ),
     shape: const RoundedRectangleBorder(
