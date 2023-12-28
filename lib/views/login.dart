@@ -4,28 +4,19 @@ import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  String email = '';
+  String password = '';
+
+  @override
   Widget build(BuildContext context) {
-    final repo = DI.of(context).authRepository;
-
-    String email = '';
-    String password = '';
-
-    void login() async {
-      await repo.login(email, password);
-
-      if (context.mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          HOME_VIEW,
-          (route) => false,
-        );
-      }
-    }
-
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -54,5 +45,17 @@ class LoginView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void login() async {
+    await DI.of(context).authRepository.login(email, password);
+
+    if (context.mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HOME_VIEW,
+        (route) => false,
+      );
+    }
   }
 }
