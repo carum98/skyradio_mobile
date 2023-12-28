@@ -34,23 +34,23 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: fonts/Poppins-Thin.woff2
+        - asset: fonts/Poppins-Thin.ttf
           weight: 100
-        - asset: fonts/Poppins-ExtraLight.woff2
+        - asset: fonts/Poppins-ExtraLight.ttf
           weight: 200
-        - asset: fonts/Poppins-Light.woff2
+        - asset: fonts/Poppins-Light.ttf
           weight: 300
-        - asset: fonts/Poppins-Regular.woff2
+        - asset: fonts/Poppins-Regular.ttf
           weight: 400
-        - asset: fonts/Poppins-Medium.woff2
+        - asset: fonts/Poppins-Medium.ttf
           weight: 500
-        - asset: fonts/Poppins-SemiBold.woff2
+        - asset: fonts/Poppins-SemiBold.ttf
           weight: 600
-        - asset: fonts/Poppins-Bold.woff2
+        - asset: fonts/Poppins-Bold.ttf
           weight: 700
-        - asset: fonts/Poppins-ExtraBold.woff2
+        - asset: fonts/Poppins-ExtraBold.ttf
           weight: 800
-        - asset: fonts/Poppins-Black.woff2
+        - asset: fonts/Poppins-Black.ttf
           weight: 900
-        - asset: fonts/Poppins-Italic.woff2
+        - asset: fonts/Poppins-Italic.ttf
           style: italic
