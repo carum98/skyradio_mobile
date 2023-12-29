@@ -147,7 +147,7 @@ class _SearchInputActions extends StatelessWidget {
             icon: Icons.image,
             onPressed: () {
               SkBottomSheet.of(context).pushNamed(
-                CAMERA,
+                SCAN_TEXT,
                 padding: EdgeInsets.zero,
               );
             },
