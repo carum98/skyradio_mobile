@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class ScanTextView extends StatefulWidget {
@@ -19,6 +19,8 @@ class _ScanTextViewState extends State<ScanTextView> {
   late final List<CameraDescription> _cameras;
   late final TextRecognizer _textRecognizer;
 
+  final _blocks = ValueNotifier<RecognizedText?>(null);
+
   @override
   void initState() {
     super.initState();
@@ -27,8 +29,11 @@ class _ScanTextViewState extends State<ScanTextView> {
 
   @override
   void dispose() {
-    _stopLiveFeed();
     super.dispose();
+
+    _controller?.dispose();
+    _textRecognizer.close();
+    _blocks.dispose();
   }
 
   Future<void> startLiveFeed() async {
@@ -53,11 +58,6 @@ class _ScanTextViewState extends State<ScanTextView> {
     _controller?.startImageStream(_processCameraImage);
 
     setState(() {});
-  }
-
-  void _stopLiveFeed() {
-    _controller?.dispose();
-    _textRecognizer.close();
   }
 
   Future<void> _processCameraImage(CameraImage image) async {
@@ -107,6 +107,7 @@ class _ScanTextViewState extends State<ScanTextView> {
 
     if (recognizedText.text.isNotEmpty) {
       print(recognizedText.text);
+      _blocks.value = recognizedText;
     }
 
     Future.delayed(const Duration(milliseconds: 900)).then((value) {
@@ -122,16 +123,77 @@ class _ScanTextViewState extends State<ScanTextView> {
 
     final size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      width: size.width,
-      height: size.height,
-      child: FittedBox(
-        fit: BoxFit.cover,
-        child: SizedBox(
-          width: 1,
-          child: CameraPreview(_controller!),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        SizedBox(
+          width: size.width,
+          height: size.height,
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: 1,
+              child: CameraPreview(_controller!),
+            ),
+          ),
         ),
-      ),
+        ValueListenableBuilder<RecognizedText?>(
+          valueListenable: _blocks,
+          builder: (_, value, __) {
+            if (value == null) {
+              return Container();
+            }
+
+            return CustomPaint(
+              size: size,
+              painter: ScanTextPainter(
+                blocks: value.blocks,
+                absoluteImageSize: Size(
+                  _controller!.value.previewSize!.height,
+                  _controller!.value.previewSize!.width,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
+}
+
+class ScanTextPainter extends CustomPainter {
+  final List<TextBlock> blocks;
+  final Size absoluteImageSize;
+
+  ScanTextPainter({
+    required this.blocks,
+    required this.absoluteImageSize,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double scaleX = size.width / absoluteImageSize.width;
+    final double scaleY = size.height / absoluteImageSize.height;
+
+    Rect scaleRect(Rect boundingBox) {
+      return Rect.fromLTRB(
+        boundingBox.left * scaleX,
+        boundingBox.top * scaleY,
+        boundingBox.right * scaleX,
+        boundingBox.bottom * scaleY,
+      );
+    }
+
+    final Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    for (TextBlock block in blocks) {
+      paint.color = Colors.red;
+      canvas.drawRect(scaleRect(block.boundingBox), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
