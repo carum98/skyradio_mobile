@@ -5,6 +5,7 @@ import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
+import 'package:skyradio_mobile/views/camera.dart';
 import 'package:skyradio_mobile/views/clients/actions.dart';
 import 'package:skyradio_mobile/views/clients/filter.dart';
 import 'package:skyradio_mobile/views/radios/actions.dart';
@@ -34,6 +35,7 @@ const SIMS_SWAP_BOTTOM_SHEET = '/sims_swap';
 const RADIO_ADD_BOTTOM_SHEET = '/radio_add';
 
 const SCAN_CODE = '/scan_code';
+const CAMERA = '/camera';
 
 class BottomSheetGenerator {
   static Widget generate(RouteSettings settings) {
@@ -136,6 +138,10 @@ class BottomSheetGenerator {
 
       case SCAN_CODE:
         return const ScanCodeView();
+
+      case CAMERA:
+        return const CameraView();
+
       default:
         return Container();
     }

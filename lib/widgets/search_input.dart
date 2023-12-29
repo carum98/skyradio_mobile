@@ -133,19 +133,24 @@ class _SearchInputActions extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildButton(
+            label: 'Escanear codigos QR/Barra',
+            icon: Icons.qr_code_scanner,
             onPressed: () {
               SkBottomSheet.of(context).pushNamed(
                 SCAN_CODE,
                 padding: EdgeInsets.zero,
               );
             },
-            label: 'Escanear codigos QR/Barra',
-            icon: Icons.qr_code_scanner,
           ),
           buildButton(
-            onPressed: () {},
             label: 'Extraer texto de imagenes',
             icon: Icons.image,
+            onPressed: () {
+              SkBottomSheet.of(context).pushNamed(
+                CAMERA,
+                padding: EdgeInsets.zero,
+              );
+            },
           ),
           buildButton(
             onPressed: () {},
