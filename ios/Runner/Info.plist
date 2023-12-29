@@ -51,5 +51,9 @@
 	<string>Requires access to your phone’s camera.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Requires access to your phone’s microphone.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Requires access to your phone’s microphone.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Requires access to your phone’s microphone.</string>
 </dict>
 </plist>

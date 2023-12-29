@@ -153,9 +153,11 @@ class _SearchInputActions extends StatelessWidget {
             },
           ),
           buildButton(
-            onPressed: () {},
             label: 'Dictar por voz',
             icon: Icons.mic,
+            onPressed: () {
+              SkBottomSheet.of(context).pushNamed(SPEECH_TO_TEXT);
+            },
           ),
         ],
       ),
