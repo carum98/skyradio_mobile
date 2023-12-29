@@ -19,6 +19,7 @@ class _ScanTextViewState extends State<ScanTextView> {
   late final List<CameraDescription> _cameras;
   late final TextRecognizer _textRecognizer;
 
+  final ValueNotifier<String?> _text = ValueNotifier<String?>(null);
   final _blocks = ValueNotifier<RecognizedText?>(null);
 
   @override
@@ -34,6 +35,7 @@ class _ScanTextViewState extends State<ScanTextView> {
     _controller?.dispose();
     _textRecognizer.close();
     _blocks.dispose();
+    _text.dispose();
   }
 
   Future<void> startLiveFeed() async {
@@ -106,7 +108,7 @@ class _ScanTextViewState extends State<ScanTextView> {
     final recognizedText = await _textRecognizer.processImage(inputImage);
 
     if (recognizedText.text.isNotEmpty) {
-      print(recognizedText.text);
+      _text.value = recognizedText.text;
       _blocks.value = recognizedText;
     }
 
@@ -125,6 +127,7 @@ class _ScanTextViewState extends State<ScanTextView> {
 
     return Stack(
       fit: StackFit.expand,
+      alignment: Alignment.center,
       children: [
         SizedBox(
           width: size.width,
@@ -155,6 +158,59 @@ class _ScanTextViewState extends State<ScanTextView> {
               ),
             );
           },
+        ),
+        ValueListenableBuilder(
+          valueListenable: _text,
+          builder: (_, value, __) {
+            return AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              top: value == null ? -50 : 10,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.8,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  child: Text(
+                    value ?? '',
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        ValueListenableBuilder(
+          valueListenable: _text,
+          builder: (_, value, child) {
+            return AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              bottom: value == null ? -50 : 10,
+              child: child!,
+            );
+          },
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+              ),
+            ),
+            onPressed: () => Navigator.of(context).pop(_text.value),
+            child: const Text(
+              'Insertar',
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
         ),
       ],
     );

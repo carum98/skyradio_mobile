@@ -14,7 +14,8 @@ class ScanCodeView extends StatefulWidget {
 class _ScanCodeViewState extends State<ScanCodeView> {
   late MobileScannerController controller;
 
-  ValueNotifier<BarcodeCapture?> capture = ValueNotifier(null);
+  final ValueNotifier<String?> _text = ValueNotifier<String?>(null);
+  final ValueNotifier<BarcodeCapture?> capture = ValueNotifier(null);
   MobileScannerArguments? arguments;
 
   @override
@@ -30,12 +31,14 @@ class _ScanCodeViewState extends State<ScanCodeView> {
 
     controller.dispose();
     capture.dispose();
+    _text.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
+      alignment: Alignment.center,
       children: [
         MobileScanner(
           fit: BoxFit.contain,
@@ -46,6 +49,7 @@ class _ScanCodeViewState extends State<ScanCodeView> {
           },
           onDetect: (value) {
             capture.value = value;
+            _text.value = value.barcodes.first.displayValue;
           },
         ),
         ValueListenableBuilder(
@@ -61,7 +65,60 @@ class _ScanCodeViewState extends State<ScanCodeView> {
                   )
                 : Container();
           },
-        )
+        ),
+        ValueListenableBuilder(
+          valueListenable: _text,
+          builder: (_, value, __) {
+            return AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              top: value == null ? -50 : 10,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.8,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  child: Text(
+                    value ?? '',
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        ValueListenableBuilder(
+          valueListenable: _text,
+          builder: (_, value, child) {
+            return AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              bottom: value == null ? -50 : 10,
+              child: child!,
+            );
+          },
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+              ),
+            ),
+            onPressed: () => Navigator.of(context).pop(_text.value),
+            child: const Text(
+              'Insertar',
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        ),
       ],
     );
   }

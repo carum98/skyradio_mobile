@@ -17,6 +17,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
   late final LayerLink layerLink;
   late final FocusNode focusNode;
   late final OverlayPortalController overlayPortalController;
+  late final TextEditingController textEditingController;
 
   @override
   void initState() {
@@ -25,6 +26,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
     layerLink = LayerLink();
     focusNode = FocusNode();
     overlayPortalController = OverlayPortalController();
+    textEditingController = TextEditingController();
 
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
@@ -40,6 +42,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
     super.dispose();
 
     focusNode.dispose();
+    textEditingController.dispose();
   }
 
   @override
@@ -50,6 +53,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
         controller: overlayPortalController,
         child: TextField(
           focusNode: focusNode,
+          controller: textEditingController,
           decoration: InputDecoration(
             hintText: 'Buscar',
             enabledBorder: OutlineInputBorder(
@@ -81,8 +85,13 @@ class _SkSearchInputState extends State<SkSearchInput> {
                     overlayPortalController.hide();
                   },
                 ),
-                const Positioned(
-                  child: _SearchInputActions(),
+                Positioned(
+                  child: _SearchInputActions(
+                    onChanged: (value) {
+                      textEditingController.text = value;
+                      widget.onChanged(value);
+                    },
+                  ),
                 ),
               ],
             ),
@@ -94,7 +103,9 @@ class _SkSearchInputState extends State<SkSearchInput> {
 }
 
 class _SearchInputActions extends StatelessWidget {
-  const _SearchInputActions();
+  final void Function(String) onChanged;
+
+  const _SearchInputActions({required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -135,28 +146,42 @@ class _SearchInputActions extends StatelessWidget {
           buildButton(
             label: 'Escanear codigos QR/Barra',
             icon: Icons.qr_code_scanner,
-            onPressed: () {
-              SkBottomSheet.of(context).pushNamed(
+            onPressed: () async {
+              final value = await SkBottomSheet.of(context).pushNamed<String?>(
                 SCAN_CODE,
                 padding: EdgeInsets.zero,
               );
+
+              if (value != null) {
+                onChanged(value);
+              }
             },
           ),
           buildButton(
             label: 'Extraer texto de imagenes',
             icon: Icons.image,
-            onPressed: () {
-              SkBottomSheet.of(context).pushNamed(
+            onPressed: () async {
+              final value = await SkBottomSheet.of(context).pushNamed<String?>(
                 SCAN_TEXT,
                 padding: EdgeInsets.zero,
               );
+
+              if (value != null) {
+                onChanged(value);
+              }
             },
           ),
           buildButton(
             label: 'Dictar por voz',
             icon: Icons.mic,
-            onPressed: () {
-              SkBottomSheet.of(context).pushNamed(SPEECH_TO_TEXT);
+            onPressed: () async {
+              final value = await SkBottomSheet.of(context).pushNamed<String?>(
+                SPEECH_TO_TEXT,
+              );
+
+              if (value != null) {
+                onChanged(value);
+              }
             },
           ),
         ],
