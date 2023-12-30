@@ -35,6 +35,14 @@ class _SkSearchInputState extends State<SkSearchInput> {
         overlayPortalController.hide();
       }
     });
+
+    textEditingController.addListener(() {
+      if (textEditingController.text.length == 1) {
+        overlayPortalController.hide();
+      } else if (textEditingController.text.isEmpty) {
+        overlayPortalController.show();
+      }
+    });
   }
 
   @override
