@@ -23,6 +23,7 @@ class RadiosFilterView extends StatelessWidget {
           label: 'Modelo',
           child: ModelsSelectors(
             initialValue: filter.model,
+            showClearButton: true,
             onChanged: (value) {
               filter.model = value;
               onRefresh();
@@ -33,6 +34,7 @@ class RadiosFilterView extends StatelessWidget {
           label: 'Proveedor',
           child: ProvidersSelector(
             initialValue: filter.simProvider,
+            showClearButton: true,
             onChanged: (value) {
               filter.simProvider = value;
               onRefresh();

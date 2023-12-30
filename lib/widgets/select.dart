@@ -11,8 +11,9 @@ class SkSelect<T> extends StatefulWidget {
   final RequestParams? filters;
   final String placeholder;
   final T? initialValue;
-  final Function(T) onChanged;
+  final Function(T?) onChanged;
   final Widget Function(T item) itemBuilder;
+  final bool? showClearButton;
 
   const SkSelect({
     super.key,
@@ -22,15 +23,17 @@ class SkSelect<T> extends StatefulWidget {
     required this.itemBuilder,
     this.initialValue,
     this.filters,
+    this.showClearButton,
   });
 
   static Widget label<T>({
     required String label,
     required ApiProvider<T> provider,
     required String placeholder,
-    required Function(T) onChanged,
+    required Function(T?) onChanged,
     required Widget Function(T item) itemBuilder,
     T? initialValue,
+    bool? showClearButton,
   }) {
     return SkLabel(
       label: label,
@@ -40,6 +43,7 @@ class SkSelect<T> extends StatefulWidget {
         initialValue: initialValue,
         onChanged: onChanged,
         itemBuilder: itemBuilder,
+        showClearButton: showClearButton,
       ),
     );
   }
@@ -73,6 +77,17 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
           readOnly: true,
           decoration: InputDecoration(
             hintText: _value == null ? widget.placeholder : '',
+            suffixIcon: (widget.showClearButton == true && _value != null)
+                ? IconButton(
+                    icon: const Icon(Icons.close, size: 20, color: Colors.grey),
+                    onPressed: () {
+                      setState(() {
+                        widget.onChanged(null);
+                        _value = null;
+                      });
+                    },
+                  )
+                : null,
           ),
           onTap: () {
             skBottomSheet(

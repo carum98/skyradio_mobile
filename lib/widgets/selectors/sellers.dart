@@ -6,12 +6,14 @@ import 'package:skyradio_mobile/widgets/select.dart';
 
 class SellersSelector extends StatelessWidget {
   final Seller? initialValue;
-  final Function(Seller) onChanged;
+  final Function(Seller?) onChanged;
+  final bool? showClearButton;
 
   const SellersSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
+    this.showClearButton,
   });
 
   @override
@@ -20,6 +22,7 @@ class SellersSelector extends StatelessWidget {
       label: 'Vendedor',
       placeholder: 'Vendedor',
       provider: DI.of(context).commonRepository.getSellers,
+      showClearButton: showClearButton,
       itemBuilder: (item) => BasicTile(
         title: item.name,
       ),

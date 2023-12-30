@@ -6,12 +6,14 @@ import 'package:skyradio_mobile/widgets/select.dart';
 
 class ModalitiesSelector extends StatelessWidget {
   final Modality? initialValue;
-  final Function(Modality) onChanged;
+  final Function(Modality?) onChanged;
+  final bool? showClearButton;
 
   const ModalitiesSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
+    this.showClearButton,
   });
 
   @override
@@ -20,6 +22,7 @@ class ModalitiesSelector extends StatelessWidget {
       label: 'Modalidad',
       placeholder: 'Modalidad',
       provider: DI.of(context).commonRepository.getModalities,
+      showClearButton: showClearButton,
       initialValue: initialValue,
       itemBuilder: (item) => BasicTile(
         title: item.name,

@@ -6,12 +6,14 @@ import 'package:skyradio_mobile/widgets/tiles/basic.dart';
 
 class ProvidersSelector extends StatelessWidget {
   final Providers? initialValue;
-  final ValueChanged<Providers> onChanged;
+  final ValueChanged<Providers?> onChanged;
+  final bool? showClearButton;
 
   const ProvidersSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
+    this.showClearButton,
   });
 
   @override
@@ -19,6 +21,7 @@ class ProvidersSelector extends StatelessWidget {
     return SkSelect(
       placeholder: 'Proveedor',
       provider: DI.of(context).commonRepository.getProviders,
+      showClearButton: showClearButton,
       initialValue: initialValue,
       itemBuilder: (item) => BasicTile(
         title: item.name,

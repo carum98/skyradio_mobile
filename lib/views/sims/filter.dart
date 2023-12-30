@@ -22,6 +22,7 @@ class SimsFilterView extends StatelessWidget {
           label: 'Proveedor',
           child: ProvidersSelector(
             initialValue: filter.simProvider,
+            showClearButton: true,
             onChanged: (value) {
               filter.simProvider = value;
               onRefresh();

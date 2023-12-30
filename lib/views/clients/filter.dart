@@ -20,6 +20,7 @@ class ClientsFilterView extends StatelessWidget {
       children: [
         ModalitiesSelector(
           initialValue: filter.modality,
+          showClearButton: true,
           onChanged: (value) {
             filter.modality = value;
             onRefresh();
@@ -27,6 +28,7 @@ class ClientsFilterView extends StatelessWidget {
         ),
         SellersSelector(
           initialValue: filter.seller,
+          showClearButton: true,
           onChanged: (value) {
             filter.seller = value;
             onRefresh();

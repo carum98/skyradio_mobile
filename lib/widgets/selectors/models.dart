@@ -6,12 +6,14 @@ import 'package:skyradio_mobile/widgets/tiles/basic.dart';
 
 class ModelsSelectors extends StatelessWidget {
   final Models? initialValue;
-  final ValueChanged<Models> onChanged;
+  final ValueChanged<Models?> onChanged;
+  final bool? showClearButton;
 
   const ModelsSelectors({
     super.key,
     this.initialValue,
     required this.onChanged,
+    this.showClearButton,
   });
 
   @override
@@ -19,6 +21,7 @@ class ModelsSelectors extends StatelessWidget {
     return SkSelect(
       placeholder: 'Modelo',
       provider: DI.of(context).commonRepository.getModels,
+      showClearButton: showClearButton,
       initialValue: initialValue,
       itemBuilder: (item) => BasicTile(
         title: item.name,
