@@ -31,6 +31,11 @@ class _ListPaginationBloc<T>
     try {
       final data = await _provider(params.toRequestParams());
 
+      if (data.total == 0) {
+        emit(ListPaginationEmpty<T>());
+        return;
+      }
+
       emit(ListPaginationLoaded<T>(
         items: (items ?? []) + data.items,
         page: data.page,
@@ -84,6 +89,8 @@ class _ListPaginationBloc<T>
 abstract class ListPaginationState<T> {}
 
 class ListPaginationLoading<T> extends ListPaginationState<T> {}
+
+class ListPaginationEmpty<T> extends ListPaginationState<T> {}
 
 class ListPaginationLoaded<T> extends ListPaginationState<T> {
   ListPaginationLoaded({

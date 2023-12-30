@@ -104,6 +104,28 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
               );
             }
 
+            if (data is ListPaginationEmpty) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                constraints: const BoxConstraints(maxHeight: 150),
+                margin: EdgeInsets.only(
+                  top: widget.paddingTop,
+                  left: widget.padding,
+                  right: widget.padding,
+                  bottom: widget.padding,
+                ),
+                child: const Center(
+                  child: Text(
+                    'Sin resultados',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              );
+            }
+
             if (data is ListPaginationLoaded) {
               return ListView.separated(
                 controller: _scrollController,
