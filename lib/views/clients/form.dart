@@ -31,6 +31,7 @@ class ClientsFormView extends StatelessWidget {
           label: 'Nombre',
           placeholder: 'Nombre del cliente',
           initialValue: model.name,
+          autofocus: true,
           onChanged: (value) {
             model.name = value;
           },

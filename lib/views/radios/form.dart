@@ -30,6 +30,7 @@ class RadiosFormView extends StatelessWidget {
           label: 'Nombre',
           placeholder: 'Nombre del radio',
           initialValue: model.name,
+          autofocus: true,
           onChanged: (value) {
             model.name = value;
           },

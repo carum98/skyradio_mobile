@@ -30,6 +30,7 @@ class SimsFormView extends StatelessWidget {
           label: 'Numero',
           placeholder: 'Numero de sim',
           initialValue: model.number,
+          autofocus: true,
           onChanged: (value) {
             model.number = value;
           },

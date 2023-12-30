@@ -80,7 +80,6 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
               Column(
                 children: [
                   TextField(
-                    autofocus: true,
                     onChanged: controller.search,
                     decoration: InputDecoration(
                       hintText: 'Buscar...',

@@ -4,11 +4,13 @@ import 'package:skyradio_mobile/widgets/label.dart';
 class SkInput extends StatefulWidget {
   final String placeholder;
   final String? initialValue;
+  final bool? autofocus;
   final Function(String) onChanged;
 
   const SkInput({
     super.key,
     this.initialValue,
+    this.autofocus,
     required this.placeholder,
     required this.onChanged,
   });
@@ -18,12 +20,14 @@ class SkInput extends StatefulWidget {
     required String placeholder,
     required Function(String) onChanged,
     String? initialValue,
+    bool? autofocus,
   }) {
     return SkLabel(
       label: label,
       child: SkInput(
         placeholder: placeholder,
         initialValue: initialValue,
+        autofocus: autofocus,
         onChanged: onChanged,
       ),
     );
@@ -67,6 +71,7 @@ class _SkInputState extends State<SkInput> {
             : null,
       ),
       child: TextFormField(
+        autofocus: widget.autofocus ?? false,
         focusNode: focusNode,
         initialValue: widget.initialValue,
         onChanged: widget.onChanged,
