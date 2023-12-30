@@ -33,9 +33,11 @@ class _SortListViewState extends State<SortListView> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               for (var item in _fields)
                 _SortButton(
@@ -53,6 +55,7 @@ class _SortListViewState extends State<SortListView> {
         const SizedBox(width: 20),
         Expanded(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               for (var item in _order)
                 _SortButton(
