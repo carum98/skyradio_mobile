@@ -11,6 +11,7 @@ class ClientsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: SkAvatar(
+        code: client.code,
         color: client.color,
         alt: client.name,
       ),

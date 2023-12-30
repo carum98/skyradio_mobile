@@ -114,6 +114,7 @@ class _SliverAppBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SkAvatar(
+            code: client.code,
             color: client.color,
             alt: client.name,
           ),

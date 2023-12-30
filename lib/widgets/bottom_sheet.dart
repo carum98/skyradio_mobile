@@ -15,7 +15,7 @@ Future<T?> skBottomSheet<T>(
     ),
     builder: (context) => Container(
       padding: padding ?? const EdgeInsets.all(20),
-      child: child,
+      child: SafeArea(child: child),
     ),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
