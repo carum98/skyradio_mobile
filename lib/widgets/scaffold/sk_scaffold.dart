@@ -1,10 +1,11 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SwitchTheme;
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
+import 'package:skyradio_mobile/widgets/switch_theme.dart';
 
 enum SkScaffoldAction { add, filter, sort }
 
@@ -34,6 +35,7 @@ class SkScaffold<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(title),
         centerTitle: true,
@@ -80,6 +82,21 @@ class SkScaffold<T> extends StatelessWidget {
             ),
           ),
         ),
+        actions: [
+          const SwitchTheme(),
+          const SizedBox(width: 10),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(45, 45),
+            ),
+            child: const Icon(
+              Icons.arrow_drop_down_rounded,
+              size: 30,
+            ),
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
       body: SkListViewPagination<T>(
         controller: controller,
@@ -88,11 +105,15 @@ class SkScaffold<T> extends StatelessWidget {
         onTap: onTap,
         onLongPress: onItemActions,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          onListActions?.call(SkScaffoldAction.add);
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom - 10),
+        child: FloatingActionButton(
+          onPressed: () {
+            onListActions?.call(SkScaffoldAction.add);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
