@@ -18,4 +18,8 @@ class AuthRepository {
 
     return response;
   }
+
+  Future<void> logout() async {
+    await _authStorageService.delete();
+  }
 }

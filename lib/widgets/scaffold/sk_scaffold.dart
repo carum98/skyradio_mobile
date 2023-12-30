@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide SwitchTheme;
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
+import 'package:skyradio_mobile/widgets/logout_dropdown.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/switch_theme.dart';
 
@@ -47,6 +48,12 @@ class SkScaffold<T> extends StatelessWidget {
             child: Container(color: Colors.transparent),
           ),
         ),
+        actions: const [
+          SwitchTheme(),
+          SizedBox(width: 10),
+          LogoutDropdown(),
+          SizedBox(width: 10),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Container(
@@ -82,26 +89,11 @@ class SkScaffold<T> extends StatelessWidget {
             ),
           ),
         ),
-        actions: [
-          const SwitchTheme(),
-          const SizedBox(width: 10),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(45, 45),
-            ),
-            child: const Icon(
-              Icons.arrow_drop_down_rounded,
-              size: 30,
-            ),
-          ),
-          const SizedBox(width: 10),
-        ],
       ),
       body: SkListViewPagination<T>(
         controller: controller,
         builder: builder,
-        paddingTop: MediaQuery.of(context).padding.top + kToolbarHeight + 70,
+        paddingTop: MediaQuery.of(context).padding.top + kToolbarHeight + 75,
         onTap: onTap,
         onLongPress: onItemActions,
         handleBottomBarVisibility: true,
