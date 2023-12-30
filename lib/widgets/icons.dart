@@ -20,6 +20,8 @@ enum SkIconData {
   update,
   history,
   logout,
+  qr_code,
+  bar_code,
 }
 
 class SkIcon extends StatelessWidget {
