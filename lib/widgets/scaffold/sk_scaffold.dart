@@ -104,6 +104,7 @@ class SkScaffold<T> extends StatelessWidget {
         paddingTop: MediaQuery.of(context).padding.top + kToolbarHeight + 70,
         onTap: onTap,
         onLongPress: onItemActions,
+        handleBottomBarVisibility: true,
       ),
       floatingActionButton: Padding(
         padding:

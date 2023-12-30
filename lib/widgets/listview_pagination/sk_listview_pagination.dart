@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bloc.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 
@@ -12,6 +13,7 @@ class SkListViewPagination<T> extends StatefulWidget {
   final Widget Function(T item) builder;
   final void Function(T item)? onTap;
   final void Function(T item)? onLongPress;
+  final bool handleBottomBarVisibility;
 
   final double paddingTop;
   final double edgeOffset;
@@ -25,6 +27,7 @@ class SkListViewPagination<T> extends StatefulWidget {
     this.onTap,
     this.onLongPress,
     double? paddingTop,
+    this.handleBottomBarVisibility = false,
   })  : paddingTop = paddingTop ?? 10,
         edgeOffset = paddingTop != null ? paddingTop - 20 : 0.0;
 
@@ -50,6 +53,20 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _controller.nextPage();
+      }
+
+      if (widget.handleBottomBarVisibility) {
+        final state = DI.of(context).state;
+
+        if (_scrollController.position.pixels >= 20) {
+          if (state.showBottomBar) {
+            state.setShowBottomBar(false);
+          }
+        } else {
+          if (!state.showBottomBar) {
+            state.setShowBottomBar(true);
+          }
+        }
       }
     });
   }

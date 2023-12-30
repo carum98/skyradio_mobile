@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 
 import 'clients/list.dart';
@@ -85,16 +86,32 @@ class _NavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: kBottomNavigationBarHeight + 20,
-      margin: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: items,
+    final state = DI.of(context).state;
+
+    return ListenableBuilder(
+      listenable: state,
+      builder: (_, child) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: state.showBottomBar ? kBottomNavigationBarHeight + 20 : 0,
+          margin: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: child!,
+        );
+      },
+      child: Center(
+        child: Wrap(
+          clipBehavior: Clip.hardEdge,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: items,
+            ),
+          ],
+        ),
       ),
     );
   }
