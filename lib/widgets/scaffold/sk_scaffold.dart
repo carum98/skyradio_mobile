@@ -39,9 +39,6 @@ class SkScaffold<T> extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(title),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
         flexibleSpace: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),

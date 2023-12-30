@@ -101,8 +101,6 @@ class _SliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
       flexibleSpace: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),

@@ -40,6 +40,12 @@ const _inputDecoration = InputDecorationTheme(
   ),
 );
 
+const _appBarTheme = AppBarTheme(
+  centerTitle: true,
+  elevation: 0,
+  backgroundColor: Colors.transparent,
+);
+
 class SkTheme {
   static final light = ThemeData(
     fontFamily: 'Poppins',
@@ -64,6 +70,7 @@ class SkTheme {
         borderSide: _inputBorder.borderSide.copyWith(color: _primaryColorLight),
       ),
     ),
+    appBarTheme: _appBarTheme,
   );
 
   static final dark = ThemeData(
@@ -89,5 +96,6 @@ class SkTheme {
         borderSide: _inputBorder.borderSide.copyWith(color: _primaryColorDark),
       ),
     ),
+    appBarTheme: _appBarTheme,
   );
 }

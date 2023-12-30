@@ -39,7 +39,7 @@ class _SwapRadiosViewState extends State<SwapRadiosView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: const Text('Cambio'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

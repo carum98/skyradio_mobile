@@ -37,7 +37,7 @@ class _AddRadiosViewState extends State<RemoveRadiosView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: const Text('Devolución'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -50,6 +50,7 @@ class _AddRadiosViewState extends State<RemoveRadiosView> {
               separatorBuilder: (_, __) => const SizedBox(height: 15),
               itemBuilder: (_, index) => RadiosFormTile(item: items[index]),
             ),
+            const SizedBox(height: 20),
             PickerSkeleton(
               title: 'Seleccionar Radio',
               onPressed: _pickRadio,

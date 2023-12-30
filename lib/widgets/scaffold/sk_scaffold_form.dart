@@ -39,9 +39,7 @@ class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
         child: Wrap(

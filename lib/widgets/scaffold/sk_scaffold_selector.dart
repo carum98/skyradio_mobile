@@ -19,8 +19,6 @@ class SkScaffoldSelector<T> extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
         flexibleSpace: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
