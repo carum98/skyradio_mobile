@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:skyradio_mobile/widgets/icons.dart';
+import 'package:skyradio_mobile/widgets/toggle_switch.dart';
+
+enum _ScanCodeType {
+  barcode,
+  qrCode,
+}
 
 class ScanCodeView extends StatefulWidget {
   const ScanCodeView({super.key});
@@ -9,6 +16,10 @@ class ScanCodeView extends StatefulWidget {
 }
 
 class _ScanCodeViewState extends State<ScanCodeView> {
+  final key = GlobalKey();
+
+  _ScanCodeType type = _ScanCodeType.barcode;
+
   late MobileScannerController controller;
 
   final ValueNotifier<String?> _text = ValueNotifier<String?>(null);
@@ -31,22 +42,27 @@ class _ScanCodeViewState extends State<ScanCodeView> {
     _text.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final scanWindow = Rect.fromCenter(
+  Rect get scanWindow {
+    return Rect.fromCenter(
       center: Offset(
         MediaQuery.of(context).size.width / 2,
         MediaQuery.of(context).size.height / 4,
       ),
-      width: MediaQuery.of(context).size.width * 0.7,
-      height: 50,
+      width: MediaQuery.of(context).size.width * 0.6,
+      height: type == _ScanCodeType.barcode
+          ? 50
+          : MediaQuery.of(context).size.width * 0.6,
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       alignment: Alignment.center,
       children: [
         MobileScanner(
+          key: key,
           fit: BoxFit.cover,
           controller: controller,
           scanWindow: scanWindow,
@@ -58,10 +74,10 @@ class _ScanCodeViewState extends State<ScanCodeView> {
             capture.value = value;
             _text.value = value.barcodes.first.displayValue;
           },
-        ),
-        CustomPaint(
-          size: MediaQuery.of(context).size,
-          painter: ScannerOverlay(scanWindow),
+          overlay: CustomPaint(
+            size: MediaQuery.of(context).size,
+            painter: ScannerOverlay(scanWindow),
+          ),
         ),
         ValueListenableBuilder(
           valueListenable: _text,
@@ -116,6 +132,19 @@ class _ScanCodeViewState extends State<ScanCodeView> {
             ),
           ),
         ),
+        Positioned(
+          top: 20,
+          right: 20,
+          child: SkToggleSwitch(
+            leftIcon: SkIconData.bar_code,
+            rightIcon: SkIconData.qr_code,
+            onChanged: (value) {
+              type = value == 0 ? _ScanCodeType.barcode : _ScanCodeType.qrCode;
+
+              setState(() {});
+            },
+          ),
+        )
       ],
     );
   }
