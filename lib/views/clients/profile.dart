@@ -26,6 +26,7 @@ class ClientView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool wasEdited = false;
     final repository = DI.of(context).clientsRepository;
 
     final listController = SkListViewPaginationController(
@@ -42,69 +43,80 @@ class ClientView extends StatelessWidget {
 
     void onRefreshClient() {
       repository.get(client.value.code).then((value) => {
+            wasEdited = true,
             client.value = value,
           });
     }
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          ListenableBuilder(
-            listenable: client,
-            builder: (_, __) => _SliverAppBar(
-              client: client.value,
-              onRefresh: onRefreshClient,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          return;
+        }
+
+        Navigator.of(context).pop(wasEdited);
+      },
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            ListenableBuilder(
+              listenable: client,
+              builder: (_, __) => _SliverAppBar(
+                client: client.value,
+                onRefresh: onRefreshClient,
+              ),
             ),
-          ),
-          ListenableBuilder(
-            listenable: client,
-            builder: (_, __) => _SliverHeader(client: client.value),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 20),
-          ),
-          RebuildWrapper(
-            controller: rebuildController,
-            child: _SliverChart(client: client.value),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 40),
-          ),
-          _SliverRadios(controller: listController),
-        ],
-      ),
-      floatingActionButton: Wrap(
-        spacing: 10,
-        direction: Axis.vertical,
-        children: [
-          _ActionsButtons(
-            color: const Color.fromRGBO(7, 80, 188, 1),
-            icon: SkIconData.arrows,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
-                  .then((value) => {if (value == true) onRefreshList()});
-            },
-          ),
-          _ActionsButtons(
-            color: const Color.fromRGBO(191, 42, 42, 1),
-            icon: SkIconData.arrow_up,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
-                  .then((value) => {if (value == true) onRefreshList()});
-            },
-          ),
-          _ActionsButtons(
-            color: const Color.fromRGBO(58, 160, 58, 1),
-            icon: SkIconData.arrow_down,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(RADIOS_ADD_VIEW, arguments: client)
-                  .then((value) => {if (value == true) onRefreshList()});
-            },
-          ),
-        ],
+            ListenableBuilder(
+              listenable: client,
+              builder: (_, __) => _SliverHeader(client: client.value),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 20),
+            ),
+            RebuildWrapper(
+              controller: rebuildController,
+              child: _SliverChart(client: client.value),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 40),
+            ),
+            _SliverRadios(controller: listController),
+          ],
+        ),
+        floatingActionButton: Wrap(
+          spacing: 10,
+          direction: Axis.vertical,
+          children: [
+            _ActionsButtons(
+              color: const Color.fromRGBO(7, 80, 188, 1),
+              icon: SkIconData.arrows,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
+                    .then((value) => {if (value == true) onRefreshList()});
+              },
+            ),
+            _ActionsButtons(
+              color: const Color.fromRGBO(191, 42, 42, 1),
+              icon: SkIconData.arrow_up,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
+                    .then((value) => {if (value == true) onRefreshList()});
+              },
+            ),
+            _ActionsButtons(
+              color: const Color.fromRGBO(58, 160, 58, 1),
+              icon: SkIconData.arrow_down,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(RADIOS_ADD_VIEW, arguments: client)
+                    .then((value) => {if (value == true) onRefreshList()});
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
