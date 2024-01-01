@@ -119,15 +119,19 @@ class BottomSheetGenerator {
         final onRefresh = args['onRefresh'] as Function;
 
         return SimsActionsView(sim: sim, onRefresh: onRefresh);
+
       case SIMS_ADD_BOTTOM_SHEET:
         final args = settings.arguments;
 
         final radio = args is Radios ? args : null;
         final sim = args is Sims ? args : null;
 
-        return AddSimsView(
-          radio: radio ?? sim!.radio!,
-          sim: sim,
+        return SizedBox(
+          height: 200,
+          child: AddSimsView(
+            radio: radio ?? sim!.radio!,
+            sim: sim,
+          ),
         );
 
       case SIMS_SWAP_BOTTOM_SHEET:
@@ -136,9 +140,12 @@ class BottomSheetGenerator {
         final radio = args is Radios ? args : null;
         final sim = args is Sims ? args : null;
 
-        return SwapSimsView(
-          radio: radio ?? sim!.radio!,
-          sim: sim ?? radio!.sim!,
+        return SizedBox(
+          height: 300,
+          child: SwapSimsView(
+            radio: radio ?? sim!.radio!,
+            sim: sim ?? radio!.sim!,
+          ),
         );
 
       case RADIO_ADD_BOTTOM_SHEET:

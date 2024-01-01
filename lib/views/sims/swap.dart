@@ -50,9 +50,14 @@ class _SwapSimViewState extends State<SwapSimsView> {
       floatingActionButton: AnimatedSlide(
         duration: const Duration(milliseconds: 300),
         offset: itemTo != null ? Offset.zero : const Offset(0, 3),
-        child: SkButton(
-          onPressed: _onSend,
-          text: 'Guardar',
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SkButton(
+              onPressed: _onSend,
+              text: 'Guardar',
+            ),
+          ],
         ),
       ),
     );

@@ -42,9 +42,14 @@ class _AddSimsViewState extends State<AddSimsView> {
       floatingActionButton: AnimatedSlide(
         duration: const Duration(milliseconds: 300),
         offset: item != null ? Offset.zero : const Offset(0, 3),
-        child: SkButton(
-          onPressed: _onSend,
-          text: 'Guardar',
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SkButton(
+              onPressed: _onSend,
+              text: 'Guardar',
+            ),
+          ],
         ),
       ),
     );
