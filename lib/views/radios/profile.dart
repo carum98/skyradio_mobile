@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:skyradio_mobile/core/dialog.dart';
-import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/badget.dart';
-import 'package:skyradio_mobile/widgets/icons.dart';
 
 class RadioView extends StatelessWidget {
   final Radios radio;
@@ -93,74 +91,23 @@ class RadioView extends StatelessWidget {
         Positioned(
           top: 10,
           right: 10,
-          child: _RadioActions(radio: radio),
-        ),
-      ],
-    );
-  }
-}
-
-class _RadioActions extends StatelessWidget {
-  final Radios radio;
-
-  const _RadioActions({required this.radio});
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      icon: Container(
-        height: 30,
-        width: 30,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(150, 10, 74, 155),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Icon(Icons.more_vert),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      offset: const Offset(0, 40),
-      onSelected: (value) {
-        switch (value) {
-          case 'edit':
-            Navigator.of(context)
-                .pushNamed(RADIOS_UPDATE_VIEW, arguments: radio)
-                .then((value) => {if (value == true) () {}});
-            break;
-          case 'delete':
-            SkDialog.of(context)
-                .pushNamed(RADIOS_REMOVE_DIALOG, arguments: radio)
-                .then((value) =>
-                    {if (value == true) Navigator.of(context).pop()});
-            break;
-        }
-      },
-      itemBuilder: (_) => const [
-        PopupMenuItem(
-          value: 'edit',
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SkIcon(SkIconData.update, size: 20),
-              SizedBox(width: 10),
-              Text('Actualizar', style: TextStyle(fontSize: 16)),
-            ],
+          child: ElevatedButton(
+            onPressed: () {
+              SkBottomSheet.of(context).pushNamed(
+                RADIOS_ACTIONS_BOTTOM_SHEET,
+                arguments: {
+                  'radio': radio,
+                  'onRefresh': () {},
+                },
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(35, 35),
+              backgroundColor: const Color.fromARGB(150, 10, 74, 155),
+            ),
+            child: const Icon(Icons.more_vert, size: 25, color: Colors.white),
           ),
-        ),
-        PopupMenuItem(
-          value: 'delete',
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SkIcon(SkIconData.trash, size: 20),
-              SizedBox(width: 10),
-              Text('Eliminar', style: TextStyle(fontSize: 16)),
-            ],
-          ),
-        ),
+        )
       ],
     );
   }
