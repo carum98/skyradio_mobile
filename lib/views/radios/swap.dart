@@ -68,27 +68,35 @@ class _SwapRadiosViewState extends State<SwapRadiosView> {
           ],
         ),
       ),
-      floatingActionButton: SkButton(
-        text: 'Guardar',
-        onPressed: () {
-          final clientsRepository = DI.of(context).clientsRepository;
-          final radiosRepository = DI.of(context).radiosRepository;
-
-          final addRadios = clientsRepository.swapRadio(widget.client.code, {
-            'radio_code_from': itemFrom!.code,
-            'radio_code_to': itemTo!.code,
-          });
-
-          final updateRadios = [itemFrom, itemTo]
-              .map((e) => radiosRepository.update(e!.code, e.getParams()))
-              .toList();
-
-          Future.wait([addRadios, ...updateRadios]).then((value) {
-            Navigator.pop(context, true);
-          });
-        },
+      floatingActionButton: AnimatedSlide(
+        duration: const Duration(milliseconds: 300),
+        offset: itemFrom != null && itemTo != null
+            ? Offset.zero
+            : const Offset(0, 3),
+        child: SkButton(
+          onPressed: _onSend,
+          text: 'Guardar',
+        ),
       ),
     );
+  }
+
+  void _onSend() {
+    final clientsRepository = DI.of(context).clientsRepository;
+    final radiosRepository = DI.of(context).radiosRepository;
+
+    final addRadios = clientsRepository.swapRadio(widget.client.code, {
+      'radio_code_from': itemFrom!.code,
+      'radio_code_to': itemTo!.code,
+    });
+
+    final updateRadios = [itemFrom, itemTo]
+        .map((e) => radiosRepository.update(e!.code, e.getParams()))
+        .toList();
+
+    Future.wait([addRadios, ...updateRadios]).then((value) {
+      Navigator.pop(context, true);
+    });
   }
 
   void _pickRadioFrom() async {

@@ -39,19 +39,25 @@ class _AddSimsViewState extends State<AddSimsView> {
             ),
         ],
       ),
-      floatingActionButton: SkButton(
-        text: 'Guardar',
-        onPressed: () {
-          final radiosRepository = DI.of(context).radiosRepository;
-
-          radiosRepository.addSim(widget.radio.code, {
-            'sim_code': item!.code,
-          }).then((_) {
-            Navigator.pop(context, true);
-          });
-        },
+      floatingActionButton: AnimatedSlide(
+        duration: const Duration(milliseconds: 300),
+        offset: item != null ? Offset.zero : const Offset(0, 3),
+        child: SkButton(
+          onPressed: _onSend,
+          text: 'Guardar',
+        ),
       ),
     );
+  }
+
+  void _onSend() {
+    final radiosRepository = DI.of(context).radiosRepository;
+
+    radiosRepository.addSim(widget.radio.code, {
+      'sim_code': item!.code,
+    }).then((_) {
+      Navigator.pop(context, true);
+    });
   }
 
   void _pickSim() async {

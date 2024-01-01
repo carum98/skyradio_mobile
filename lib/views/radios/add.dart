@@ -59,26 +59,32 @@ class _AddRadiosViewState extends State<AddRadiosView> {
           ],
         ),
       ),
-      floatingActionButton: SkButton(
-        text: 'Guardar',
-        onPressed: () {
-          final clientsRepository = DI.of(context).clientsRepository;
-          final radiosRepository = DI.of(context).radiosRepository;
-
-          final addRadios = clientsRepository.addRadio(widget.client.code, {
-            'radios_codes': items.map((e) => e.radio.code).toList(),
-          });
-
-          final updateRadios = items
-              .map((e) => radiosRepository.update(e.radio.code, e.getParams()))
-              .toList();
-
-          Future.wait([addRadios, ...updateRadios]).then((value) {
-            Navigator.pop(context, true);
-          });
-        },
+      floatingActionButton: AnimatedSlide(
+        duration: const Duration(milliseconds: 300),
+        offset: items.isNotEmpty ? Offset.zero : const Offset(0, 3),
+        child: SkButton(
+          onPressed: _onSend,
+          text: 'Guardar',
+        ),
       ),
     );
+  }
+
+  void _onSend() {
+    final clientsRepository = DI.of(context).clientsRepository;
+    final radiosRepository = DI.of(context).radiosRepository;
+
+    final addRadios = clientsRepository.addRadio(widget.client.code, {
+      'radios_codes': items.map((e) => e.radio.code).toList(),
+    });
+
+    final updateRadios = items
+        .map((e) => radiosRepository.update(e.radio.code, e.getParams()))
+        .toList();
+
+    Future.wait([addRadios, ...updateRadios]).then((value) {
+      Navigator.pop(context, true);
+    });
   }
 
   void _pickRadio() async {

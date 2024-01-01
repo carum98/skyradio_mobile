@@ -47,19 +47,25 @@ class _SwapSimViewState extends State<SwapSimsView> {
             SimsFormTile(sim: itemTo!),
         ],
       ),
-      floatingActionButton: SkButton(
-        text: 'Guardar',
-        onPressed: () {
-          final radiosRepository = DI.of(context).radiosRepository;
-
-          radiosRepository.swapSim(widget.radio.code, {
-            'sim_code': itemTo!.code,
-          }).then((_) {
-            Navigator.pop(context, true);
-          });
-        },
+      floatingActionButton: AnimatedSlide(
+        duration: const Duration(milliseconds: 300),
+        offset: itemTo != null ? Offset.zero : const Offset(0, 3),
+        child: SkButton(
+          onPressed: _onSend,
+          text: 'Guardar',
+        ),
       ),
     );
+  }
+
+  void _onSend() {
+    final radiosRepository = DI.of(context).radiosRepository;
+
+    radiosRepository.swapSim(widget.radio.code, {
+      'sim_code': itemTo!.code,
+    }).then((_) {
+      Navigator.pop(context, true);
+    });
   }
 
   void _pickSimTo() async {

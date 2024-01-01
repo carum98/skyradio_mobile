@@ -11,7 +11,7 @@ Future<T?> skBottomSheet<T>(
     backgroundColor: Theme.of(context).cardColor,
     clipBehavior: Clip.antiAliasWithSaveLayer,
     constraints: BoxConstraints(
-      maxHeight: MediaQuery.of(context).size.height * (height ?? 0.5),
+      maxHeight: MediaQuery.of(context).size.height * (height ?? 0.6),
     ),
     builder: (context) => Container(
       padding: padding ?? const EdgeInsets.all(20),
