@@ -50,4 +50,8 @@ class RadiosRepository {
   Future<void> removeSim(String code) async {
     await _radiosService.removeSim(code);
   }
+
+  Future<void> addClient(String code, RequestParams params) async {
+    await _radiosService.addClient(code, params);
+  }
 }

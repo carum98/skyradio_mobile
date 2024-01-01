@@ -7,6 +7,7 @@ import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/views/camera.dart';
 import 'package:skyradio_mobile/views/clients/actions.dart';
+import 'package:skyradio_mobile/views/clients/add.dart';
 import 'package:skyradio_mobile/views/clients/filter.dart';
 import 'package:skyradio_mobile/views/radios/actions.dart';
 import 'package:skyradio_mobile/views/radios/add.dart';
@@ -26,20 +27,25 @@ import 'package:skyradio_mobile/widgets/bottom_sheet.dart';
 const RADIO_BOTTOM_SHEET = '/radios';
 const RADIOS_FILTER_BOTTOM_SHEET = '/radios_filter';
 const RADIOS_ACTIONS_BOTTOM_SHEET = '/radios_actions';
+
 const SIM_BOTTOM_SHEET = '/sims';
 const SIMS_FILTER_BOTTOM_SHEET = '/sims_filter';
 const SIMS_ACTIONS_BOTTOM_SHEET = '/sims_actions';
+
 const CLIENTS_FILTER_BOTTOM_SHEET = '/clients_filter';
-const SORT_LIST_BOTTOM_SHEET = '/clients_sort';
 const CLIENTS_ACTIONS_BOTTOM_SHEET = '/clients_actions';
+
 const SIMS_ADD_BOTTOM_SHEET = '/sims_add';
 const SIMS_SWAP_BOTTOM_SHEET = '/sims_swap';
 const RADIO_ADD_BOTTOM_SHEET = '/radio_add';
+const CLIENT_ADD_BOTTOM_SHEET = '/client_add';
 
 const SCAN_CODE = '/scan_code';
 const CAMERA = '/camera';
 const SCAN_TEXT = '/scan_text';
 const SPEECH_TO_TEXT = '/speech_to_text';
+
+const SORT_LIST_BOTTOM_SHEET = '/clients_sort';
 
 class BottomSheetGenerator {
   static Widget generate(RouteSettings settings) {
@@ -139,6 +145,14 @@ class BottomSheetGenerator {
         final sim = settings.arguments as Sims;
 
         return AddRadioView(sim: sim);
+
+      case CLIENT_ADD_BOTTOM_SHEET:
+        final radio = settings.arguments as Radios;
+
+        return SizedBox(
+          height: 200,
+          child: AddClientView(radio: radio),
+        );
 
       case SCAN_CODE:
         return const ScanCodeView();

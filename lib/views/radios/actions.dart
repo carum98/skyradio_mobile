@@ -40,8 +40,8 @@ class RadiosActionsView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             textLeft: true,
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(RADIOS_ADD_VIEW, arguments: radio)
+              SkBottomSheet.of(context)
+                  .pushNamed(CLIENT_ADD_BOTTOM_SHEET, arguments: radio)
                   .then((value) => {if (value == true) onRefresh()});
             },
           ),

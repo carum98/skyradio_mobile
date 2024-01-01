@@ -36,3 +36,26 @@ class ClientsTile extends StatelessWidget {
     );
   }
 }
+
+class ClientFormTile extends StatelessWidget {
+  final Clients client;
+
+  const ClientFormTile({
+    super.key,
+    required this.client,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: ClientsTile(client: client),
+      ),
+    );
+  }
+}
