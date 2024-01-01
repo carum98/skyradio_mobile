@@ -19,36 +19,53 @@ import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/tabs.dart';
 
 class ClientView extends StatelessWidget {
-  final Clients client;
+  final ValueNotifier<Clients> client;
 
-  const ClientView({super.key, required this.client});
+  ClientView({super.key, required Clients client})
+      : client = ValueNotifier(client);
 
   @override
   Widget build(BuildContext context) {
+    final repository = DI.of(context).clientsRepository;
+
     final listController = SkListViewPaginationController(
-      provider: (params) =>
-          DI.of(context).clientsRepository.getRadios(client.code, params),
+      provider: (params) => repository.getRadios(client.value.code, params),
       params: ApiParams(filter: RadiosFilter(), sort: ApiSortModel()),
     );
 
     final rebuildController = RebuildController();
 
-    void onRefresh() {
+    void onRefreshList() {
       listController.refresh();
       rebuildController.rebuild();
+    }
+
+    void onRefreshClient() {
+      repository.get(client.value.code).then((value) => {
+            client.value = value,
+          });
     }
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _SliverAppBar(client: client),
-          _SliverHeader(client: client),
+          ListenableBuilder(
+            listenable: client,
+            builder: (_, __) => _SliverAppBar(
+              client: client.value,
+              onRefresh: onRefreshClient,
+            ),
+          ),
+          ListenableBuilder(
+            listenable: client,
+            builder: (_, __) => _SliverHeader(client: client.value),
+          ),
           const SliverToBoxAdapter(
             child: SizedBox(height: 20),
           ),
           RebuildWrapper(
             controller: rebuildController,
-            child: _SliverChart(client: client),
+            child: _SliverChart(client: client.value),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(height: 40),
@@ -66,7 +83,7 @@ class ClientView extends StatelessWidget {
             onPressed: () {
               Navigator.of(context)
                   .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
-                  .then((value) => {if (value == true) onRefresh()});
+                  .then((value) => {if (value == true) onRefreshList()});
             },
           ),
           _ActionsButtons(
@@ -75,7 +92,7 @@ class ClientView extends StatelessWidget {
             onPressed: () {
               Navigator.of(context)
                   .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
-                  .then((value) => {if (value == true) onRefresh()});
+                  .then((value) => {if (value == true) onRefreshList()});
             },
           ),
           _ActionsButtons(
@@ -84,7 +101,7 @@ class ClientView extends StatelessWidget {
             onPressed: () {
               Navigator.of(context)
                   .pushNamed(RADIOS_ADD_VIEW, arguments: client)
-                  .then((value) => {if (value == true) onRefresh()});
+                  .then((value) => {if (value == true) onRefreshList()});
             },
           ),
         ],
@@ -95,8 +112,12 @@ class ClientView extends StatelessWidget {
 
 class _SliverAppBar extends StatelessWidget {
   final Clients client;
+  final VoidCallback onRefresh;
 
-  const _SliverAppBar({required this.client});
+  const _SliverAppBar({
+    required this.client,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +145,10 @@ class _SliverAppBar extends StatelessWidget {
         ],
       ),
       actions: [
-        _ClientActions(client: client),
+        _ClientActions(
+          client: client,
+          onRefresh: onRefresh,
+        ),
       ],
     );
   }
@@ -343,8 +367,12 @@ class _ActionsButtons extends StatelessWidget {
 
 class _ClientActions extends StatelessWidget {
   final Clients client;
+  final VoidCallback onRefresh;
 
-  const _ClientActions({required this.client});
+  const _ClientActions({
+    required this.client,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -359,7 +387,7 @@ class _ClientActions extends StatelessWidget {
           case 'edit':
             Navigator.of(context)
                 .pushNamed(CLIENT_UPDATE_VIEW, arguments: client)
-                .then((value) => {if (value == true) () {}});
+                .then((value) => {if (value == true) onRefresh()});
             break;
           case 'delete':
             SkDialog.of(context)

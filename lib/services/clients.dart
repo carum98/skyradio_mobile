@@ -39,6 +39,14 @@ class ClientsService {
     return response.data;
   }
 
+  Future<ResponseData> get(String code) async {
+    final response = await _http.get(
+      '/clients/$code',
+    );
+
+    return response.data;
+  }
+
   Future<ResponseData> create(RequestParams params) async {
     final response = await _http.post(
       '/clients',

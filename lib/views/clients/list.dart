@@ -23,11 +23,11 @@ class ClientsView extends StatelessWidget {
       controller: controller,
       builder: (client) => ClientsTile(client: client),
       onTap: (client) {
-        Navigator.pushNamed(
-          context,
-          CLIENT_VIEW,
-          arguments: client,
-        );
+        Navigator.of(context)
+            .pushNamed(CLIENT_VIEW, arguments: client)
+            .then((value) {
+          if (value == true) controller.refresh();
+        });
       },
       onListActions: (action) {
         if (action == SkScaffoldAction.add) {

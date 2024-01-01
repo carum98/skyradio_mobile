@@ -38,6 +38,12 @@ class ClientsRepository {
     return ClientsStats.fromJson(data);
   }
 
+  Future<Clients> get(String code) async {
+    final data = await _clientsService.get(code);
+
+    return Clients.fromJson(data);
+  }
+
   Future<Clients> create(RequestParams params) async {
     final data = await _clientsService.create(params);
 
