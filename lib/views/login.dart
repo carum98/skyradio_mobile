@@ -33,6 +33,7 @@ class _LoginViewState extends State<LoginView> {
               SkInput.label(
                 label: 'Contraseña',
                 placeholder: 'Contraseña',
+                obscureText: true,
                 onChanged: (value) => password = value,
               ),
               const SizedBox(height: 30),

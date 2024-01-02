@@ -5,12 +5,14 @@ class SkInput extends StatefulWidget {
   final String placeholder;
   final String? initialValue;
   final bool? autofocus;
+  final bool? obscureText;
   final Function(String) onChanged;
 
   const SkInput({
     super.key,
     this.initialValue,
     this.autofocus,
+    this.obscureText,
     required this.placeholder,
     required this.onChanged,
   });
@@ -21,6 +23,7 @@ class SkInput extends StatefulWidget {
     required Function(String) onChanged,
     String? initialValue,
     bool? autofocus,
+    bool? obscureText,
   }) {
     return SkLabel(
       label: label,
@@ -28,6 +31,7 @@ class SkInput extends StatefulWidget {
         placeholder: placeholder,
         initialValue: initialValue,
         autofocus: autofocus,
+        obscureText: obscureText,
         onChanged: onChanged,
       ),
     );
@@ -74,6 +78,7 @@ class _SkInputState extends State<SkInput> {
         autofocus: widget.autofocus ?? false,
         focusNode: focusNode,
         initialValue: widget.initialValue,
+        obscureText: widget.obscureText ?? false,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
           hintText: widget.placeholder,
