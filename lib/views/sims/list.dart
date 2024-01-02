@@ -22,10 +22,13 @@ class SimsView extends StatelessWidget {
       title: 'Sims',
       controller: controller,
       builder: (sim) => SimsTile(sim: sim),
-      onTap: (sim) => SkBottomSheet.of(context).pushNamed(
-        SIM_BOTTOM_SHEET,
-        arguments: sim,
-      ),
+      onTap: (sim) {
+        SkBottomSheet.of(context)
+            .pushNamed(SIM_BOTTOM_SHEET, arguments: sim)
+            .then((value) {
+          if (value == true) controller.refresh();
+        });
+      },
       onListActions: (action) {
         if (action == SkScaffoldAction.add) {
           Navigator.pushNamed(context, SIMS_CREATE_VIEW).then((value) {
