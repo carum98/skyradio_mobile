@@ -5,7 +5,6 @@ import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
-import 'package:skyradio_mobile/views/camera.dart';
 import 'package:skyradio_mobile/views/clients/actions.dart';
 import 'package:skyradio_mobile/views/clients/add.dart';
 import 'package:skyradio_mobile/views/clients/filter.dart';
@@ -41,7 +40,6 @@ const RADIO_ADD_BOTTOM_SHEET = '/radio_add';
 const CLIENT_ADD_BOTTOM_SHEET = '/client_add';
 
 const SCAN_CODE = '/scan_code';
-const CAMERA = '/camera';
 const SCAN_TEXT = '/scan_text';
 const SPEECH_TO_TEXT = '/speech_to_text';
 
@@ -163,9 +161,6 @@ class BottomSheetGenerator {
 
       case SCAN_CODE:
         return const ScanCodeView();
-
-      case CAMERA:
-        return const CameraView();
 
       case SCAN_TEXT:
         return const ScanTextView();
