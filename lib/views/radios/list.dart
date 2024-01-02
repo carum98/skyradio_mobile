@@ -22,10 +22,13 @@ class RadiosView extends StatelessWidget {
       title: 'Radios',
       controller: controller,
       builder: (radio) => RadiosTile(radio: radio),
-      onTap: (radio) => SkBottomSheet.of(context).pushNamed(
-        RADIO_BOTTOM_SHEET,
-        arguments: radio,
-      ),
+      onTap: (radio) {
+        SkBottomSheet.of(context)
+            .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
+            .then((value) {
+          if (value == true) controller.refresh();
+        });
+      },
       onListActions: (action) {
         if (action == SkScaffoldAction.add) {
           Navigator.pushNamed(context, RADIOS_CREATE_VIEW).then((value) {
