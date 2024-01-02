@@ -326,10 +326,13 @@ class _SliverRadios extends StatelessWidget {
               child: SkListViewPagination(
                 controller: controller,
                 builder: (radio) => RadiosTile(radio: radio),
-                onTap: (radio) => SkBottomSheet.of(context).pushNamed(
-                  RADIO_BOTTOM_SHEET,
-                  arguments: radio,
-                ),
+                onTap: (radio) {
+                  SkBottomSheet.of(context)
+                      .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
+                      .then((value) {
+                    if (value == true) controller.refresh();
+                  });
+                },
                 onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
                   RADIOS_ACTIONS_BOTTOM_SHEET,
                   arguments: {
