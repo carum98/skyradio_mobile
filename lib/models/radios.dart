@@ -9,7 +9,7 @@ import 'models.dart';
 
 class Radios {
   final String code;
-  final String name;
+  final String? name;
   final String imei;
   final String? serial;
   final Models model;
