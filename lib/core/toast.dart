@@ -12,37 +12,37 @@ class SkToast extends InheritedWidget {
     required super.child,
   });
 
-  void success(String message) {
+  void success({required String title, required String message}) {
     skToast(
       _context,
-      title: 'Success',
+      title: title,
       message: message,
       type: SkToastType.success,
     );
   }
 
-  void error(String message) {
+  void error({required String title, required String message}) {
     skToast(
       _context,
-      title: 'Error',
+      title: title,
       message: message,
       type: SkToastType.error,
     );
   }
 
-  void info(String message) {
+  void info({required String title, required String message}) {
     skToast(
       _context,
-      title: 'Info',
+      title: title,
       message: message,
       type: SkToastType.info,
     );
   }
 
-  void warning(String message) {
+  void warning({required String title, required String message}) {
     skToast(
       _context,
-      title: 'Warning',
+      title: title,
       message: message,
       type: SkToastType.warning,
     );

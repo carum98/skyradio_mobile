@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/toast.dart';
+import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/label.dart';
 import 'package:skyradio_mobile/widgets/selectors/providers.dart';
@@ -16,15 +18,42 @@ class SimsFormView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final repo = DI.of(context).simsRepository;
+    final toast = SkToast.of(context);
+
+    Future<void> onSave(RequestParams params) async {
+      if (model.isEditing) {
+        try {
+          await repo.update(model.code!, params);
+          toast.success(
+            title: 'Exito!!',
+            message: 'Editado correctamente',
+          );
+        } catch (e) {
+          toast.error(
+            title: 'Error!!',
+            message: 'Error al editar',
+          );
+        }
+      } else {
+        try {
+          await repo.create(params);
+          toast.success(
+            title: 'Exito!!',
+            message: 'Creado correctamente',
+          );
+        } catch (e) {
+          toast.error(
+            title: 'Error!!',
+            message: 'Error al crear',
+          );
+        }
+      }
+    }
+
     return SkScaffoldForm(
       model: model,
-      onSend: (params) async {
-        if (model.isEditing) {
-          await DI.of(context).simsRepository.update(model.code!, params);
-        } else {
-          await DI.of(context).simsRepository.create(params);
-        }
-      },
+      onSend: onSave,
       builder: (value) => [
         SkInput.label(
           label: 'Numero',
