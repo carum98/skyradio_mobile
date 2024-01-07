@@ -6,6 +6,10 @@ class SkInput extends StatefulWidget {
   final String? initialValue;
   final bool? autofocus;
   final bool? obscureText;
+  final bool isRequired;
+  final int? maxLength;
+  final int? minLength;
+  final int? length;
   final Function(String) onChanged;
 
   const SkInput({
@@ -15,6 +19,10 @@ class SkInput extends StatefulWidget {
     this.obscureText,
     required this.placeholder,
     required this.onChanged,
+    this.isRequired = false,
+    this.maxLength,
+    this.minLength,
+    this.length,
   });
 
   static Widget label({
@@ -24,6 +32,10 @@ class SkInput extends StatefulWidget {
     String? initialValue,
     bool? autofocus,
     bool? obscureText,
+    bool? isRequired,
+    int? maxLength,
+    int? minLength,
+    int? length,
   }) {
     return SkLabel(
       label: label,
@@ -33,6 +45,10 @@ class SkInput extends StatefulWidget {
         autofocus: autofocus,
         obscureText: obscureText,
         onChanged: onChanged,
+        isRequired: isRequired ?? false,
+        maxLength: maxLength,
+        minLength: minLength,
+        length: length,
       ),
     );
   }
@@ -80,10 +96,41 @@ class _SkInputState extends State<SkInput> {
         initialValue: widget.initialValue,
         obscureText: widget.obscureText ?? false,
         onChanged: widget.onChanged,
+        maxLength: widget.maxLength ?? widget.length,
+        validator: validator,
         decoration: InputDecoration(
           hintText: widget.placeholder,
+          counterText: '',
         ),
       ),
     );
+  }
+
+  String? validator(String? value) {
+    if (widget.isRequired) {
+      if (value == null || value.isEmpty) {
+        return 'Este campo es requerido';
+      }
+    }
+
+    if (widget.minLength != null) {
+      if (value!.length < widget.minLength!) {
+        return 'Este campo debe tener al menos ${widget.minLength} caracteres';
+      }
+    }
+
+    if (widget.maxLength != null) {
+      if (value!.length > widget.maxLength!) {
+        return 'Este campo debe tener como maximo ${widget.maxLength} caracteres';
+      }
+    }
+
+    if (widget.length != null) {
+      if (value!.length != widget.length!) {
+        return 'Este campo debe tener ${widget.length} caracteres';
+      }
+    }
+
+    return null;
   }
 }

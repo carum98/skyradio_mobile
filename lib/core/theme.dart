@@ -30,11 +30,17 @@ const _inputBorder = OutlineInputBorder(
   ),
 );
 
-const _inputDecoration = InputDecorationTheme(
+final _inputDecoration = InputDecorationTheme(
   filled: true,
   enabledBorder: _inputBorder,
   focusedBorder: _inputBorder,
-  contentPadding: EdgeInsets.symmetric(
+  errorBorder: _inputBorder.copyWith(
+    borderSide: _inputBorder.borderSide.copyWith(color: Colors.red),
+  ),
+  focusedErrorBorder: _inputBorder.copyWith(
+    borderSide: _inputBorder.borderSide.copyWith(color: Colors.red),
+  ),
+  contentPadding: const EdgeInsets.symmetric(
     vertical: 18,
     horizontal: 25,
   ),
