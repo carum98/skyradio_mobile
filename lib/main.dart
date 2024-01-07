@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/theme.dart';
+import 'package:skyradio_mobile/core/toast.dart';
 
 import 'core/bottom_sheet.dart';
 import 'core/router.dart';
@@ -13,7 +14,7 @@ void main() {
     DI(
       child: SkBottomSheet(
         child: SkDialog(
-          child: const MyApp(),
+          child: SkToast(child: const MyApp()),
         ),
       ),
     ),
