@@ -26,23 +26,27 @@ final _colors = [
 class SkColorPicker extends StatefulWidget {
   final Color? initialColor;
   final Function(Color) onChanged;
+  final bool isRequired;
 
   const SkColorPicker({
     super.key,
     this.initialColor,
     required this.onChanged,
+    this.isRequired = false,
   });
 
   static Widget label({
     required String label,
     final Color? initialColor,
     required final Function(Color) onChanged,
+    bool? isRequired,
   }) {
     return SkLabel(
       label: label,
       child: SkColorPicker(
         initialColor: initialColor,
         onChanged: onChanged,
+        isRequired: isRequired ?? false,
       ),
     );
   }
@@ -60,6 +64,12 @@ class _SkColorPickerState extends State<SkColorPicker> {
 
     _color = widget.initialColor ??
         _colors.elementAt(Random().nextInt(_colors.length));
+
+    if (widget.isRequired) {
+      Future.delayed(Duration.zero, () {
+        widget.onChanged.call(_color!);
+      });
+    }
   }
 
   @override
