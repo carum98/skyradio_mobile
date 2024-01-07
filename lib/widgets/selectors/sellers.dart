@@ -8,12 +8,14 @@ class SellersSelector extends StatelessWidget {
   final Seller? initialValue;
   final Function(Seller?) onChanged;
   final bool? showClearButton;
+  final bool? isRequired;
 
   const SellersSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
     this.showClearButton,
+    this.isRequired,
   });
 
   @override
@@ -27,6 +29,7 @@ class SellersSelector extends StatelessWidget {
         title: item.name,
       ),
       initialValue: initialValue,
+      isRequired: isRequired ?? false,
       onChanged: onChanged,
     );
   }

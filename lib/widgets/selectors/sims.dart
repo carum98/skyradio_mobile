@@ -8,12 +8,14 @@ class SimsSelector extends StatelessWidget {
   final Sims? initialValue;
   final ValueChanged<Sims?> onChanged;
   final bool? showClearButton;
+  final bool? isRequired;
 
   const SimsSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
     this.showClearButton,
+    this.isRequired,
   });
 
   @override
@@ -26,6 +28,7 @@ class SimsSelector extends StatelessWidget {
         'radios[code][is_null]': '',
       },
       initialValue: initialValue,
+      isRequired: isRequired ?? false,
       itemBuilder: (item) => BasicTile(title: item.number),
       onChanged: onChanged,
     );

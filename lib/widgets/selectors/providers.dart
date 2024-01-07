@@ -8,12 +8,14 @@ class ProvidersSelector extends StatelessWidget {
   final Providers? initialValue;
   final ValueChanged<Providers?> onChanged;
   final bool? showClearButton;
+  final bool? isRequired;
 
   const ProvidersSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
     this.showClearButton,
+    this.isRequired,
   });
 
   @override
@@ -23,6 +25,7 @@ class ProvidersSelector extends StatelessWidget {
       provider: DI.of(context).commonRepository.getProviders,
       showClearButton: showClearButton,
       initialValue: initialValue,
+      isRequired: isRequired ?? false,
       itemBuilder: (item) => BasicTile(
         title: item.name,
         color: item.color,

@@ -8,12 +8,14 @@ class ModelsSelectors extends StatelessWidget {
   final Models? initialValue;
   final ValueChanged<Models?> onChanged;
   final bool? showClearButton;
+  final bool? isRequired;
 
   const ModelsSelectors({
     super.key,
     this.initialValue,
     required this.onChanged,
     this.showClearButton,
+    this.isRequired,
   });
 
   @override
@@ -23,6 +25,7 @@ class ModelsSelectors extends StatelessWidget {
       provider: DI.of(context).commonRepository.getModels,
       showClearButton: showClearButton,
       initialValue: initialValue,
+      isRequired: isRequired ?? false,
       itemBuilder: (item) => BasicTile(
         title: item.name,
         color: item.color,

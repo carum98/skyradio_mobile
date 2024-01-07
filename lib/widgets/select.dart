@@ -14,6 +14,7 @@ class SkSelect<T> extends StatefulWidget {
   final Function(T?) onChanged;
   final Widget Function(T item) itemBuilder;
   final bool? showClearButton;
+  final bool isRequired;
 
   const SkSelect({
     super.key,
@@ -24,6 +25,7 @@ class SkSelect<T> extends StatefulWidget {
     this.initialValue,
     this.filters,
     this.showClearButton,
+    this.isRequired = false,
   });
 
   static Widget label<T>({
@@ -34,6 +36,7 @@ class SkSelect<T> extends StatefulWidget {
     required Widget Function(T item) itemBuilder,
     T? initialValue,
     bool? showClearButton,
+    bool? isRequired,
   }) {
     return SkLabel(
       label: label,
@@ -44,6 +47,7 @@ class SkSelect<T> extends StatefulWidget {
         onChanged: onChanged,
         itemBuilder: itemBuilder,
         showClearButton: showClearButton,
+        isRequired: isRequired ?? false,
       ),
     );
   }
@@ -75,6 +79,13 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
       children: [
         TextFormField(
           readOnly: true,
+          validator: (_) {
+            if (widget.isRequired && _value == null) {
+              return 'Este campo es requerido';
+            }
+
+            return null;
+          },
           decoration: InputDecoration(
             hintText: _value == null ? widget.placeholder : '',
             suffixIcon: (widget.showClearButton == true && _value != null)

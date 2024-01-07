@@ -8,12 +8,14 @@ class ModalitiesSelector extends StatelessWidget {
   final Modality? initialValue;
   final Function(Modality?) onChanged;
   final bool? showClearButton;
+  final bool? isRequired;
 
   const ModalitiesSelector({
     super.key,
     this.initialValue,
     required this.onChanged,
     this.showClearButton,
+    this.isRequired,
   });
 
   @override
@@ -24,6 +26,7 @@ class ModalitiesSelector extends StatelessWidget {
       provider: DI.of(context).commonRepository.getModalities,
       showClearButton: showClearButton,
       initialValue: initialValue,
+      isRequired: isRequired ?? false,
       itemBuilder: (item) => BasicTile(
         title: item.name,
         color: item.color,
