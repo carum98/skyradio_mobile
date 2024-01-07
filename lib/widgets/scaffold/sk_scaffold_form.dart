@@ -28,8 +28,9 @@ class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
   final T model;
   final List<Widget> Function(T) builder;
   final Future<void> Function(RequestParams) onSend;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  const SkScaffoldForm({
+  SkScaffoldForm({
     super.key,
     required this.model,
     required this.builder,
@@ -42,9 +43,12 @@ class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-        child: Wrap(
-          runSpacing: 20,
-          children: builder(model),
+        child: Form(
+          key: formKey,
+          child: Wrap(
+            runSpacing: 20,
+            children: builder(model),
+          ),
         ),
       ),
       floatingActionButton: ListenableBuilder(
@@ -58,6 +62,8 @@ class SkScaffoldForm<T extends SkFormModel> extends StatelessWidget {
         ),
         child: SkButton(
           onPressed: () async {
+            if (!formKey.currentState!.validate()) return;
+
             await onSend(model.getParams());
 
             // ignore: use_build_context_synchronously
