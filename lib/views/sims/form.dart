@@ -60,6 +60,9 @@ class SimsFormView extends StatelessWidget {
           placeholder: 'Numero de sim',
           initialValue: model.number,
           autofocus: true,
+          isRequired: true,
+          minLength: 3,
+          maxLength: 12,
           onChanged: (value) {
             model.number = value;
           },
@@ -68,6 +71,8 @@ class SimsFormView extends StatelessWidget {
           label: 'Serial',
           placeholder: 'Serial',
           initialValue: model.serial,
+          minLength: 3,
+          maxLength: 15,
           onChanged: (value) {
             model.serial = value;
           },
@@ -76,6 +81,7 @@ class SimsFormView extends StatelessWidget {
           label: 'Proveedor',
           child: ProvidersSelector(
             initialValue: model.provider,
+            isRequired: true,
             onChanged: (value) {
               model.provider = value;
             },

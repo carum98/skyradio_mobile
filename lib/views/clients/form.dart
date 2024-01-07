@@ -61,18 +61,23 @@ class ClientsFormView extends StatelessWidget {
           placeholder: 'Nombre del cliente',
           initialValue: model.name,
           autofocus: true,
+          isRequired: true,
+          minLength: 3,
+          maxLength: 50,
           onChanged: (value) {
             model.name = value;
           },
         ),
         ModalitiesSelector(
           initialValue: model.modality,
+          isRequired: true,
           onChanged: (value) {
             model.modality = value;
           },
         ),
         SellersSelector(
           initialValue: model.seller,
+          isRequired: true,
           onChanged: (value) {
             model.seller = value;
           },
@@ -80,6 +85,7 @@ class ClientsFormView extends StatelessWidget {
         SkColorPicker.label(
           label: 'Color',
           initialColor: model.color,
+          isRequired: true,
           onChanged: (value) {
             model.color = value;
           },

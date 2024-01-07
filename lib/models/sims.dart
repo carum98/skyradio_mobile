@@ -1,6 +1,7 @@
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
+import 'package:skyradio_mobile/utils/string_validator.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'providers.dart';
@@ -88,9 +89,9 @@ class SimsForm extends SkFormModel {
 
   @override
   bool get isValid =>
-      (number != null && number!.isNotEmpty) &&
-      (serial != null && serial!.isNotEmpty) &&
-      provider != null;
+      _number.validate(isRequired: true, min: 3, max: 12) &&
+      _serial.validate(min: 3, max: 15) &&
+      _provider != null;
 }
 
 class SimsFilter extends ApiFilterModel {

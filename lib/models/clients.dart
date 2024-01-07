@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/utils/color.dart';
+import 'package:skyradio_mobile/utils/string_validator.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'modality.dart';
@@ -165,9 +166,10 @@ class ClientsForm extends SkFormModel {
 
   @override
   bool get isValid =>
-      (_name != null && _name!.isNotEmpty) &&
-      _color != null &&
-      _modality != null;
+      _name.validate(isRequired: true, min: 3, max: 50) &&
+      _modality != null &&
+      _seller != null &&
+      _color != null;
 }
 
 class ClientsFilter extends ApiFilterModel {

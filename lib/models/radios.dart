@@ -3,6 +3,7 @@ import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/providers.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
+import 'package:skyradio_mobile/utils/string_validator.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 
 import 'models.dart';
@@ -121,7 +122,10 @@ class RadiosForm extends SkFormModel {
 
   @override
   bool get isValid =>
-      (_name != null && _name!.isNotEmpty) && imei != null && model != null;
+      _name.validate(min: 3, max: 50) &&
+      _imei.validate(isRequired: true, length: 15) &&
+      _serial.validate(min: 3, max: 15) &&
+      _model != null;
 }
 
 class RadiosItemForm {

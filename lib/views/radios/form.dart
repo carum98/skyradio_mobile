@@ -60,6 +60,8 @@ class RadiosFormView extends StatelessWidget {
           placeholder: 'Nombre del radio',
           initialValue: model.name,
           autofocus: true,
+          minLength: 3,
+          maxLength: 50,
           onChanged: (value) {
             model.name = value;
           },
@@ -68,6 +70,8 @@ class RadiosFormView extends StatelessWidget {
           label: 'IMEI',
           placeholder: 'IMEI',
           initialValue: model.imei,
+          isRequired: true,
+          length: 15,
           onChanged: (value) {
             model.imei = value;
           },
@@ -76,6 +80,8 @@ class RadiosFormView extends StatelessWidget {
           label: 'Serial',
           placeholder: 'Serial',
           initialValue: model.serial,
+          minLength: 3,
+          maxLength: 15,
           onChanged: (value) {
             model.serial = value;
           },
@@ -84,6 +90,7 @@ class RadiosFormView extends StatelessWidget {
           label: 'Modelo',
           child: ModelsSelectors(
             initialValue: model.model,
+            isRequired: true,
             onChanged: (value) {
               model.model = value;
             },
