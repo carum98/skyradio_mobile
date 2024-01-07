@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -55,14 +56,28 @@ class _AddSimsViewState extends State<AddSimsView> {
     );
   }
 
-  void _onSend() {
+  void _onSend() async {
     final radiosRepository = DI.of(context).radiosRepository;
+    final toast = SkToast.of(context);
 
-    radiosRepository.addSim(widget.radio.code, {
-      'sim_code': item!.code,
-    }).then((_) {
+    try {
+      await radiosRepository.addSim(widget.radio.code, {
+        'sim_code': item!.code,
+      });
+
+      toast.success(
+        title: 'Exito!!',
+        message: 'SIM relacionado correctamente',
+      );
+
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, true);
-    });
+    } catch (e) {
+      toast.error(
+        title: 'Error!!',
+        message: 'Ocurrio un error al relacionar el SIM',
+      );
+    }
   }
 
   void _pickSim() async {

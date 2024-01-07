@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -53,14 +54,28 @@ class _AddClientViewState extends State<AddClientView> {
     );
   }
 
-  void _onSend() {
+  void _onSend() async {
     final radiosRepository = DI.of(context).radiosRepository;
+    final toast = SkToast.of(context);
 
-    radiosRepository.addClient(widget.radio.code, {
-      'client_code': item!.code,
-    }).then((_) {
+    try {
+      await radiosRepository.addClient(widget.radio.code, {
+        'client_code': item!.code,
+      });
+
+      toast.success(
+        title: 'Exito!!',
+        message: 'Entrega realizada correctamente',
+      );
+
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, true);
-    });
+    } catch (e) {
+      toast.error(
+        title: 'Error!!',
+        message: 'Ocurrio un error al realizar la entrega',
+      );
+    }
   }
 
   void _pickClient() async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -81,22 +82,36 @@ class _SwapRadiosViewState extends State<SwapRadiosView> {
     );
   }
 
-  void _onSend() {
+  void _onSend() async {
     final clientsRepository = DI.of(context).clientsRepository;
     final radiosRepository = DI.of(context).radiosRepository;
+    final toast = SkToast.of(context);
 
-    final addRadios = clientsRepository.swapRadio(widget.client.code, {
-      'radio_code_from': itemFrom!.code,
-      'radio_code_to': itemTo!.code,
-    });
+    try {
+      final addRadios = clientsRepository.swapRadio(widget.client.code, {
+        'radio_code_from': itemFrom!.code,
+        'radio_code_to': itemTo!.code,
+      });
 
-    final updateRadios = [itemFrom, itemTo]
-        .map((e) => radiosRepository.update(e!.code, e.getParams()))
-        .toList();
+      final updateRadios = [itemFrom, itemTo]
+          .map((e) => radiosRepository.update(e!.code, e.getParams()))
+          .toList();
 
-    Future.wait([addRadios, ...updateRadios]).then((value) {
+      await Future.wait([addRadios, ...updateRadios]);
+
+      toast.success(
+        title: 'Exito!!',
+        message: 'Cambio realizado correctamente',
+      );
+
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, true);
-    });
+    } catch (e) {
+      toast.error(
+        title: 'Error!!',
+        message: 'Ocurrio un error al realizar el cambio',
+      );
+    }
   }
 
   void _pickRadioFrom() async {

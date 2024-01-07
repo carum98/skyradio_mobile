@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
@@ -17,6 +18,33 @@ class RemoveSimsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void onSend() async {
+      final radiosRepository = DI.of(context).radiosRepository;
+      final simsRepository = DI.of(context).simsRepository;
+      final toast = SkToast.of(context);
+
+      try {
+        if (radio != null) {
+          await radiosRepository.removeSim(radio!.code);
+        } else if (sim != null) {
+          await simsRepository.removeRadio(sim!.code);
+        }
+
+        toast.success(
+          title: 'Exito!!',
+          message: 'Se desvinculo el SIM correctamente',
+        );
+
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop(true);
+      } catch (e) {
+        toast.error(
+          title: 'Error!!',
+          message: 'Ocurrio un error al desvincular el SIM',
+        );
+      }
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -53,19 +81,7 @@ class RemoveSimsView extends StatelessWidget {
             const SizedBox(width: 10),
             SkButton(
               text: 'Aceptar',
-              onPressed: () async {
-                final radiosRepository = DI.of(context).radiosRepository;
-                final simsRepository = DI.of(context).simsRepository;
-
-                if (radio != null) {
-                  await radiosRepository.removeSim(radio!.code);
-                } else if (sim != null) {
-                  await simsRepository.removeRadio(sim!.code);
-                }
-
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pop(true);
-              },
+              onPressed: onSend,
             ),
           ],
         ),
