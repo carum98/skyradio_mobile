@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide SwitchTheme;
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
+import 'package:skyradio_mobile/widgets/logo.dart';
 import 'package:skyradio_mobile/widgets/logout_dropdown.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/switch_theme.dart';
@@ -38,6 +39,10 @@ class SkScaffold<T> extends StatelessWidget {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: SkLogo(size: 30),
+        ),
         title: Text(title),
         flexibleSpace: ClipRRect(
           child: BackdropFilter(

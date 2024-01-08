@@ -3,6 +3,7 @@ import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
+import 'package:skyradio_mobile/widgets/logo.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -19,11 +20,12 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: Form(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SkLogo(size: 100),
               SkInput.label(
                 label: 'Correo',
                 placeholder: 'Correo',
