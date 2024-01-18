@@ -69,9 +69,8 @@ class SkHttp {
     );
 
     return Uri(
-      scheme: 'http',
-      host: '192.168.10.101',
-      port: 8080,
+      scheme: 'https',
+      host: 'skyradio-api.carum.dev',
       path: path,
       queryParameters: queryParameters,
     );
