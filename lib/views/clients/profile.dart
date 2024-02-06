@@ -150,9 +150,12 @@ class _SliverAppBar extends StatelessWidget {
             alt: client.name,
           ),
           const SizedBox(width: 10),
-          Text(
-            client.name,
-            style: const TextStyle(fontSize: 18),
+          Flexible(
+            child: Text(
+              client.name,
+              style: const TextStyle(fontSize: 18),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

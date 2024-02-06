@@ -15,7 +15,10 @@ class ClientsTile extends StatelessWidget {
         color: client.color,
         alt: client.name,
       ),
-      title: Text(client.name),
+      title: Text(
+        client.name,
+        overflow: TextOverflow.ellipsis,
+      ),
       trailing: Opacity(
         opacity: client.radiosCount > 0 ? 1 : 0.5,
         child: Container(
