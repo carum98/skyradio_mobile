@@ -132,7 +132,7 @@ class RadioView extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(35, 35),
-                backgroundColor: const Color.fromARGB(150, 10, 74, 155),
+                backgroundColor: Theme.of(context).colorScheme.background,
               ),
               child: const Icon(Icons.more_vert, size: 25, color: Colors.white),
             ),
