@@ -93,7 +93,7 @@ class ClientView extends StatelessWidget {
               icon: SkIconData.arrows,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(RADIOS_SWAP_VIEW, arguments: client)
+                    .pushNamed(RADIOS_SWAP_VIEW, arguments: client.value)
                     .then((value) => {if (value == true) onRefreshList()});
               },
             ),
@@ -102,7 +102,7 @@ class ClientView extends StatelessWidget {
               icon: SkIconData.arrow_up,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(RADIOS_REMOVE_VIEW, arguments: client)
+                    .pushNamed(RADIOS_REMOVE_VIEW, arguments: client.value)
                     .then((value) => {if (value == true) onRefreshList()});
               },
             ),
@@ -111,7 +111,7 @@ class ClientView extends StatelessWidget {
               icon: SkIconData.arrow_down,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(RADIOS_ADD_VIEW, arguments: client)
+                    .pushNamed(RADIOS_ADD_VIEW, arguments: client.value)
                     .then((value) => {if (value == true) onRefreshList()});
               },
             ),
