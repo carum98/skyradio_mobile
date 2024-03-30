@@ -3,142 +3,82 @@ import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/widgets/badget.dart';
+import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_profile.dart';
 
 class RadioView extends StatelessWidget {
-  final ValueNotifier<Radios> radio;
+  final Radios radio;
 
-  RadioView({
+  const RadioView({
     super.key,
-    required Radios radio,
-  }) : radio = ValueNotifier(radio);
+    required this.radio,
+  });
 
   @override
   Widget build(BuildContext context) {
-    bool wasEdited = false;
-
-    void onRefreshRadio() {
-      DI
-          .of(context)
-          .radiosRepository
-          .getRadio(radio.value.code)
-          .then((value) => radio.value = value);
-    }
-
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (didPop) {
-          return;
-        }
-
-        Navigator.of(context).pop(wasEdited);
-      },
-      child: Stack(
-        children: [
-          ListenableBuilder(
-            listenable: radio,
-            builder: (_, __) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          radio.value.imei,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Nombre: ${radio.value.name}',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            const Text(
-                              'Modelo: ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SkBadge(
-                              label: radio.value.model.name,
-                              color: radio.value.model.color,
-                            ),
-                          ],
-                        ),
-                        if (radio.value.serial != null) ...[
-                          const SizedBox(height: 10),
-                          Text(
-                            'Serial: ${radio.value.serial}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                        if (radio.value.sim != null) ...[
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              const Text(
-                                'SIM: ',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              SkBadge(
-                                label: radio.value.sim!.number,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              const Text(
-                                'Proveedor: ',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              SkBadge(
-                                label: radio.value.sim!.provider.name,
-                                color: radio.value.sim!.provider.color,
-                              ),
-                            ],
-                          )
-                        ]
-                      ],
-                    ),
-                  ),
-                ],
-              );
+    return SkScaffoldProfile(
+      item: radio,
+      title: radio.imei,
+      onActions: (value, callback) {
+        SkBottomSheet.of(context).pushNamed(
+          RADIOS_ACTIONS_BOTTOM_SHEET,
+          arguments: {
+            'radio': value,
+            'onRefresh': () async {
+              final radio =
+                  await DI.of(context).radiosRepository.getRadio(value.code);
+              callback(radio);
             },
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: ElevatedButton(
-              onPressed: () {
-                SkBottomSheet.of(context).pushNamed(
-                  RADIOS_ACTIONS_BOTTOM_SHEET,
-                  arguments: {
-                    'radio': radio.value,
-                    'onRefresh': () {
-                      wasEdited = true;
-                      onRefreshRadio();
-                    },
-                  },
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(35, 35),
-                backgroundColor: Theme.of(context).colorScheme.background,
-              ),
-              child: const Icon(Icons.more_vert, size: 25, color: Colors.white),
+          },
+        );
+      },
+      builder: (value) => [
+        Text(
+          'Nombre: ${value.name}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        Row(
+          children: [
+            const Text(
+              'Modelo: ',
+              style: TextStyle(fontSize: 16),
             ),
+            SkBadge(
+              label: value.model.name,
+              color: value.model.color,
+            ),
+          ],
+        ),
+        if (value.serial != null)
+          Text(
+            'Serial: ${value.serial}',
+            style: const TextStyle(fontSize: 16),
+          ),
+        if (value.sim != null) ...[
+          Row(
+            children: [
+              const Text(
+                'SIM: ',
+                style: TextStyle(fontSize: 16),
+              ),
+              SkBadge(
+                label: value.sim!.number,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text(
+                'Proveedor: ',
+                style: TextStyle(fontSize: 16),
+              ),
+              SkBadge(
+                label: value.sim!.provider.name,
+                color: value.sim!.provider.color,
+              ),
+            ],
           )
-        ],
-      ),
+        ]
+      ],
     );
   }
 }

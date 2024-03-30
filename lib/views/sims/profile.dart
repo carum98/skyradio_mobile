@@ -3,138 +3,78 @@ import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/widgets/badget.dart';
+import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_profile.dart';
 
 class SimView extends StatelessWidget {
-  final ValueNotifier<Sims> sim;
+  final Sims sim;
 
-  SimView({
+  const SimView({
     super.key,
-    required Sims sim,
-  }) : sim = ValueNotifier(sim);
+    required this.sim,
+  });
 
   @override
   Widget build(BuildContext context) {
-    bool wasEdited = false;
-
-    void onRefreshSim() {
-      DI
-          .of(context)
-          .simsRepository
-          .getSim(sim.value.code)
-          .then((value) => sim.value = value);
-    }
-
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (didPop) {
-          return;
-        }
-
-        Navigator.of(context).pop(wasEdited);
+    return SkScaffoldProfile(
+      item: sim,
+      title: sim.number,
+      onActions: (value, callback) {
+        SkBottomSheet.of(context).pushNamed(
+          SIMS_ACTIONS_BOTTOM_SHEET,
+          arguments: {
+            'sim': value,
+            'onRefresh': () async {
+              final sim =
+                  await DI.of(context).simsRepository.getSim(value.code);
+              callback(sim);
+            },
+          },
+        );
       },
-      child: Stack(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
+      builder: (value) => [
+        Row(
+          children: [
+            const Text(
+              'Proveedor: ',
+              style: TextStyle(fontSize: 16),
+            ),
+            SkBadge(
+              label: value.provider.name,
+              color: value.provider.color,
+            ),
+          ],
+        ),
+        if (value.serial != null)
+          Text(
+            'Serial: ${value.serial}',
+            style: const TextStyle(fontSize: 16),
+          ),
+        if (value.radio != null)
+          Row(
             children: [
-              ListenableBuilder(
-                  listenable: sim,
-                  builder: (_, __) {
-                    return Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            sim.value.number,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              const Text(
-                                'Proveedor: ',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              SkBadge(
-                                label: sim.value.provider.name,
-                                color: sim.value.provider.color,
-                              ),
-                            ],
-                          ),
-                          if (sim.value.serial != null) ...[
-                            const SizedBox(height: 10),
-                            Text(
-                              'Serial: ${sim.value.serial}',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                          if (sim.value.radio != null) ...[
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Radio: ',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SkBadge(
-                                  label: sim.value.radio!.imei,
-                                ),
-                              ],
-                            ),
-                          ],
-                          if (sim.value.radio?.client != null) ...[
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Cliente: ',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SkBadge(
-                                  label: sim.value.radio!.client!.name,
-                                  color: sim.value.radio!.client!.color,
-                                ),
-                              ],
-                            ),
-                          ]
-                        ],
-                      ),
-                    );
-                  }),
+              const Text(
+                'Radio: ',
+                style: TextStyle(fontSize: 16),
+              ),
+              SkBadge(
+                label: value.radio!.imei,
+              ),
             ],
           ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: ElevatedButton(
-              onPressed: () {
-                SkBottomSheet.of(context).pushNamed(
-                  SIMS_ACTIONS_BOTTOM_SHEET,
-                  arguments: {
-                    'sim': sim.value,
-                    'onRefresh': () {
-                      wasEdited = true;
-                      onRefreshSim();
-                    },
-                  },
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(35, 35),
-                backgroundColor: Theme.of(context).colorScheme.background,
+        if (value.radio?.client != null)
+          Row(
+            children: [
+              const Text(
+                'Cliente: ',
+                style: TextStyle(fontSize: 16),
               ),
-              child: const Icon(Icons.more_vert, size: 25, color: Colors.white),
-            ),
-          )
-        ],
-      ),
+              SkBadge(
+                label: value.radio!.client!.name,
+                color: value.radio!.client!.color,
+              ),
+            ],
+          ),
+      ],
     );
   }
 }
