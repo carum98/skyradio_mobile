@@ -25,6 +25,15 @@ class AppsView extends StatelessWidget {
           if (value == true) controller.refresh();
         });
       },
+      onItemActions: (app) {
+        SkBottomSheet.of(context).pushNamed(
+          APP_ACTIONS_BOTTOM_SHEET,
+          arguments: {
+            'app': app,
+            'onRefresh': controller.refresh,
+          },
+        );
+      },
     );
   }
 }

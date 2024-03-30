@@ -2,6 +2,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/widgets.dart';
+import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
@@ -47,6 +48,7 @@ const RADIOS_REMOVE_DIALOG = '/radio_remove_dialog';
 const CLIENTS_REMOVE_DIALOG = '/client_remove_dialog';
 const SIMS_REMOVE_DIALOG = '/sims_remove_dialog';
 const SIM_REMOVE_DIALOG = '/sim_remove_dialog';
+const APPS_REMOVE_DIALOG = '/apps_remove_dialog';
 
 class DialogGenerator {
   static Widget generate(RouteSettings settings, BuildContext context) {
@@ -84,6 +86,14 @@ class DialogGenerator {
         return RemoveSimsView(
           radio: radio ?? sim!.radio!,
           sim: sim ?? radio!.sim!,
+        );
+
+      case APPS_REMOVE_DIALOG:
+        final app = settings.arguments as Apps;
+
+        return RemoveScaffold(
+          instance: 'App',
+          onRemove: () => DI.of(context).appsRepository.delete(app.code),
         );
       default:
         return Container();

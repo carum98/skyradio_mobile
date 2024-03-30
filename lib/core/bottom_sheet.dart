@@ -6,6 +6,7 @@ import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
+import 'package:skyradio_mobile/views/apps/actions.dart';
 import 'package:skyradio_mobile/views/apps/profile.dart';
 import 'package:skyradio_mobile/views/clients/actions.dart';
 import 'package:skyradio_mobile/views/clients/add.dart';
@@ -42,6 +43,7 @@ const RADIO_ADD_BOTTOM_SHEET = '/radio_add';
 const CLIENT_ADD_BOTTOM_SHEET = '/client_add';
 
 const APP_BOTTOM_SHEET = '/apps';
+const APP_ACTIONS_BOTTOM_SHEET = '/apps_actions';
 
 const SCAN_CODE = '/scan_code';
 const SCAN_TEXT = '/scan_text';
@@ -101,6 +103,13 @@ class BottomSheetGenerator {
         final onRefresh = args['onRefresh'] as Function;
 
         return ClientsActionsView(client: client, onRefresh: onRefresh);
+      case APP_ACTIONS_BOTTOM_SHEET:
+        final args = settings.arguments as Map<String, dynamic>;
+
+        final app = args['app'] as Apps;
+        final onRefresh = args['onRefresh'] as Function;
+
+        return AppsActionsView(app: app, onRefresh: onRefresh);
       case RADIOS_FILTER_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 

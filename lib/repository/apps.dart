@@ -18,4 +18,14 @@ class AppsRepository {
       Apps.fromJson,
     );
   }
+
+  Future<Apps> getApp(String code) async {
+    final data = await _appsService.getApp(code);
+
+    return Apps.fromJson(data);
+  }
+
+  Future<void> delete(String code) async {
+    await _appsService.delete(code);
+  }
 }

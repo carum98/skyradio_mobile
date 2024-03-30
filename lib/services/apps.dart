@@ -18,4 +18,20 @@ class AppsService {
 
     return response.data;
   }
+
+  Future<ResponseData> getApp(String code) async {
+    final response = await _http.get(
+      '/apps/$code',
+    );
+
+    return response.data;
+  }
+
+  Future<ResponseData> delete(String code) async {
+    final response = await _http.delete(
+      '/apps/$code',
+    );
+
+    return response.data;
+  }
 }
