@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
+import 'package:skyradio_mobile/views/apps/list.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 
 import 'clients/list.dart';
@@ -22,6 +23,11 @@ final _views = [
     icon: SkIconData.sims,
     child: const SimsView(),
   ),
+  (
+    text: 'Apps',
+    icon: SkIconData.app,
+    child: const AppsView(),
+  )
 ];
 
 class HomeView extends StatefulWidget {

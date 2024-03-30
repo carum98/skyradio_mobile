@@ -3,11 +3,13 @@ import 'package:skyradio_mobile/core/global_state.dart';
 import 'package:skyradio_mobile/core/http.dart';
 import 'package:skyradio_mobile/core/router.dart';
 import 'package:skyradio_mobile/core/storage.dart';
+import 'package:skyradio_mobile/repository/apps.dart';
 import 'package:skyradio_mobile/repository/auth.dart';
 import 'package:skyradio_mobile/repository/clients.dart';
 import 'package:skyradio_mobile/repository/common.dart';
 import 'package:skyradio_mobile/repository/radios.dart';
 import 'package:skyradio_mobile/repository/sims.dart';
+import 'package:skyradio_mobile/services/apps.dart';
 import 'package:skyradio_mobile/services/auth.dart';
 import 'package:skyradio_mobile/services/auth_storage.dart';
 import 'package:skyradio_mobile/services/clients.dart';
@@ -28,12 +30,14 @@ class DI extends InheritedWidget {
   late final RadiosService radiosService;
   late final SimsService simsService;
   late final CommonService commonService;
+  late final AppsService appsService;
 
   late final AuthRepository authRepository;
   late final ClientsRepository clientsRepository;
   late final RadiosRepository radiosRepository;
   late final SimsRepository simsRepository;
   late final CommonRepository commonRepository;
+  late final AppsRepository appsRepository;
 
   DI({
     super.key,
@@ -67,6 +71,10 @@ class DI extends InheritedWidget {
       http: http,
     );
 
+    appsService = AppsService(
+      http: http,
+    );
+
     commonService = CommonService(
       http: http,
     );
@@ -87,6 +95,10 @@ class DI extends InheritedWidget {
 
     simsRepository = SimsRepository(
       simsService: simsService,
+    );
+
+    appsRepository = AppsRepository(
+      appsService: appsService,
     );
 
     commonRepository = CommonRepository(
