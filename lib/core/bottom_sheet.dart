@@ -1,10 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/widgets.dart';
+import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
+import 'package:skyradio_mobile/views/apps/profile.dart';
 import 'package:skyradio_mobile/views/clients/actions.dart';
 import 'package:skyradio_mobile/views/clients/add.dart';
 import 'package:skyradio_mobile/views/clients/filter.dart';
@@ -39,6 +41,8 @@ const SIMS_SWAP_BOTTOM_SHEET = '/sims_swap';
 const RADIO_ADD_BOTTOM_SHEET = '/radio_add';
 const CLIENT_ADD_BOTTOM_SHEET = '/client_add';
 
+const APP_BOTTOM_SHEET = '/apps';
+
 const SCAN_CODE = '/scan_code';
 const SCAN_TEXT = '/scan_text';
 const SPEECH_TO_TEXT = '/speech_to_text';
@@ -56,6 +60,10 @@ class BottomSheetGenerator {
         final sim = settings.arguments as Sims;
 
         return SimView(sim: sim);
+      case APP_BOTTOM_SHEET:
+        final app = settings.arguments as Apps;
+
+        return AppView(app: app);
       case SIMS_FILTER_BOTTOM_SHEET:
         final args = settings.arguments as Map<String, dynamic>;
 

@@ -13,6 +13,12 @@ class AppsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(app.name),
+      trailing: app.license != null
+          ? Text(
+              app.license!.key,
+              style: const TextStyle(fontSize: 14),
+            )
+          : null,
     );
   }
 }
