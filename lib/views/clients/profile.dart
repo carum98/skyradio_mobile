@@ -36,6 +36,8 @@ class ClientView extends StatelessWidget {
 
     final rebuildController = RebuildController();
 
+    final scrollController = ScrollController();
+
     void onRefreshList() {
       listController.refresh();
       rebuildController.rebuild();
@@ -59,6 +61,7 @@ class ClientView extends StatelessWidget {
       },
       child: Scaffold(
         body: CustomScrollView(
+          controller: scrollController,
           slivers: [
             ListenableBuilder(
               listenable: client,
@@ -81,7 +84,70 @@ class ClientView extends StatelessWidget {
             const SliverToBoxAdapter(
               child: SizedBox(height: 40),
             ),
-            _SliverRadios(controller: listController),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              sliver: SliverToBoxAdapter(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SkSearchInput(onChanged: listController.search),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(45, 45),
+                      ),
+                      child: const SkIcon(SkIconData.filter, size: 20),
+                      onPressed: () {
+                        SkBottomSheet.of(context).pushNamed(
+                          RADIOS_FILTER_BOTTOM_SHEET,
+                          arguments: {
+                            'filter': listController.params.filter,
+                            'onRefresh': listController.refresh,
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(45, 45),
+                      ),
+                      child: const SkIcon(SkIconData.sort, size: 20),
+                      onPressed: () {
+                        SkBottomSheet.of(context).pushNamed(
+                          SORT_LIST_BOTTOM_SHEET,
+                          arguments: {
+                            'sort': listController.params.sort,
+                            'onRefresh': listController.refresh,
+                          },
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SkListViewPagination.sliver(
+              controller: listController,
+              scrollController: scrollController,
+              builder: (radio) => RadiosTile(radio: radio),
+              padding: 10,
+              onTap: (radio) {
+                SkBottomSheet.of(context)
+                    .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
+                    .then((value) {
+                  if (value == true) listController.refresh();
+                });
+              },
+              onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
+                RADIOS_ACTIONS_BOTTOM_SHEET,
+                arguments: {
+                  'radio': radio,
+                  'onRefresh': listController.refresh,
+                },
+              ),
+            ),
           ],
         ),
         floatingActionButton: Wrap(
@@ -278,89 +344,6 @@ class _SliverChart extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _SliverRadios extends StatelessWidget {
-  final SkListViewPaginationController<Radios> controller;
-
-  const _SliverRadios({
-    required this.controller,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 140,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SkSearchInput(onChanged: controller.search),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(45, 45),
-                    ),
-                    child: const SkIcon(SkIconData.filter, size: 20),
-                    onPressed: () {
-                      SkBottomSheet.of(context).pushNamed(
-                        RADIOS_FILTER_BOTTOM_SHEET,
-                        arguments: {
-                          'filter': controller.params.filter,
-                          'onRefresh': controller.refresh,
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(45, 45),
-                    ),
-                    child: const SkIcon(SkIconData.sort, size: 20),
-                    onPressed: () {
-                      SkBottomSheet.of(context).pushNamed(
-                        SORT_LIST_BOTTOM_SHEET,
-                        arguments: {
-                          'sort': controller.params.sort,
-                          'onRefresh': controller.refresh,
-                        },
-                      );
-                    },
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: SkListViewPagination(
-                controller: controller,
-                builder: (radio) => RadiosTile(radio: radio),
-                onTap: (radio) {
-                  SkBottomSheet.of(context)
-                      .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
-                      .then((value) {
-                    if (value == true) controller.refresh();
-                  });
-                },
-                onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
-                  RADIOS_ACTIONS_BOTTOM_SHEET,
-                  arguments: {
-                    'radio': radio,
-                    'onRefresh': controller.refresh,
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
