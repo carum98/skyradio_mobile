@@ -21,6 +21,11 @@ class RadiosView extends StatelessWidget {
     return SkScaffold(
       title: 'Radios',
       controller: controller,
+      availableEnable: const [
+        SkScaffoldAction.add,
+        SkScaffoldAction.filter,
+        SkScaffoldAction.sort
+      ],
       builder: (radio) => RadiosTile(radio: radio),
       onTap: (radio) {
         SkBottomSheet.of(context)

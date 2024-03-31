@@ -18,6 +18,7 @@ class AppsView extends StatelessWidget {
     return SkScaffold(
       title: 'Apps',
       controller: controller,
+      availableEnable: const [],
       builder: (app) => AppsTile(app: app),
       onTap: (app) {
         SkBottomSheet.of(context)

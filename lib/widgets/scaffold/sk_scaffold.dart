@@ -17,11 +17,13 @@ class SkScaffold<T> extends StatelessWidget {
   final void Function(T)? onTap;
   final void Function(SkScaffoldAction)? onListActions;
   final void Function(T)? onItemActions;
+  final List<SkScaffoldAction> availableEnable;
 
   SkScaffold({
     super.key,
     required this.title,
     required this.builder,
+    required this.availableEnable,
     this.onTap,
     this.onListActions,
     this.onItemActions,
@@ -35,6 +37,10 @@ class SkScaffold<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filterAvailable = availableEnable.contains(SkScaffoldAction.filter);
+    final sortAvailable = availableEnable.contains(SkScaffoldAction.sort);
+    final addAvailable = availableEnable.contains(SkScaffoldAction.add);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
@@ -67,26 +73,30 @@ class SkScaffold<T> extends StatelessWidget {
                     onChanged: controller.search,
                   ),
                 ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    onListActions?.call(SkScaffoldAction.filter);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(45, 45),
+                if (filterAvailable) ...[
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      onListActions?.call(SkScaffoldAction.filter);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(45, 45),
+                    ),
+                    child: const SkIcon(SkIconData.filter, size: 20),
                   ),
-                  child: const SkIcon(SkIconData.filter, size: 20),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    onListActions?.call(SkScaffoldAction.sort);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(45, 45),
+                ],
+                if (sortAvailable) ...[
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      onListActions?.call(SkScaffoldAction.sort);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(45, 45),
+                    ),
+                    child: const SkIcon(SkIconData.sort, size: 20),
                   ),
-                  child: const SkIcon(SkIconData.sort, size: 20),
-                )
+                ],
               ],
             ),
           ),
@@ -100,16 +110,19 @@ class SkScaffold<T> extends StatelessWidget {
         onLongPress: onItemActions,
         handleBottomBarVisibility: true,
       ),
-      floatingActionButton: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom - 10),
-        child: FloatingActionButton(
-          onPressed: () {
-            onListActions?.call(SkScaffoldAction.add);
-          },
-          child: const Icon(Icons.add),
-        ),
-      ),
+      floatingActionButton: addAvailable
+          ? Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom - 10,
+              ),
+              child: FloatingActionButton(
+                onPressed: () {
+                  onListActions?.call(SkScaffoldAction.add);
+                },
+                child: const Icon(Icons.add),
+              ),
+            )
+          : null,
     );
   }
 }

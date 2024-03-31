@@ -21,6 +21,11 @@ class ClientsView extends StatelessWidget {
     return SkScaffold(
       title: 'Clientes',
       controller: controller,
+      availableEnable: const [
+        SkScaffoldAction.add,
+        SkScaffoldAction.filter,
+        SkScaffoldAction.sort
+      ],
       builder: (client) => ClientsTile(client: client),
       onTap: (client) {
         Navigator.of(context)

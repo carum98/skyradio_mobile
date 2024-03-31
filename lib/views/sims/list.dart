@@ -21,6 +21,11 @@ class SimsView extends StatelessWidget {
     return SkScaffold(
       title: 'Sims',
       controller: controller,
+      availableEnable: const [
+        SkScaffoldAction.add,
+        SkScaffoldAction.filter,
+        SkScaffoldAction.sort
+      ],
       builder: (sim) => SimsTile(sim: sim),
       onTap: (sim) {
         SkBottomSheet.of(context)
