@@ -10,10 +10,13 @@ part '_response_list.dart';
 
 class SkListViewPagination<T> extends StatefulWidget {
   final SkListViewPaginationController<T> controller;
+  final ScrollController? scrollController;
   final Widget Function(T item) builder;
   final void Function(T item)? onTap;
   final void Function(T item)? onLongPress;
+
   final bool handleBottomBarVisibility;
+  final bool isSliver;
 
   final double paddingTop;
   final double edgeOffset;
@@ -26,10 +29,25 @@ class SkListViewPagination<T> extends StatefulWidget {
     this.padding = 10,
     this.onTap,
     this.onLongPress,
+    this.scrollController,
     double? paddingTop,
     this.handleBottomBarVisibility = false,
   })  : paddingTop = paddingTop ?? 10,
-        edgeOffset = paddingTop != null ? paddingTop - 20 : 0.0;
+        edgeOffset = paddingTop != null ? paddingTop - 20 : 0.0,
+        isSliver = false;
+
+  const SkListViewPagination.sliver({
+    super.key,
+    required this.scrollController,
+    required this.controller,
+    required this.builder,
+    this.onTap,
+    this.onLongPress,
+    this.padding = 10,
+  })  : paddingTop = 10,
+        edgeOffset = 0.0,
+        handleBottomBarVisibility = false,
+        isSliver = true;
 
   @override
   State<SkListViewPagination> createState() => _SkListViewPaginationState<T>();
@@ -45,7 +63,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
 
     _controller = widget.controller;
 
-    _scrollController = ScrollController();
+    _scrollController = widget.scrollController ?? ScrollController();
 
     _controller.getAll();
 
@@ -81,100 +99,260 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _controller.refresh,
-      edgeOffset: widget.edgeOffset,
-      child: StreamBuilder(
+    if (widget.isSliver) {
+      return _Builder<T>(
         stream: _controller.stream,
-        builder: (_, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-              ),
+        padding: widget.padding,
+        paddingTop: widget.paddingTop,
+        isSliver: true,
+        builder: (data) => _Data(
+          scrollController: _scrollController,
+          data: data,
+          paddingTop: widget.paddingTop,
+          padding: widget.padding,
+          builder: widget.builder,
+          onTap: widget.onTap,
+          onLongPress: widget.onLongPress,
+          isSliver: true,
+        ),
+      );
+    } else {
+      return RefreshIndicator(
+        onRefresh: _controller.refresh,
+        edgeOffset: widget.edgeOffset,
+        child: _Builder<T>(
+          stream: _controller.stream,
+          padding: widget.padding,
+          paddingTop: widget.paddingTop,
+          builder: (data) => _Data(
+            scrollController: _scrollController,
+            data: data,
+            paddingTop: widget.paddingTop,
+            padding: widget.padding,
+            builder: widget.builder,
+            onTap: widget.onTap,
+            onLongPress: widget.onLongPress,
+          ),
+        ),
+      );
+    }
+  }
+}
+
+class _Builder<T> extends StatelessWidget {
+  final Stream<ListPaginationState<T>> stream;
+  final Widget Function(ListPaginationLoaded<T> data) builder;
+  final double paddingTop;
+  final double padding;
+  final bool isSliver;
+
+  const _Builder({
+    required this.stream,
+    required this.builder,
+    required this.paddingTop,
+    required this.padding,
+    this.isSliver = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: stream,
+      builder: (_, snapshot) {
+        if (snapshot.hasError) {
+          return _Error(
+            error: snapshot.error.toString(),
+            isSliver: isSliver,
+          );
+        }
+
+        if (snapshot.hasData) {
+          final data = snapshot.data;
+
+          if (data is ListPaginationLoading) {
+            return _Loading(isSliver: isSliver);
+          }
+
+          if (data is ListPaginationEmpty) {
+            return _Empty(
+              isSliver: isSliver,
+              paddingTop: paddingTop,
+              padding: padding,
             );
           }
 
-          if (snapshot.hasData) {
-            final data = snapshot.data;
-
-            if (data is ListPaginationLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (data is ListPaginationEmpty) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                constraints: const BoxConstraints(maxHeight: 150),
-                margin: EdgeInsets.only(
-                  top: widget.paddingTop,
-                  left: widget.padding,
-                  right: widget.padding,
-                  bottom: widget.padding,
-                ),
-                child: const Center(
-                  child: Text(
-                    'Sin resultados',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                ),
-              );
-            }
-
-            if (data is ListPaginationLoaded) {
-              return ListView.separated(
-                controller: _scrollController,
-                itemCount: data.items.length,
-                padding: EdgeInsets.only(
-                  top: widget.paddingTop,
-                  left: widget.padding,
-                  right: widget.padding,
-                  bottom: widget.padding,
-                ),
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
-                itemBuilder: (_, index) {
-                  final item = data.items[index] as T;
-
-                  return InkWell(
-                    onTap: () {
-                      if (widget.onTap != null) {
-                        widget.onTap!(item);
-                      }
-                    },
-                    onLongPress: () {
-                      if (widget.onLongPress != null) {
-                        widget.onLongPress!(item);
-                      }
-                    },
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: widget.builder(item),
-                    ),
-                  );
-                },
-              );
-            }
+          if (data is ListPaginationLoaded) {
+            return builder(data as ListPaginationLoaded<T>);
           }
+        }
 
-          return const SizedBox();
-        },
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _Loading(isSliver: isSliver);
+        }
+
+        return const SizedBox();
+      },
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  final String error;
+  final bool isSliver;
+
+  const _Error({
+    required this.error,
+    this.isSliver = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final child = Center(
+      child: Text(error),
+    );
+
+    return isSliver ? SliverToBoxAdapter(child: child) : child;
+  }
+}
+
+class _Loading extends StatelessWidget {
+  final bool isSliver;
+
+  const _Loading({
+    this.isSliver = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const child = Center(
+      child: CircularProgressIndicator(),
+    );
+
+    return isSliver ? const SliverToBoxAdapter(child: child) : child;
+  }
+}
+
+class _Empty extends StatelessWidget {
+  final double paddingTop;
+  final double padding;
+  final bool isSliver;
+
+  const _Empty({
+    required this.paddingTop,
+    required this.padding,
+    this.isSliver = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final child = Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      constraints: const BoxConstraints(maxHeight: 150),
+      margin: EdgeInsets.only(
+        top: paddingTop,
+        left: padding,
+        right: padding,
+        bottom: padding,
+      ),
+      child: const Center(
+        child: Text(
+          'Sin resultados',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+        ),
       ),
     );
+
+    return isSliver ? SliverToBoxAdapter(child: child) : child;
+  }
+}
+
+class _Data<T> extends StatelessWidget {
+  final ScrollController scrollController;
+  final ListPaginationLoaded<T> data;
+  final double paddingTop;
+  final double padding;
+  final Widget Function(T item) builder;
+  final void Function(T item)? onTap;
+  final void Function(T item)? onLongPress;
+  final bool isSliver;
+
+  const _Data({
+    super.key,
+    required this.scrollController,
+    required this.data,
+    required this.paddingTop,
+    required this.padding,
+    required this.builder,
+    this.onTap,
+    this.onLongPress,
+    this.isSliver = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Widget separator = const SizedBox(height: 10);
+    Widget itemBuilder(BuildContext _, int index) {
+      final item = data.items[index];
+
+      return InkWell(
+        onTap: () {
+          if (onTap != null) {
+            onTap!(item);
+          }
+        },
+        onLongPress: () {
+          if (onLongPress != null) {
+            onLongPress!(item);
+          }
+        },
+        borderRadius: const BorderRadius.all(
+          Radius.circular(15),
+        ),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
+          child: builder(item),
+        ),
+      );
+    }
+
+    if (isSliver) {
+      return SliverPadding(
+        padding: EdgeInsets.only(
+          top: paddingTop,
+          left: padding,
+          right: padding,
+          bottom: padding,
+        ),
+        sliver: SliverList.separated(
+          itemCount: data.items.length,
+          separatorBuilder: (_, __) => separator,
+          itemBuilder: itemBuilder,
+        ),
+      );
+    } else {
+      return ListView.separated(
+        controller: scrollController,
+        itemCount: data.items.length,
+        padding: EdgeInsets.only(
+          top: paddingTop,
+          left: padding,
+          right: padding,
+          bottom: padding,
+        ),
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        separatorBuilder: (_, __) => separator,
+        itemBuilder: itemBuilder,
+      );
+    }
   }
 }
