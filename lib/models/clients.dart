@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/models/console.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
 import 'package:skyradio_mobile/utils/color.dart';
 import 'package:skyradio_mobile/utils/string_validator.dart';
@@ -14,6 +15,7 @@ class Clients {
   final Color color;
   final Modality modality;
   final Seller? seller;
+  final Console? console;
   final int radiosCount;
 
   Clients({
@@ -22,8 +24,11 @@ class Clients {
     required this.color,
     required this.modality,
     required this.seller,
+    required this.console,
     required this.radiosCount,
   });
+
+  bool get consoleEnable => console != null;
 
   factory Clients.fromJson(Map<String, dynamic> json) {
     return Clients(
@@ -32,6 +37,8 @@ class Clients {
       color: (json['color'] as String).toColor(),
       modality: Modality.fromJson(json['modality']),
       seller: json['seller'] != null ? Seller.fromJson(json['seller']) : null,
+      console:
+          json['console'] != null ? Console.fromJson(json['console']) : null,
       radiosCount: json['radios_count'],
     );
   }
@@ -43,6 +50,7 @@ class Clients {
       color: (json['color'] as String).toColor(),
       modality: Modality.placeholder(),
       seller: null,
+      console: null,
       radiosCount: 0,
     );
   }

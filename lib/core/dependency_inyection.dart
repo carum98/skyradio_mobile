@@ -7,6 +7,7 @@ import 'package:skyradio_mobile/repository/apps.dart';
 import 'package:skyradio_mobile/repository/auth.dart';
 import 'package:skyradio_mobile/repository/clients.dart';
 import 'package:skyradio_mobile/repository/common.dart';
+import 'package:skyradio_mobile/repository/consoles.dart';
 import 'package:skyradio_mobile/repository/license.dart';
 import 'package:skyradio_mobile/repository/radios.dart';
 import 'package:skyradio_mobile/repository/sims.dart';
@@ -15,6 +16,7 @@ import 'package:skyradio_mobile/services/auth.dart';
 import 'package:skyradio_mobile/services/auth_storage.dart';
 import 'package:skyradio_mobile/services/clients.dart';
 import 'package:skyradio_mobile/services/common.dart';
+import 'package:skyradio_mobile/services/consoles.dart';
 import 'package:skyradio_mobile/services/license.dart';
 import 'package:skyradio_mobile/services/radios.dart';
 import 'package:skyradio_mobile/services/sims.dart';
@@ -34,6 +36,7 @@ class DI extends InheritedWidget {
   late final CommonService commonService;
   late final AppsService appsService;
   late final LicenseService licenseService;
+  late final ConsolesService consolesService;
 
   late final AuthRepository authRepository;
   late final ClientsRepository clientsRepository;
@@ -42,6 +45,7 @@ class DI extends InheritedWidget {
   late final CommonRepository commonRepository;
   late final AppsRepository appsRepository;
   late final LicenseRepository licenseRepository;
+  late final ConsolesRepository consolesRepository;
 
   DI({
     super.key,
@@ -83,6 +87,10 @@ class DI extends InheritedWidget {
       http: http,
     );
 
+    consolesService = ConsolesService(
+      http: http,
+    );
+
     commonService = CommonService(
       http: http,
     );
@@ -111,6 +119,10 @@ class DI extends InheritedWidget {
 
     licenseRepository = LicenseRepository(
       licenseService: licenseService,
+    );
+
+    consolesRepository = ConsolesRepository(
+      consolesService: consolesService,
     );
 
     commonRepository = CommonRepository(

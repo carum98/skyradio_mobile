@@ -27,6 +27,8 @@ enum SkIconData {
   success,
   warning,
   app,
+  console_disable,
+  console_enable,
 }
 
 class SkIcon extends StatelessWidget {

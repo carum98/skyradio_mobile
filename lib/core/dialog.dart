@@ -4,6 +4,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
+import 'package:skyradio_mobile/models/console.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/views/sims/remove.dart';
@@ -49,6 +50,7 @@ const CLIENTS_REMOVE_DIALOG = '/client_remove_dialog';
 const SIMS_REMOVE_DIALOG = '/sims_remove_dialog';
 const SIM_REMOVE_DIALOG = '/sim_remove_dialog';
 const APPS_REMOVE_DIALOG = '/apps_remove_dialog';
+const CONSOLE_REMOVE_DIALOG = '/console_remove_dialog';
 
 class DialogGenerator {
   static Widget generate(RouteSettings settings, BuildContext context) {
@@ -95,6 +97,17 @@ class DialogGenerator {
           instance: 'App',
           onRemove: () => DI.of(context).appsRepository.delete(app.code),
         );
+
+      case CONSOLE_REMOVE_DIALOG:
+        final console = settings.arguments as Console;
+
+        return RemoveScaffold(
+          instance: 'Consola',
+          customMessage: '¿Deshabilitar ',
+          onRemove: () =>
+              DI.of(context).consolesRepository.delete(console.code),
+        );
+
       default:
         return Container();
     }

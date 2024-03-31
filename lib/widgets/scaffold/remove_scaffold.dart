@@ -4,11 +4,13 @@ import 'package:skyradio_mobile/widgets/icons.dart';
 
 class RemoveScaffold extends StatelessWidget {
   final String instance;
+  final String? customMessage;
   final Future<void> Function() onRemove;
 
   const RemoveScaffold({
     super.key,
     required this.instance,
+    this.customMessage,
     required this.onRemove,
   });
 
@@ -25,7 +27,7 @@ class RemoveScaffold extends StatelessWidget {
         const SizedBox(height: 20),
         RichText(
           text: TextSpan(
-            text: '¿Desea eliminar el ',
+            text: customMessage ?? '¿Desea eliminar el ',
             style: DefaultTextStyle.of(context).style.copyWith(fontSize: 22),
             children: [
               TextSpan(
@@ -35,6 +37,7 @@ class RemoveScaffold extends StatelessWidget {
               const TextSpan(text: '?'),
             ],
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
         Row(

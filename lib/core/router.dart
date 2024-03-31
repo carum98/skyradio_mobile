@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
+import 'package:skyradio_mobile/models/console.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
 import 'package:skyradio_mobile/views/apps/form.dart';
 import 'package:skyradio_mobile/views/clients/form.dart';
 import 'package:skyradio_mobile/views/clients/profile.dart';
 import 'package:skyradio_mobile/views/clients/selector.dart';
+import 'package:skyradio_mobile/views/consoles/form.dart';
 import 'package:skyradio_mobile/views/home.dart';
 import 'package:skyradio_mobile/views/login.dart';
 import 'package:skyradio_mobile/views/radios/add.dart';
@@ -41,6 +43,9 @@ const SIMS_SELECTOR_VIEW = '/sims/selector';
 
 const APPS_CREATE_VIEW = '/apps/form';
 const APPS_UPDATE_VIEW = '/apps/:id/edit';
+
+const CONSOLE_CREATE_VIEW = '/console/form';
+const CONSOLE_UPDATE_VIEW = '/console/:id/edit';
 
 class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
@@ -171,6 +176,21 @@ class RouterGenerator {
 
         return MaterialPageRoute(
           builder: (_) => AppsFormView(model: AppsForm.update(app)),
+        );
+
+      case CONSOLE_CREATE_VIEW:
+        final client = settings.arguments as Clients;
+        final console = ConsoleForm.create();
+
+        return MaterialPageRoute(
+          builder: (_) => ConsoleFormView(model: console, client: client),
+        );
+
+      case CONSOLE_UPDATE_VIEW:
+        final console = settings.arguments as Console;
+
+        return MaterialPageRoute(
+          builder: (_) => ConsoleFormView(model: ConsoleForm.update(console)),
         );
       default:
         return MaterialPageRoute(builder: (_) => Container());

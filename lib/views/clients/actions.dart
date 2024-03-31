@@ -56,6 +56,31 @@ class ClientsActionsView extends StatelessWidget {
             },
           ),
         const Divider(),
+        (client.consoleEnable)
+            ? SkButton.block(
+                text: 'Deshabilitar consola',
+                icon: SkIconData.console_disable,
+                backgroundColor: Colors.transparent,
+                textLeft: true,
+                onPressed: () {
+                  SkDialog.of(context)
+                      .pushNamed(CONSOLE_REMOVE_DIALOG,
+                          arguments: client.console)
+                      .then((value) => {if (value == true) onRefresh()});
+                },
+              )
+            : SkButton.block(
+                text: 'Habilitar consola',
+                icon: SkIconData.console_enable,
+                backgroundColor: Colors.transparent,
+                textLeft: true,
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(CONSOLE_CREATE_VIEW, arguments: client)
+                      .then((value) => {if (value == true) onRefresh()});
+                },
+              ),
+        const Divider(),
         SkButton.block(
           text: 'Actualizar',
           icon: SkIconData.update,
