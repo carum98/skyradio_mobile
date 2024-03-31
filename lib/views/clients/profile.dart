@@ -215,6 +215,19 @@ class _SliverHeader extends StatelessWidget {
                     color: client.modality.color,
                   ),
                 ],
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'Consola: ',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SkBadge(
+                    label:
+                        client.consoleEnable ? 'Habilitado' : 'Deshabilitado',
+                    color: client.consoleEnable ? Colors.green : Colors.red,
+                  ),
+                ],
               )
             ],
           ),
