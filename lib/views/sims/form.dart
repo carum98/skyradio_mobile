@@ -79,6 +79,7 @@ class SimsFormView extends StatelessWidget {
         ),
         SkLabel(
           label: 'Proveedor',
+          isRequired: true,
           child: ProvidersSelector(
             initialValue: model.provider,
             isRequired: true,

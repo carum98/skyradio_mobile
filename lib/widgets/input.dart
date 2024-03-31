@@ -39,6 +39,7 @@ class SkInput extends StatefulWidget {
   }) {
     return SkLabel(
       label: label,
+      isRequired: isRequired,
       child: SkInput(
         placeholder: placeholder,
         initialValue: initialValue,

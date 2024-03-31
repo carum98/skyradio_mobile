@@ -40,6 +40,7 @@ class SkSelect<T> extends StatefulWidget {
   }) {
     return SkLabel(
       label: label,
+      isRequired: isRequired,
       child: SkSelect(
         provider: provider,
         placeholder: placeholder,

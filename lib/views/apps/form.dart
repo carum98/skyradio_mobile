@@ -76,7 +76,6 @@ class AppsFormView extends StatelessWidget {
         ),
         LicenseSelector(
           initialValue: model.license,
-          isRequired: true,
           onChanged: (value) {
             model.license = value;
           },

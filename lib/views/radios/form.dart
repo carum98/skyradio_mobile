@@ -88,6 +88,7 @@ class RadiosFormView extends StatelessWidget {
         ),
         SkLabel(
           label: 'Modelo',
+          isRequired: true,
           child: ModelsSelectors(
             initialValue: model.model,
             isRequired: true,
