@@ -25,6 +25,16 @@ class AppsRepository {
     return Apps.fromJson(data);
   }
 
+  Future<Apps> create(RequestParams params) async {
+    final data = await _appsService.create(params);
+
+    return Apps.fromJson(data);
+  }
+
+  Future<void> update(String code, RequestParams params) async {
+    await _appsService.update(code, params);
+  }
+
   Future<void> delete(String code) async {
     await _appsService.delete(code);
   }

@@ -27,7 +27,7 @@ class AppsActionsView extends StatelessWidget {
           textLeft: true,
           onPressed: () {
             Navigator.of(context)
-                .pushNamed(SIMS_UPDATE_VIEW, arguments: app)
+                .pushNamed(APPS_UPDATE_VIEW, arguments: app)
                 .then((value) => {if (value == true) onRefresh()});
           },
         ),

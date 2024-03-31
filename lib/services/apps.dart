@@ -27,6 +27,22 @@ class AppsService {
     return response.data;
   }
 
+  Future<ResponseData> create(RequestParams params) async {
+    final response = await _http.post(
+      '/apps',
+      params,
+    );
+
+    return response.data;
+  }
+
+  Future<void> update(String code, RequestParams params) async {
+    await _http.put(
+      '/apps/$code',
+      params,
+    );
+  }
+
   Future<ResponseData> delete(String code) async {
     final response = await _http.delete(
       '/apps/$code',

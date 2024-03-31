@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/models/sims.dart';
+import 'package:skyradio_mobile/views/apps/form.dart';
 import 'package:skyradio_mobile/views/clients/form.dart';
 import 'package:skyradio_mobile/views/clients/profile.dart';
 import 'package:skyradio_mobile/views/clients/selector.dart';
@@ -36,6 +38,9 @@ const RADIOS_SWAP_VIEW = '/radios/swap';
 const SIMS_CREATE_VIEW = '/sims/form';
 const SIMS_UPDATE_VIEW = '/sims/:id/edit';
 const SIMS_SELECTOR_VIEW = '/sims/selector';
+
+const APPS_CREATE_VIEW = '/apps/form';
+const APPS_UPDATE_VIEW = '/apps/:id/edit';
 
 class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
@@ -153,6 +158,19 @@ class RouterGenerator {
 
         return MaterialPageRoute(
           builder: (_) => SimsSelectorView(filters: filters),
+        );
+      case APPS_CREATE_VIEW:
+        final app = AppsForm.create();
+
+        return MaterialPageRoute(
+          builder: (_) => AppsFormView(model: app),
+        );
+
+      case APPS_UPDATE_VIEW:
+        final app = settings.arguments as Apps;
+
+        return MaterialPageRoute(
+          builder: (_) => AppsFormView(model: AppsForm.update(app)),
         );
       default:
         return MaterialPageRoute(builder: (_) => Container());
