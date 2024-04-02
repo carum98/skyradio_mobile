@@ -94,7 +94,10 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
     super.dispose();
 
     _controller.dispose();
-    _scrollController.dispose();
+
+    if (widget.scrollController == null) {
+      _scrollController.dispose();
+    }
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:skyradio_mobile/core/bottom_sheet.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/utils/api_params.dart';
@@ -14,6 +15,8 @@ import 'package:skyradio_mobile/widgets/badget.dart';
 import 'package:skyradio_mobile/widgets/chart.dart';
 import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/listview_pagination/sk_listview_pagination.dart';
+import 'package:skyradio_mobile/widgets/tabs/sk_tab.dart';
+import 'package:skyradio_mobile/widgets/tiles/apps.dart';
 import 'package:skyradio_mobile/widgets/tiles/radios.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/tabs.dart';
@@ -29,17 +32,21 @@ class ClientView extends StatelessWidget {
     bool wasEdited = false;
     final repository = DI.of(context).clientsRepository;
 
-    final listController = SkListViewPaginationController(
+    final listRadiosController = SkListViewPaginationController(
       provider: (params) => repository.getRadios(client.value.code, params),
       params: ApiParams(filter: RadiosFilter(), sort: ApiSortModel()),
     );
 
-    final rebuildController = RebuildController();
+    final listAppsController = SkListViewPaginationController(
+      provider: (params) => repository.getApps(client.value.code, params),
+    );
 
+    final rebuildController = RebuildController();
     final scrollController = ScrollController();
+    final tabController = SkTabController();
 
     void onRefreshList() {
-      listController.refresh();
+      listRadiosController.refresh();
       rebuildController.rebuild();
     }
 
@@ -72,7 +79,12 @@ class ClientView extends StatelessWidget {
             ),
             ListenableBuilder(
               listenable: client,
-              builder: (_, __) => _SliverHeader(client: client.value),
+              builder: (_, __) => SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                sliver: SliverToBoxAdapter(
+                  child: _SliverHeader(client: client.value),
+                ),
+              ),
             ),
             const SliverToBoxAdapter(
               child: SizedBox(height: 20),
@@ -84,69 +96,42 @@ class ClientView extends StatelessWidget {
             const SliverToBoxAdapter(
               child: SizedBox(height: 40),
             ),
+            SliverToBoxAdapter(
+              child: SkTabBar(
+                controller: tabController,
+                tabs: const [
+                  'Radios',
+                  'Aplicaciones',
+                ],
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 20),
+            ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               sliver: SliverToBoxAdapter(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SkSearchInput(onChanged: listController.search),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(45, 45),
-                      ),
-                      child: const SkIcon(SkIconData.filter, size: 20),
-                      onPressed: () {
-                        SkBottomSheet.of(context).pushNamed(
-                          RADIOS_FILTER_BOTTOM_SHEET,
-                          arguments: {
-                            'filter': listController.params.filter,
-                            'onRefresh': listController.refresh,
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(45, 45),
-                      ),
-                      child: const SkIcon(SkIconData.sort, size: 20),
-                      onPressed: () {
-                        SkBottomSheet.of(context).pushNamed(
-                          SORT_LIST_BOTTOM_SHEET,
-                          arguments: {
-                            'sort': listController.params.sort,
-                            'onRefresh': listController.refresh,
-                          },
-                        );
-                      },
-                    )
+                child: SkTabView(
+                  controller: tabController,
+                  views: [
+                    _RadiosToolbar(listController: listRadiosController),
+                    _AppsToolbar(listController: listAppsController)
                   ],
                 ),
               ),
             ),
-            SkListViewPagination.sliver(
-              controller: listController,
-              scrollController: scrollController,
-              builder: (radio) => RadiosTile(radio: radio),
-              padding: 10,
-              onTap: (radio) {
-                SkBottomSheet.of(context)
-                    .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
-                    .then((value) {
-                  if (value == true) listController.refresh();
-                });
-              },
-              onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
-                RADIOS_ACTIONS_BOTTOM_SHEET,
-                arguments: {
-                  'radio': radio,
-                  'onRefresh': listController.refresh,
-                },
-              ),
+            SkTabView(
+              controller: tabController,
+              views: [
+                _RadiosList(
+                  listRadiosController: listRadiosController,
+                  scrollController: scrollController,
+                ),
+                _AppsList(
+                  listRadiosController: listAppsController,
+                  scrollController: scrollController,
+                ),
+              ],
             ),
           ],
         ),
@@ -184,6 +169,128 @@ class ClientView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _RadiosList extends StatelessWidget {
+  final SkListViewPaginationController<Radios> listRadiosController;
+  final ScrollController scrollController;
+
+  const _RadiosList({
+    required this.listRadiosController,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SkListViewPagination.sliver(
+      controller: listRadiosController,
+      scrollController: scrollController,
+      builder: (radio) => RadiosTile(radio: radio),
+      padding: 10,
+      onTap: (radio) {
+        SkBottomSheet.of(context)
+            .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
+            .then((value) {
+          if (value == true) listRadiosController.refresh();
+        });
+      },
+      onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
+        RADIOS_ACTIONS_BOTTOM_SHEET,
+        arguments: {
+          'radio': radio,
+          'onRefresh': listRadiosController.refresh,
+        },
+      ),
+    );
+  }
+}
+
+class _AppsList extends StatelessWidget {
+  final SkListViewPaginationController<Apps> listRadiosController;
+  final ScrollController scrollController;
+
+  const _AppsList({
+    required this.listRadiosController,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SkListViewPagination.sliver(
+      controller: listRadiosController,
+      scrollController: scrollController,
+      builder: (app) => AppsTile(app: app),
+      padding: 10,
+    );
+  }
+}
+
+class _AppsToolbar extends StatelessWidget {
+  final SkListViewPaginationController<Apps> listController;
+
+  const _AppsToolbar({
+    required this.listController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SkSearchInput(
+      onChanged: listController.search,
+    );
+  }
+}
+
+class _RadiosToolbar extends StatelessWidget {
+  final SkListViewPaginationController<Radios> listController;
+
+  const _RadiosToolbar({
+    required this.listController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: SkSearchInput(
+            onChanged: listController.search,
+          ),
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(45, 45),
+          ),
+          child: const SkIcon(SkIconData.filter, size: 20),
+          onPressed: () {
+            SkBottomSheet.of(context).pushNamed(
+              RADIOS_FILTER_BOTTOM_SHEET,
+              arguments: {
+                'filter': listController.params.filter,
+                'onRefresh': listController.refresh,
+              },
+            );
+          },
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(45, 45),
+          ),
+          child: const SkIcon(SkIconData.sort, size: 20),
+          onPressed: () {
+            SkBottomSheet.of(context).pushNamed(
+              SORT_LIST_BOTTOM_SHEET,
+              arguments: {
+                'sort': listController.params.sort,
+                'onRefresh': listController.refresh,
+              },
+            );
+          },
+        )
+      ],
     );
   }
 }
@@ -242,62 +349,52 @@ class _SliverHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 10,
-          right: 10,
-          top: 10,
-        ),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Wrap(
-            runSpacing: 15,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Wrap(
+        runSpacing: 15,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  const Text(
-                    'Vendedor: ',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SkBadge(
-                    label: client.seller?.name ?? 'Sin vendedor',
-                  ),
-                ],
+              const Text(
+                'Vendedor: ',
+                style: TextStyle(fontSize: 16),
               ),
-              Row(
-                children: [
-                  const Text(
-                    'Modalidad: ',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SkBadge(
-                    label: client.modality.name,
-                    color: client.modality.color,
-                  ),
-                ],
+              SkBadge(
+                label: client.seller?.name ?? 'Sin vendedor',
               ),
-              Row(
-                children: [
-                  const Text(
-                    'Consola: ',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SkBadge(
-                    label:
-                        client.consoleEnable ? 'Habilitado' : 'Deshabilitado',
-                    color: client.consoleEnable ? Colors.green : Colors.red,
-                  ),
-                ],
-              )
             ],
           ),
-        ),
+          Row(
+            children: [
+              const Text(
+                'Modalidad: ',
+                style: TextStyle(fontSize: 16),
+              ),
+              SkBadge(
+                label: client.modality.name,
+                color: client.modality.color,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text(
+                'Consola: ',
+                style: TextStyle(fontSize: 16),
+              ),
+              SkBadge(
+                label: client.consoleEnable ? 'Habilitado' : 'Deshabilitado',
+                color: client.consoleEnable ? Colors.green : Colors.red,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

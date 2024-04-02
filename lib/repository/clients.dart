@@ -1,4 +1,5 @@
 import 'package:skyradio_mobile/core/types.dart';
+import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/radios.dart';
 import 'package:skyradio_mobile/services/clients.dart';
@@ -29,6 +30,18 @@ class ClientsRepository {
     return ResponsePagination.fromJson(
       data,
       Radios.fromJson,
+    );
+  }
+
+  Future<ResponsePagination<Apps>> getApps(
+    String code,
+    RequestParams params,
+  ) async {
+    final data = await _clientsService.getRadios(code, params);
+
+    return ResponsePagination.fromJson(
+      data,
+      Apps.fromJson,
     );
   }
 
