@@ -30,6 +30,13 @@ class LicenseSelector extends StatelessWidget {
         title: item.key,
       ),
       onChanged: onChanged,
+      onEmptyCreate: (value) async {
+        final license = await DI.of(context).licenseRepository.create({
+          "key": value,
+        });
+
+        return license;
+      },
     );
   }
 }

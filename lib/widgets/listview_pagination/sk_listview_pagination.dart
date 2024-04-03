@@ -12,6 +12,7 @@ class SkListViewPagination<T> extends StatefulWidget {
   final SkListViewPaginationController<T> controller;
   final ScrollController? scrollController;
   final Widget Function(T item) builder;
+  final Widget Function()? emptyBuilder;
   final void Function(T item)? onTap;
   final void Function(T item)? onLongPress;
 
@@ -26,6 +27,7 @@ class SkListViewPagination<T> extends StatefulWidget {
     super.key,
     required this.controller,
     required this.builder,
+    this.emptyBuilder,
     this.padding = 10,
     this.onTap,
     this.onLongPress,
@@ -41,6 +43,7 @@ class SkListViewPagination<T> extends StatefulWidget {
     required this.scrollController,
     required this.controller,
     required this.builder,
+    this.emptyBuilder,
     this.onTap,
     this.onLongPress,
     this.padding = 10,
@@ -111,6 +114,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
         padding: widget.padding,
         paddingTop: widget.paddingTop,
         isSliver: true,
+        emptyBuilder: widget.emptyBuilder,
         builder: (data) => _Data(
           scrollController: _scrollController,
           data: data,
@@ -130,6 +134,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
           stream: _controller.stream,
           padding: widget.padding,
           paddingTop: widget.paddingTop,
+          emptyBuilder: widget.emptyBuilder,
           builder: (data) => _Data(
             scrollController: _scrollController,
             data: data,
@@ -148,6 +153,7 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
 class _Builder<T> extends StatelessWidget {
   final Stream<ListPaginationState<T>> stream;
   final Widget Function(ListPaginationLoaded<T> data) builder;
+  final Widget Function()? emptyBuilder;
   final double paddingTop;
   final double padding;
   final bool isSliver;
@@ -157,6 +163,7 @@ class _Builder<T> extends StatelessWidget {
     required this.builder,
     required this.paddingTop,
     required this.padding,
+    this.emptyBuilder,
     this.isSliver = false,
   });
 
@@ -183,6 +190,7 @@ class _Builder<T> extends StatelessWidget {
             return _Empty(
               isSliver: isSliver,
               paddingTop: paddingTop,
+              emptyBuilder: emptyBuilder,
               padding: padding,
             );
           }
@@ -241,35 +249,39 @@ class _Loading extends StatelessWidget {
 class _Empty extends StatelessWidget {
   final double paddingTop;
   final double padding;
+  final Widget Function()? emptyBuilder;
   final bool isSliver;
 
   const _Empty({
     required this.paddingTop,
     required this.padding,
+    this.emptyBuilder,
     this.isSliver = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final child = Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      constraints: const BoxConstraints(maxHeight: 150),
-      margin: EdgeInsets.only(
-        top: paddingTop,
-        left: padding,
-        right: padding,
-        bottom: padding,
-      ),
-      child: const Center(
-        child: Text(
-          'Sin resultados',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-        ),
-      ),
-    );
+    final child = emptyBuilder != null
+        ? emptyBuilder!()
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            constraints: const BoxConstraints(maxHeight: 150),
+            margin: EdgeInsets.only(
+              top: paddingTop,
+              left: padding,
+              right: padding,
+              bottom: padding,
+            ),
+            child: const Center(
+              child: Text(
+                'Sin resultados',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+              ),
+            ),
+          );
 
     return isSliver ? SliverToBoxAdapter(child: child) : child;
   }

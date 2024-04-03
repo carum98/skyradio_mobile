@@ -13,6 +13,7 @@ class SkSelect<T> extends StatefulWidget {
   final T? initialValue;
   final Function(T?) onChanged;
   final Widget Function(T item) itemBuilder;
+  final Future<T> Function(String value)? onEmptyCreate;
   final bool? showClearButton;
   final bool isRequired;
 
@@ -22,6 +23,7 @@ class SkSelect<T> extends StatefulWidget {
     required this.placeholder,
     required this.onChanged,
     required this.itemBuilder,
+    this.onEmptyCreate,
     this.initialValue,
     this.filters,
     this.showClearButton,
@@ -58,13 +60,22 @@ class SkSelect<T> extends StatefulWidget {
 }
 
 class _SkSelectState<T> extends State<SkSelect<T>> {
+  late final TextEditingController _textController;
   T? _value;
 
   @override
   void initState() {
     super.initState();
 
+    _textController = TextEditingController();
     _value = widget.initialValue;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _textController.dispose();
   }
 
   @override
@@ -75,6 +86,15 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
         filter: widget.filters != null ? _SelectFilters(widget.filters!) : null,
       ),
     );
+
+    void onSelect(T item) {
+      widget.onChanged(item);
+      Navigator.pop(context);
+
+      setState(() {
+        _value = item;
+      });
+    }
 
     return Stack(
       children: [
@@ -104,9 +124,11 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
           onTap: () {
             skBottomSheet(
               context,
+              height: 0.7,
               Column(
                 children: [
                   TextField(
+                    controller: _textController,
                     onChanged: controller.search,
                     decoration: InputDecoration(
                       hintText: 'Buscar...',
@@ -129,14 +151,28 @@ class _SkSelectState<T> extends State<SkSelect<T>> {
                       controller: controller,
                       builder: widget.itemBuilder,
                       padding: 0,
-                      onTap: (item) {
-                        widget.onChanged(item);
-                        Navigator.pop(context);
+                      onTap: onSelect,
+                      emptyBuilder: widget.onEmptyCreate != null
+                          ? () {
+                              return SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    final item = await widget.onEmptyCreate!(
+                                      _textController.text,
+                                    );
 
-                        setState(() {
-                          _value = item;
-                        });
-                      },
+                                    onSelect(item);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
+                                  ),
+                                  child: const Text('Crear...'),
+                                ),
+                              );
+                            }
+                          : null,
                     ),
                   ),
                 ],
