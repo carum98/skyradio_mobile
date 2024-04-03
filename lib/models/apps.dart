@@ -78,8 +78,8 @@ class AppsForm extends SkFormModel {
   RequestData getParams() {
     return {
       'name': name,
-      'license': license?.code,
-      'client': client?.code,
+      'license_code': license?.code,
+      'client_code': client?.code,
     };
   }
 

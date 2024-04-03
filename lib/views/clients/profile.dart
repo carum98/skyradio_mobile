@@ -83,6 +83,8 @@ class _ClientViewState extends State<ClientView> {
   void onRefreshRadiosList() {
     listRadiosController.refresh();
     rebuildController.rebuild();
+
+    wasEdited = true;
   }
 
   void onRefreshClient() {
