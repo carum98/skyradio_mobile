@@ -82,4 +82,8 @@ class ClientsRepository {
   Future<void> swapRadio(String code, RequestParams params) async {
     await _clientsService.swapRadio(code, params);
   }
+
+  Future<void> addApp(String code, RequestParams params) async {
+    await _clientsService.addApp(code, params);
+  }
 }

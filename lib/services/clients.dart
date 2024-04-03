@@ -91,4 +91,13 @@ class ClientsService {
       params,
     );
   }
+
+  Future<ResponseData> addApp(String code, RequestParams params) async {
+    final response = await _http.post(
+      '/clients/$code/apps',
+      params,
+    );
+
+    return response.data;
+  }
 }

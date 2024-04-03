@@ -86,3 +86,15 @@ class AppsForm extends SkFormModel {
   @override
   bool get isValid => name != null && client != null;
 }
+
+class AppsItemForm {
+  String? name;
+  License? license;
+
+  ResponseData getParams() {
+    return {
+      'name': name,
+      'license_code': license?.code,
+    };
+  }
+}

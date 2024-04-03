@@ -172,44 +172,67 @@ class _ClientViewState extends State<ClientView> {
             ),
           ],
         ),
-        floatingActionButton: Wrap(
-          spacing: 10,
-          direction: Axis.vertical,
-          children: [
-            _ActionsButtons(
-              color: const Color.fromRGBO(7, 80, 188, 1),
-              icon: SkIconData.arrows,
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(RADIOS_SWAP_VIEW, arguments: widget.client.value)
-                    .then((value) => {if (value == true) onRefreshList()});
-              },
-            ),
-            _ActionsButtons(
-              color: const Color.fromRGBO(191, 42, 42, 1),
-              icon: SkIconData.arrow_up,
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(
-                      RADIOS_REMOVE_VIEW,
-                      arguments: widget.client.value,
-                    )
-                    .then((value) => {if (value == true) onRefreshList()});
-              },
-            ),
-            _ActionsButtons(
-              color: const Color.fromRGBO(58, 160, 58, 1),
-              icon: SkIconData.arrow_down,
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(
-                      RADIOS_ADD_VIEW,
-                      arguments: widget.client.value,
-                    )
-                    .then((value) => {if (value == true) onRefreshList()});
-              },
-            ),
-          ],
+        floatingActionButton: ValueListenableBuilder(
+          valueListenable: tabController.index,
+          builder: (_, value, __) {
+            if (value == 1) {
+              return _ActionsButtons(
+                color: const Color.fromRGBO(7, 80, 188, 1),
+                icon: SkIconData.add,
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(
+                        APPS_ADD_VIEW,
+                        arguments: widget.client.value,
+                      )
+                      .then((value) => {if (value == true) onRefreshList()});
+                },
+              );
+            }
+
+            return Wrap(
+              spacing: 10,
+              direction: Axis.vertical,
+              children: [
+                _ActionsButtons(
+                  color: const Color.fromRGBO(7, 80, 188, 1),
+                  icon: SkIconData.arrows,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(
+                          RADIOS_SWAP_VIEW,
+                          arguments: widget.client.value,
+                        )
+                        .then((value) => {if (value == true) onRefreshList()});
+                  },
+                ),
+                _ActionsButtons(
+                  color: const Color.fromRGBO(191, 42, 42, 1),
+                  icon: SkIconData.arrow_up,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(
+                          RADIOS_REMOVE_VIEW,
+                          arguments: widget.client.value,
+                        )
+                        .then((value) => {if (value == true) onRefreshList()});
+                  },
+                ),
+                _ActionsButtons(
+                  color: const Color.fromRGBO(58, 160, 58, 1),
+                  icon: SkIconData.arrow_down,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(
+                          RADIOS_ADD_VIEW,
+                          arguments: widget.client.value,
+                        )
+                        .then((value) => {if (value == true) onRefreshList()});
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
