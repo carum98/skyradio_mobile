@@ -20,8 +20,7 @@ class LicenseSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SkSelect.label(
-      label: 'Licencia',
+    return SkSelect(
       placeholder: 'Licencia',
       provider: DI.of(context).licenseRepository.getLicenses,
       showClearButton: showClearButton,

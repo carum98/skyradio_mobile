@@ -4,6 +4,7 @@ import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/apps.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
+import 'package:skyradio_mobile/widgets/label.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 import 'package:skyradio_mobile/widgets/selectors/clients.dart';
 import 'package:skyradio_mobile/widgets/selectors/licenses.dart';
@@ -74,11 +75,15 @@ class AppsFormView extends StatelessWidget {
             model.name = value;
           },
         ),
-        LicenseSelector(
-          initialValue: model.license,
-          onChanged: (value) {
-            model.license = value;
-          },
+        SkLabel(
+          label: 'Licencia',
+          isRequired: true,
+          child: LicenseSelector(
+            initialValue: model.license,
+            onChanged: (value) {
+              model.license = value;
+            },
+          ),
         )
       ],
     );

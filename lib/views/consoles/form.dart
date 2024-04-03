@@ -4,6 +4,7 @@ import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/core/types.dart';
 import 'package:skyradio_mobile/models/clients.dart';
 import 'package:skyradio_mobile/models/console.dart';
+import 'package:skyradio_mobile/widgets/label.dart';
 import 'package:skyradio_mobile/widgets/scaffold/sk_scaffold_form.dart';
 import 'package:skyradio_mobile/widgets/selectors/licenses.dart';
 
@@ -56,11 +57,14 @@ class ConsoleFormView extends StatelessWidget {
       model: model,
       onSend: onSave,
       builder: (value) => [
-        LicenseSelector(
-          initialValue: model.license,
-          onChanged: (value) {
-            model.license = value;
-          },
+        SkLabel(
+          label: 'Licencia',
+          child: LicenseSelector(
+            initialValue: model.license,
+            onChanged: (value) {
+              model.license = value;
+            },
+          ),
         )
       ],
     );
