@@ -80,7 +80,7 @@ class _ClientViewState extends State<ClientView> {
     listAppsController.dispose();
   }
 
-  void onRefreshList() {
+  void onRefreshRadiosList() {
     listRadiosController.refresh();
     rebuildController.rebuild();
   }
@@ -161,11 +161,11 @@ class _ClientViewState extends State<ClientView> {
               controller: tabController,
               views: [
                 _RadiosList(
-                  listRadiosController: listRadiosController,
+                  controller: listRadiosController,
                   scrollController: scrollController,
                 ),
                 _AppsList(
-                  listRadiosController: listAppsController,
+                  controller: listAppsController,
                   scrollController: scrollController,
                 ),
               ],
@@ -182,10 +182,12 @@ class _ClientViewState extends State<ClientView> {
                 onPressed: () {
                   Navigator.of(context)
                       .pushNamed(
-                        APPS_ADD_VIEW,
-                        arguments: widget.client.value,
-                      )
-                      .then((value) => {if (value == true) onRefreshList()});
+                    APPS_ADD_VIEW,
+                    arguments: widget.client.value,
+                  )
+                      .then((value) {
+                    if (value == true) listAppsController.refresh();
+                  });
                 },
               );
             }
@@ -203,7 +205,8 @@ class _ClientViewState extends State<ClientView> {
                           RADIOS_SWAP_VIEW,
                           arguments: widget.client.value,
                         )
-                        .then((value) => {if (value == true) onRefreshList()});
+                        .then((value) =>
+                            {if (value == true) onRefreshRadiosList()});
                   },
                 ),
                 _ActionsButtons(
@@ -215,7 +218,8 @@ class _ClientViewState extends State<ClientView> {
                           RADIOS_REMOVE_VIEW,
                           arguments: widget.client.value,
                         )
-                        .then((value) => {if (value == true) onRefreshList()});
+                        .then((value) =>
+                            {if (value == true) onRefreshRadiosList()});
                   },
                 ),
                 _ActionsButtons(
@@ -227,7 +231,8 @@ class _ClientViewState extends State<ClientView> {
                           RADIOS_ADD_VIEW,
                           arguments: widget.client.value,
                         )
-                        .then((value) => {if (value == true) onRefreshList()});
+                        .then((value) =>
+                            {if (value == true) onRefreshRadiosList()});
                   },
                 ),
               ],
@@ -240,18 +245,19 @@ class _ClientViewState extends State<ClientView> {
 }
 
 class _RadiosList extends StatelessWidget {
-  final SkListViewPaginationController<Radios> listRadiosController;
+  final SkListViewPaginationController<Radios> controller;
   final ScrollController scrollController;
 
   const _RadiosList({
-    required this.listRadiosController,
+    required this.controller,
     required this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
     return SkListViewPagination.sliver(
-      controller: listRadiosController,
+      key: const Key('radios_list'),
+      controller: controller,
       scrollController: scrollController,
       builder: (radio) => RadiosTile(radio: radio),
       padding: 10,
@@ -259,14 +265,14 @@ class _RadiosList extends StatelessWidget {
         SkBottomSheet.of(context)
             .pushNamed(RADIO_BOTTOM_SHEET, arguments: radio)
             .then((value) {
-          if (value == true) listRadiosController.refresh();
+          if (value == true) controller.refresh();
         });
       },
       onLongPress: (radio) => SkBottomSheet.of(context).pushNamed(
         RADIOS_ACTIONS_BOTTOM_SHEET,
         arguments: {
           'radio': radio,
-          'onRefresh': listRadiosController.refresh,
+          'onRefresh': controller.refresh,
         },
       ),
     );
@@ -274,21 +280,36 @@ class _RadiosList extends StatelessWidget {
 }
 
 class _AppsList extends StatelessWidget {
-  final SkListViewPaginationController<Apps> listRadiosController;
+  final SkListViewPaginationController<Apps> controller;
   final ScrollController scrollController;
 
   const _AppsList({
-    required this.listRadiosController,
+    required this.controller,
     required this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
     return SkListViewPagination.sliver(
-      controller: listRadiosController,
+      key: const Key('apps_list'),
+      controller: controller,
       scrollController: scrollController,
       builder: (app) => AppsTile(app: app),
       padding: 10,
+      onTap: (app) {
+        SkBottomSheet.of(context)
+            .pushNamed(APP_BOTTOM_SHEET, arguments: app)
+            .then((value) {
+          if (value == true) controller.refresh();
+        });
+      },
+      onLongPress: (app) => SkBottomSheet.of(context).pushNamed(
+        APP_ACTIONS_BOTTOM_SHEET,
+        arguments: {
+          'app': app,
+          'onRefresh': controller.refresh,
+        },
+      ),
     );
   }
 }

@@ -31,6 +31,18 @@ class ClientsService {
     return response.data;
   }
 
+  Future<ResponseData> getApps(String code, RequestParams params) async {
+    final response = await _http.get(
+      '/clients/$code/apps',
+      params: {
+        'per_page': 15,
+        ...params,
+      },
+    );
+
+    return response.data;
+  }
+
   Future<ResponseData> getStats(String code) async {
     final response = await _http.get(
       '/clients/$code/stats',

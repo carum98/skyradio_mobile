@@ -37,7 +37,7 @@ class ClientsRepository {
     String code,
     RequestParams params,
   ) async {
-    final data = await _clientsService.getRadios(code, params);
+    final data = await _clientsService.getApps(code, params);
 
     return ResponsePagination.fromJson(
       data,
