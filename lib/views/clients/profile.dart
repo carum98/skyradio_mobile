@@ -21,42 +21,79 @@ import 'package:skyradio_mobile/widgets/tiles/radios.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/tabs.dart';
 
-class ClientView extends StatelessWidget {
+class ClientView extends StatefulWidget {
   final ValueNotifier<Clients> client;
 
   ClientView({super.key, required Clients client})
       : client = ValueNotifier(client);
 
   @override
-  Widget build(BuildContext context) {
-    bool wasEdited = false;
+  State<ClientView> createState() => _ClientViewState();
+}
+
+class _ClientViewState extends State<ClientView> {
+  bool wasEdited = false;
+
+  late final SkTabController tabController;
+  late final ScrollController scrollController;
+  late final RebuildController rebuildController;
+  late final SkListViewPaginationController<Radios> listRadiosController;
+  late final SkListViewPaginationController<Apps> listAppsController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     final repository = DI.of(context).clientsRepository;
 
-    final listRadiosController = SkListViewPaginationController(
-      provider: (params) => repository.getRadios(client.value.code, params),
-      params: ApiParams(filter: RadiosFilter(), sort: ApiSortModel()),
+    final clientCode = widget.client.value.code;
+
+    tabController = SkTabController();
+    scrollController = ScrollController();
+    rebuildController = RebuildController();
+
+    listRadiosController = SkListViewPaginationController(
+      provider: (params) => repository.getRadios(
+        clientCode,
+        params,
+      ),
+      params: ApiParams(
+        filter: RadiosFilter(),
+        sort: ApiSortModel(),
+      ),
     );
 
-    final listAppsController = SkListViewPaginationController(
-      provider: (params) => repository.getApps(client.value.code, params),
+    listAppsController = SkListViewPaginationController(
+      provider: (params) => repository.getApps(
+        clientCode,
+        params,
+      ),
     );
+  }
 
-    final rebuildController = RebuildController();
-    final scrollController = ScrollController();
-    final tabController = SkTabController();
+  @override
+  void dispose() {
+    super.dispose();
 
-    void onRefreshList() {
-      listRadiosController.refresh();
-      rebuildController.rebuild();
-    }
+    scrollController.dispose();
+    listRadiosController.dispose();
+    listAppsController.dispose();
+  }
 
-    void onRefreshClient() {
-      repository.get(client.value.code).then((value) => {
-            wasEdited = true,
-            client.value = value,
-          });
-    }
+  void onRefreshList() {
+    listRadiosController.refresh();
+    rebuildController.rebuild();
+  }
 
+  void onRefreshClient() {
+    // repository.get(widget.client.value.code).then((value) => {
+    //       wasEdited = true,
+    //       widget.client.value = value,
+    //     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -71,18 +108,18 @@ class ClientView extends StatelessWidget {
           controller: scrollController,
           slivers: [
             ListenableBuilder(
-              listenable: client,
+              listenable: widget.client,
               builder: (_, __) => _SliverAppBar(
-                client: client.value,
+                client: widget.client.value,
                 onRefresh: onRefreshClient,
               ),
             ),
             ListenableBuilder(
-              listenable: client,
+              listenable: widget.client,
               builder: (_, __) => SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 sliver: SliverToBoxAdapter(
-                  child: _SliverHeader(client: client.value),
+                  child: _SliverHeader(client: widget.client.value),
                 ),
               ),
             ),
@@ -91,7 +128,7 @@ class ClientView extends StatelessWidget {
             ),
             RebuildWrapper(
               controller: rebuildController,
-              child: _SliverChart(client: client.value),
+              child: _SliverChart(client: widget.client.value),
             ),
             const SliverToBoxAdapter(
               child: SizedBox(height: 40),
@@ -144,7 +181,7 @@ class ClientView extends StatelessWidget {
               icon: SkIconData.arrows,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(RADIOS_SWAP_VIEW, arguments: client.value)
+                    .pushNamed(RADIOS_SWAP_VIEW, arguments: widget.client.value)
                     .then((value) => {if (value == true) onRefreshList()});
               },
             ),
@@ -153,7 +190,10 @@ class ClientView extends StatelessWidget {
               icon: SkIconData.arrow_up,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(RADIOS_REMOVE_VIEW, arguments: client.value)
+                    .pushNamed(
+                      RADIOS_REMOVE_VIEW,
+                      arguments: widget.client.value,
+                    )
                     .then((value) => {if (value == true) onRefreshList()});
               },
             ),
@@ -162,7 +202,10 @@ class ClientView extends StatelessWidget {
               icon: SkIconData.arrow_down,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(RADIOS_ADD_VIEW, arguments: client.value)
+                    .pushNamed(
+                      RADIOS_ADD_VIEW,
+                      arguments: widget.client.value,
+                    )
                     .then((value) => {if (value == true) onRefreshList()});
               },
             ),

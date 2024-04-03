@@ -93,7 +93,10 @@ class _SkListViewPaginationState<T> extends State<SkListViewPagination<T>> {
   void dispose() {
     super.dispose();
 
-    _controller.dispose();
+    // Only dispose the controller if not is sliver (provitional fix)
+    if (!widget.isSliver) {
+      _controller.dispose();
+    }
 
     if (widget.scrollController == null) {
       _scrollController.dispose();
