@@ -141,6 +141,8 @@ class DI extends InheritedWidget {
     /// If the api returns a 401 status code, the user is redirected to the login view
     http.onError.listen((error) {
       if (error.runtimeType == UnauthorizedException) {
+        authStorageService.delete();
+
         state.navigatorKey.currentState!.pushNamedAndRemoveUntil(
           LOGIN_VIEW,
           (route) => false,

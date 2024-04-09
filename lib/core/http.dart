@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:skyradio_mobile/models/auth.dart';
 import 'package:skyradio_mobile/services/auth_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -81,9 +82,13 @@ class SkHttp {
 
     final authInfo = await _authStorageService.get();
 
+    if (authInfo == null) {
+      throw UnauthorizedException(message: 'No token');
+    }
+
     return {
-      'Authorization': 'Bearer ${authInfo?.token}',
-      // 'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${authInfo.isExpired ? await refreshToken(authInfo) : authInfo.token}',
     };
   }
 
@@ -137,8 +142,6 @@ class SkHttp {
       }
 
       if (response.statusCode == 401) {
-        _authStorageService.delete();
-
         throw UnauthorizedException(
           message: jsonDecode(response.body)['message'],
         );
@@ -170,6 +173,22 @@ class SkHttp {
       authStorageService: _authStorageService,
       useToken: useToken ?? _useToken,
     );
+  }
+
+  Future<String?> refreshToken(Auth auth) async {
+    try {
+      final client = copyWith(useToken: false);
+
+      final response = await client.post('/refresh-token', {
+        'refresh_token': auth.refreshToken,
+      });
+
+      await _authStorageService.save(response.data);
+
+      return response.data['token'];
+    } catch (e) {
+      throw UnauthorizedException(message: 'Failed to refresh token');
+    }
   }
 }
 

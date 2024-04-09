@@ -17,6 +17,9 @@ class Auth {
     );
   }
 
+  bool get isExpired =>
+      DateTime.now().millisecondsSinceEpoch > (expiresIn - 60 * 60 * 1000);
+
   toJson() {
     return {
       'token': token,
