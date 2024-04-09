@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/router.dart';
+import 'package:skyradio_mobile/core/toast.dart';
 import 'package:skyradio_mobile/widgets/button.dart';
 import 'package:skyradio_mobile/widgets/input.dart';
 import 'package:skyradio_mobile/widgets/logo.dart';
@@ -51,13 +54,18 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void login() async {
-    await DI.of(context).authRepository.login(email, password);
+    try {
+      await DI.of(context).authRepository.login(email, password);
 
-    if (context.mounted) {
       Navigator.pushNamedAndRemoveUntil(
         context,
         HOME_VIEW,
         (route) => false,
+      );
+    } catch (e) {
+      SkToast.of(context).error(
+        title: 'Error',
+        message: 'Error al iniciar sesión.',
       );
     }
   }
