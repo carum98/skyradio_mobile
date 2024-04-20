@@ -45,12 +45,13 @@ class SkScaffoldProfile<T> extends StatelessWidget {
               valueListenable: item,
               builder: (_, value, __) => Wrap(
                 runSpacing: 10,
+                direction: Axis.vertical,
                 children: [
                   Text(
                     title,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   ...builder(value)
                 ],
               ),

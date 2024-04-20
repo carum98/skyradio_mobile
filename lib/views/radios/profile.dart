@@ -32,10 +32,11 @@ class RadioView extends StatelessWidget {
         );
       },
       builder: (value) => [
-        Text(
-          'Nombre: ${value.name}',
-          style: const TextStyle(fontSize: 16),
-        ),
+        if (value.name != null)
+          Text(
+            'Nombre: ${value.name}',
+            style: const TextStyle(fontSize: 16),
+          ),
         Row(
           children: [
             const Text(
