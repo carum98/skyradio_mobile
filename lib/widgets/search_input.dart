@@ -30,7 +30,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
 
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
-        overlayPortalController.show();
+        // overlayPortalController.show();
       } else {
         overlayPortalController.hide();
       }
@@ -40,7 +40,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
       if (textEditingController.text.length == 1) {
         overlayPortalController.hide();
       } else if (textEditingController.text.isEmpty) {
-        overlayPortalController.show();
+        // overlayPortalController.show();
       }
     });
   }
