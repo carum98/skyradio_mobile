@@ -82,7 +82,7 @@ class ClientsActionsView extends StatelessWidget {
               ),
         const Divider(),
         SkButton.block(
-          text: 'Actualizar',
+          text: 'Editar',
           icon: SkIconData.update,
           backgroundColor: Colors.transparent,
           textLeft: true,

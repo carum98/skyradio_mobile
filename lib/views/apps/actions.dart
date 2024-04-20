@@ -21,7 +21,7 @@ class AppsActionsView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SkButton.block(
-          text: 'Actualizar',
+          text: 'Editar',
           icon: SkIconData.update,
           backgroundColor: Colors.transparent,
           textLeft: true,

@@ -606,7 +606,7 @@ class _ClientActions extends StatelessWidget {
             children: [
               SkIcon(SkIconData.update, size: 20),
               SizedBox(width: 10),
-              Text('Actualizar', style: TextStyle(fontSize: 16)),
+              Text('Editar', style: TextStyle(fontSize: 16)),
             ],
           ),
         ),
