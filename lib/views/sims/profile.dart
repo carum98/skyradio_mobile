@@ -15,21 +15,25 @@ class SimView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = DI.of(context).state.user;
+
     return SkScaffoldProfile(
       item: sim,
       title: sim.number,
       onActions: (value, callback) {
-        SkBottomSheet.of(context).pushNamed(
-          SIMS_ACTIONS_BOTTOM_SHEET,
-          arguments: {
-            'sim': value,
-            'onRefresh': () async {
-              final sim =
-                  await DI.of(context).simsRepository.getSim(value.code);
-              callback(sim);
+        if (user.isAdmin || user.isUser) {
+          SkBottomSheet.of(context).pushNamed(
+            SIMS_ACTIONS_BOTTOM_SHEET,
+            arguments: {
+              'sim': value,
+              'onRefresh': () async {
+                final sim =
+                    await DI.of(context).simsRepository.getSim(value.code);
+                callback(sim);
+              },
             },
-          },
-        );
+          );
+        }
       },
       builder: (value) => [
         Row(

@@ -13,6 +13,8 @@ class SimsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = DI.of(context).state.user;
+
     final controller = SkListViewPaginationController(
       provider: DI.of(context).simsRepository.getSims,
       params: ApiParams(filter: SimsFilter(), sort: ApiSortModel()),
@@ -21,8 +23,9 @@ class SimsView extends StatelessWidget {
     return SkScaffold(
       title: 'Sims',
       controller: controller,
-      availableEnable: const [
-        SkScaffoldAction.add,
+      availableEnable: [
+        if (user.isAdmin || user.isUser) SkScaffoldAction.add,
+        if (user.isAdmin || user.isUser) SkScaffoldAction.actions,
         SkScaffoldAction.filter,
         SkScaffoldAction.sort
       ],

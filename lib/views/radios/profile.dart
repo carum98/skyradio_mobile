@@ -15,21 +15,25 @@ class RadioView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = DI.of(context).state.user;
+
     return SkScaffoldProfile(
       item: radio,
       title: radio.imei,
       onActions: (value, callback) {
-        SkBottomSheet.of(context).pushNamed(
-          RADIOS_ACTIONS_BOTTOM_SHEET,
-          arguments: {
-            'radio': value,
-            'onRefresh': () async {
-              final radio =
-                  await DI.of(context).radiosRepository.getRadio(value.code);
-              callback(radio);
+        if (user.isAdmin || user.isUser) {
+          SkBottomSheet.of(context).pushNamed(
+            RADIOS_ACTIONS_BOTTOM_SHEET,
+            arguments: {
+              'radio': value,
+              'onRefresh': () async {
+                final radio =
+                    await DI.of(context).radiosRepository.getRadio(value.code);
+                callback(radio);
+              },
             },
-          },
-        );
+          );
+        }
       },
       builder: (value) => [
         if (value.name != null)

@@ -11,6 +11,8 @@ class AppsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = DI.of(context).state.user;
+
     final controller = SkListViewPaginationController(
       provider: DI.of(context).appsRepository.getApps,
     );
@@ -18,8 +20,9 @@ class AppsView extends StatelessWidget {
     return SkScaffold(
       title: 'Apps',
       controller: controller,
-      availableEnable: const [
-        SkScaffoldAction.add,
+      availableEnable: [
+        if (user.isAdmin || user.isUser) SkScaffoldAction.add,
+        if (user.isAdmin || user.isUser) SkScaffoldAction.actions,
       ],
       builder: (app) => AppsTile(app: app),
       onTap: (app) {

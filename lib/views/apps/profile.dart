@@ -15,21 +15,25 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = DI.of(context).state.user;
+
     return SkScaffoldProfile(
       item: app,
       title: app.name,
       onActions: (value, callback) {
-        SkBottomSheet.of(context).pushNamed(
-          APP_ACTIONS_BOTTOM_SHEET,
-          arguments: {
-            'app': value,
-            'onRefresh': () async {
-              final app =
-                  await DI.of(context).appsRepository.getApp(value.code);
-              callback(app);
+        if (user.isAdmin || user.isUser) {
+          SkBottomSheet.of(context).pushNamed(
+            APP_ACTIONS_BOTTOM_SHEET,
+            arguments: {
+              'app': value,
+              'onRefresh': () async {
+                final app =
+                    await DI.of(context).appsRepository.getApp(value.code);
+                callback(app);
+              },
             },
-          },
-        );
+          );
+        }
       },
       builder: (value) => [
         if (value.license != null)

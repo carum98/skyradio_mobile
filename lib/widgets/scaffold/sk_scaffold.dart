@@ -9,7 +9,7 @@ import 'package:skyradio_mobile/widgets/logout_dropdown.dart';
 import 'package:skyradio_mobile/widgets/search_input.dart';
 import 'package:skyradio_mobile/widgets/switch_theme.dart';
 
-enum SkScaffoldAction { add, filter, sort }
+enum SkScaffoldAction { add, filter, sort, actions }
 
 class SkScaffold<T> extends StatelessWidget {
   final SkListViewPaginationController<T> controller;
@@ -40,6 +40,7 @@ class SkScaffold<T> extends StatelessWidget {
     final filterAvailable = availableEnable.contains(SkScaffoldAction.filter);
     final sortAvailable = availableEnable.contains(SkScaffoldAction.sort);
     final addAvailable = availableEnable.contains(SkScaffoldAction.add);
+    final actionsAvailable = availableEnable.contains(SkScaffoldAction.actions);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -107,7 +108,7 @@ class SkScaffold<T> extends StatelessWidget {
         builder: builder,
         paddingTop: MediaQuery.of(context).padding.top + kToolbarHeight + 75,
         onTap: onTap,
-        onLongPress: onItemActions,
+        onLongPress: actionsAvailable ? onItemActions : null,
         handleBottomBarVisibility: true,
       ),
       floatingActionButton: addAvailable

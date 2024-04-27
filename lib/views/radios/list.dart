@@ -13,6 +13,8 @@ class RadiosView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = DI.of(context).state.user;
+
     final controller = SkListViewPaginationController(
       provider: DI.of(context).radiosRepository.getRadios,
       params: ApiParams(filter: RadiosFilter(), sort: ApiSortModel()),
@@ -21,8 +23,9 @@ class RadiosView extends StatelessWidget {
     return SkScaffold(
       title: 'Radios',
       controller: controller,
-      availableEnable: const [
-        SkScaffoldAction.add,
+      availableEnable: [
+        if (user.isAdmin || user.isUser) SkScaffoldAction.add,
+        if (user.isAdmin || user.isUser) SkScaffoldAction.actions,
         SkScaffoldAction.filter,
         SkScaffoldAction.sort
       ],
