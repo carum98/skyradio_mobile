@@ -71,7 +71,7 @@ class SkHttp {
 
     return Uri(
       scheme: 'https',
-      host: 'skyradio-api.carum.dev',
+      host: 'skyradio-api.skydatacontrol.com',
       path: path,
       queryParameters: queryParameters,
     );
