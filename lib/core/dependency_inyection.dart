@@ -99,6 +99,7 @@ class DI extends InheritedWidget {
     authRepository = AuthRepository(
       authStorageService: authStorageService,
       authService: authService,
+      globalState: state,
     );
 
     clientsRepository = ClientsRepository(
@@ -135,6 +136,13 @@ class DI extends InheritedWidget {
         value ? HOME_VIEW : LOGIN_VIEW,
         (route) => false,
       );
+    });
+
+    /// Set the user in the global state
+    /// If the user is not authenticated, the user is set to null
+    authStorageService.get().then((value) {
+      if (value == null) return;
+      state.setUser(value.user);
     });
 
     /// Listen for api errors

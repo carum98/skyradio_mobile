@@ -21,8 +21,12 @@ class AuthStorageService {
     return Auth.fromJson(jsonDecode(map));
   }
 
-  Future<void> save(Map<String, dynamic> map) {
-    return _storage.write(storageName, jsonEncode(Auth.fromJson(map).toJson()));
+  Future<Auth> save(Map<String, dynamic> map) async {
+    final auth = Auth.fromJson(map);
+
+    await _storage.write(storageName, jsonEncode(auth.toJson()));
+
+    return auth;
   }
 
   Future<void> delete() {
