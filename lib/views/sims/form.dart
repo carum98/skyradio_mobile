@@ -63,6 +63,7 @@ class SimsFormView extends StatelessWidget {
           isRequired: true,
           minLength: 3,
           maxLength: 12,
+          keyboardType: TextInputType.phone,
           onChanged: (value) {
             model.number = value;
           },

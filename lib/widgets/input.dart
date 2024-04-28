@@ -10,6 +10,7 @@ class SkInput extends StatefulWidget {
   final int? maxLength;
   final int? minLength;
   final int? length;
+  final TextInputType? keyboardType;
   final Function(String) onChanged;
 
   const SkInput({
@@ -23,6 +24,7 @@ class SkInput extends StatefulWidget {
     this.maxLength,
     this.minLength,
     this.length,
+    this.keyboardType,
   });
 
   static Widget label({
@@ -36,6 +38,7 @@ class SkInput extends StatefulWidget {
     int? maxLength,
     int? minLength,
     int? length,
+    TextInputType? keyboardType,
   }) {
     return SkLabel(
       label: label,
@@ -50,6 +53,7 @@ class SkInput extends StatefulWidget {
         maxLength: maxLength,
         minLength: minLength,
         length: length,
+        keyboardType: keyboardType,
       ),
     );
   }
@@ -99,6 +103,7 @@ class _SkInputState extends State<SkInput> {
         onChanged: widget.onChanged,
         maxLength: widget.maxLength ?? widget.length,
         validator: validator,
+        keyboardType: widget.keyboardType,
         decoration: InputDecoration(
           hintText: widget.placeholder,
           counterText: '',
@@ -112,22 +117,26 @@ class _SkInputState extends State<SkInput> {
       if (value == null || value.isEmpty) {
         return 'Este campo es requerido';
       }
+    } else {
+      if (value == null || value.isEmpty) {
+        return null;
+      }
     }
 
     if (widget.minLength != null) {
-      if (value!.length < widget.minLength!) {
+      if (value.length < widget.minLength!) {
         return 'Este campo debe tener al menos ${widget.minLength} caracteres';
       }
     }
 
     if (widget.maxLength != null) {
-      if (value!.length > widget.maxLength!) {
+      if (value.length > widget.maxLength!) {
         return 'Este campo debe tener como maximo ${widget.maxLength} caracteres';
       }
     }
 
     if (widget.length != null) {
-      if (value!.length != widget.length!) {
+      if (value.length != widget.length!) {
         return 'Este campo debe tener ${widget.length} caracteres';
       }
     }

@@ -59,7 +59,6 @@ class RadiosFormView extends StatelessWidget {
           label: 'Nombre',
           placeholder: 'Nombre del radio',
           initialValue: model.name,
-          autofocus: true,
           minLength: 3,
           maxLength: 50,
           onChanged: (value) {
@@ -70,8 +69,10 @@ class RadiosFormView extends StatelessWidget {
           label: 'IMEI',
           placeholder: 'IMEI',
           initialValue: model.imei,
+          autofocus: true,
           isRequired: true,
           length: 15,
+          keyboardType: TextInputType.number,
           onChanged: (value) {
             model.imei = value;
           },
