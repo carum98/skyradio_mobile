@@ -71,6 +71,7 @@ class RadiosFormView extends StatelessWidget {
           initialValue: model.imei,
           autofocus: true,
           isRequired: true,
+          scanner: true,
           length: 15,
           keyboardType: TextInputType.number,
           onChanged: (value) {
@@ -81,6 +82,7 @@ class RadiosFormView extends StatelessWidget {
           label: 'Serial',
           placeholder: 'Serial',
           initialValue: model.serial,
+          scanner: true,
           minLength: 3,
           maxLength: 15,
           onChanged: (value) {

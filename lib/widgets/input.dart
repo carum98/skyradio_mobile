@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/bottom_sheet.dart';
+import 'package:skyradio_mobile/widgets/icons.dart';
 import 'package:skyradio_mobile/widgets/label.dart';
 
 class SkInput extends StatefulWidget {
@@ -6,12 +8,13 @@ class SkInput extends StatefulWidget {
   final String? initialValue;
   final bool? autofocus;
   final bool? obscureText;
+  final bool scanner;
   final bool isRequired;
   final int? maxLength;
   final int? minLength;
   final int? length;
   final TextInputType? keyboardType;
-  final Function(String) onChanged;
+  final void Function(String) onChanged;
 
   const SkInput({
     super.key,
@@ -20,6 +23,7 @@ class SkInput extends StatefulWidget {
     this.obscureText,
     required this.placeholder,
     required this.onChanged,
+    this.scanner = false,
     this.isRequired = false,
     this.maxLength,
     this.minLength,
@@ -34,6 +38,7 @@ class SkInput extends StatefulWidget {
     String? initialValue,
     bool? autofocus,
     bool? obscureText,
+    bool? scanner,
     bool? isRequired,
     int? maxLength,
     int? minLength,
@@ -50,6 +55,7 @@ class SkInput extends StatefulWidget {
         obscureText: obscureText,
         onChanged: onChanged,
         isRequired: isRequired ?? false,
+        scanner: scanner ?? false,
         maxLength: maxLength,
         minLength: minLength,
         length: length,
@@ -64,10 +70,13 @@ class SkInput extends StatefulWidget {
 
 class _SkInputState extends State<SkInput> {
   late final FocusNode focusNode;
+  late final TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
+
+    controller = TextEditingController();
 
     focusNode = FocusNode();
     focusNode.addListener(() => setState(() {}));
@@ -77,6 +86,7 @@ class _SkInputState extends State<SkInput> {
   void dispose() {
     super.dispose();
 
+    controller.dispose();
     focusNode.dispose();
   }
 
@@ -96,6 +106,7 @@ class _SkInputState extends State<SkInput> {
             : null,
       ),
       child: TextFormField(
+        controller: controller,
         autofocus: widget.autofocus ?? false,
         focusNode: focusNode,
         initialValue: widget.initialValue,
@@ -104,9 +115,18 @@ class _SkInputState extends State<SkInput> {
         maxLength: widget.maxLength ?? widget.length,
         validator: validator,
         keyboardType: widget.keyboardType,
+        keyboardAppearance: Brightness.dark,
         decoration: InputDecoration(
           hintText: widget.placeholder,
           counterText: '',
+          suffixIcon: widget.scanner
+              ? _ButtonScanner(
+                  onChanged: (value) {
+                    controller.text = value;
+                    widget.onChanged(value);
+                  },
+                )
+              : null,
         ),
       ),
     );
@@ -142,5 +162,31 @@ class _SkInputState extends State<SkInput> {
     }
 
     return null;
+  }
+}
+
+class _ButtonScanner extends StatelessWidget {
+  final void Function(String) onChanged;
+
+  const _ButtonScanner({
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const SkIcon(SkIconData.bar_code, color: Colors.grey),
+      padding: const EdgeInsets.only(right: 15),
+      onPressed: () async {
+        final value = await SkBottomSheet.of(context).pushNamed<String?>(
+          SCAN_CODE,
+          padding: EdgeInsets.zero,
+        );
+
+        if (value != null) {
+          onChanged(value);
+        }
+      },
+    );
   }
 }
