@@ -7,23 +7,34 @@ import 'clients/list.dart';
 import 'radios/list.dart';
 import 'sims/list.dart';
 
+enum HomeViewIndex {
+  clients,
+  radios,
+  sims,
+  apps,
+}
+
 final _views = [
   (
+    index: HomeViewIndex.clients,
     text: 'Clientes',
     icon: SkIconData.clients,
     child: const ClientsView(),
   ),
   (
+    index: HomeViewIndex.radios,
     text: 'Radios',
     icon: SkIconData.radios,
     child: const RadiosView(),
   ),
   (
+    index: HomeViewIndex.sims,
     text: 'SIMs',
     icon: SkIconData.sims,
     child: const SimsView(),
   ),
   (
+    index: HomeViewIndex.apps,
     text: 'Apps',
     icon: SkIconData.app,
     child: const AppsView(),
@@ -31,20 +42,25 @@ final _views = [
 ];
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final HomeViewIndex initialIndex;
+
+  const HomeView({
+    super.key,
+    required this.initialIndex,
+  });
 
   @override
-  State<HomeView> createState() => _Home2ViewState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _Home2ViewState extends State<HomeView> {
-  late final ValueNotifier<int> _index;
+class _HomeViewState extends State<HomeView> {
+  late final ValueNotifier<HomeViewIndex> _index;
 
   @override
   void initState() {
     super.initState();
 
-    _index = ValueNotifier<int>(0);
+    _index = ValueNotifier<HomeViewIndex>(widget.initialIndex);
   }
 
   @override
@@ -59,7 +75,7 @@ class _Home2ViewState extends State<HomeView> {
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      body: _views[_index.value].child,
+      body: _views.firstWhere((e) => e.index == _index.value).child,
       bottomNavigationBar: SafeArea(
         child: _NavigationBar(
           items: _views
@@ -69,11 +85,11 @@ class _Home2ViewState extends State<HomeView> {
                   index,
                   _Button(
                     onPressed: () {
-                      setState(() => _index.value = index);
+                      setState(() => _index.value = value.index);
                     },
                     icon: value.icon,
                     text: value.text,
-                    isActive: _index.value == index,
+                    isActive: _index.value == value.index,
                   ),
                 ),
               )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skyradio_mobile/core/deep_links.dart';
 import 'package:skyradio_mobile/core/dependency_inyection.dart';
 import 'package:skyradio_mobile/core/dialog.dart';
 import 'package:skyradio_mobile/core/theme.dart';
@@ -29,6 +30,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = DI.of(context).state;
+
+    // Initialize deep links
+    Future.delayed(
+      const Duration(seconds: 2),
+      () => DeepLinks(context: context),
+    );
 
     return ListenableBuilder(
       listenable: state,

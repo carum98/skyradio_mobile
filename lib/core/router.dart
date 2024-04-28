@@ -53,8 +53,12 @@ class RouterGenerator {
   static Route<dynamic> generate(RouteSettings settings) {
     switch (settings.name) {
       case HOME_VIEW:
+        final index = settings.arguments as HomeViewIndex?;
+
         return MaterialPageRoute(
-          builder: (_) => const HomeView(),
+          builder: (_) => HomeView(
+            initialIndex: index ?? HomeViewIndex.clients,
+          ),
         );
       case LOGIN_VIEW:
         return MaterialPageRoute(
