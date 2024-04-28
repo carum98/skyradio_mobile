@@ -30,7 +30,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
 
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
-        // overlayPortalController.show();
+        overlayPortalController.show();
       } else {
         overlayPortalController.hide();
       }
@@ -40,7 +40,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
       if (textEditingController.text.length == 1) {
         overlayPortalController.hide();
       } else if (textEditingController.text.isEmpty) {
-        // overlayPortalController.show();
+        overlayPortalController.show();
       }
     });
   }
@@ -152,7 +152,7 @@ class _SearchInputActions extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildButton(
-            label: 'Escanear codigos QR/Barra',
+            label: 'Escanear codigos Barra/QR',
             icon: Icons.qr_code_scanner,
             onPressed: () async {
               final value = await SkBottomSheet.of(context).pushNamed<String?>(
@@ -165,33 +165,33 @@ class _SearchInputActions extends StatelessWidget {
               }
             },
           ),
-          buildButton(
-            label: 'Extraer texto de imagenes',
-            icon: Icons.image,
-            onPressed: () async {
-              final value = await SkBottomSheet.of(context).pushNamed<String?>(
-                SCAN_TEXT,
-                padding: EdgeInsets.zero,
-              );
+          // buildButton(
+          //   label: 'Extraer texto de imagenes',
+          //   icon: Icons.image,
+          //   onPressed: () async {
+          //     final value = await SkBottomSheet.of(context).pushNamed<String?>(
+          //       SCAN_TEXT,
+          //       padding: EdgeInsets.zero,
+          //     );
 
-              if (value != null) {
-                onChanged(value);
-              }
-            },
-          ),
-          buildButton(
-            label: 'Dictar por voz',
-            icon: Icons.mic,
-            onPressed: () async {
-              final value = await SkBottomSheet.of(context).pushNamed<String?>(
-                SPEECH_TO_TEXT,
-              );
+          //     if (value != null) {
+          //       onChanged(value);
+          //     }
+          //   },
+          // ),
+          // buildButton(
+          //   label: 'Dictar por voz',
+          //   icon: Icons.mic,
+          //   onPressed: () async {
+          //     final value = await SkBottomSheet.of(context).pushNamed<String?>(
+          //       SPEECH_TO_TEXT,
+          //     );
 
-              if (value != null) {
-                onChanged(value);
-              }
-            },
-          ),
+          //     if (value != null) {
+          //       onChanged(value);
+          //     }
+          //   },
+          // ),
         ],
       ),
     );

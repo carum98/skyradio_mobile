@@ -24,22 +24,33 @@ class _ScanCodeViewState extends State<ScanCodeView> {
 
   final ValueNotifier<String?> _text = ValueNotifier<String?>(null);
   final ValueNotifier<BarcodeCapture?> capture = ValueNotifier(null);
-  MobileScannerArguments? arguments;
 
   @override
   void initState() {
     super.initState();
 
     controller = MobileScannerController();
+
+    _init();
   }
 
   @override
   void dispose() {
     super.dispose();
 
+    controller.stop();
     controller.dispose();
     capture.dispose();
     _text.dispose();
+  }
+
+  Future<void> _init() async {
+    await controller.start();
+
+    controller.barcodes.listen((event) {
+      capture.value = event;
+      _text.value = event.barcodes.first.displayValue;
+    });
   }
 
   Rect get scanWindow {
@@ -66,18 +77,20 @@ class _ScanCodeViewState extends State<ScanCodeView> {
           fit: BoxFit.cover,
           controller: controller,
           scanWindow: scanWindow,
-          startDelay: true,
-          onScannerStarted: (value) {
-            arguments = value;
+        ),
+        ValueListenableBuilder(
+          valueListenable: controller,
+          builder: (_, value, __) {
+            if (!value.isInitialized ||
+                !value.isRunning ||
+                value.error != null) {
+              return const SizedBox();
+            }
+
+            return CustomPaint(
+              painter: ScannerOverlay(scanWindow),
+            );
           },
-          onDetect: (value) {
-            capture.value = value;
-            _text.value = value.barcodes.first.displayValue;
-          },
-          overlay: CustomPaint(
-            size: MediaQuery.of(context).size,
-            painter: ScannerOverlay(scanWindow),
-          ),
         ),
         ValueListenableBuilder(
           valueListenable: _text,
