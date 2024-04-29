@@ -149,11 +149,15 @@ class _SkToastWidget extends StatelessWidget {
                         color: color,
                       ),
                     ),
-                    Text(
-                      message,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: color,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 110,
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: color,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                   ],
