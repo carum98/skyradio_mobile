@@ -32,6 +32,12 @@ class RadiosRepository {
   }
 
   Future<void> update(String code, RequestParams params) async {
+    // Check if params is empty
+    if (params.isEmpty) {
+      // Prevent updating with empty params
+      return;
+    }
+
     await _radiosService.update(code, params);
   }
 
