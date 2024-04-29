@@ -76,7 +76,9 @@ class _SkInputState extends State<SkInput> {
   void initState() {
     super.initState();
 
-    controller = TextEditingController();
+    controller = TextEditingController(
+      text: widget.initialValue,
+    );
 
     focusNode = FocusNode();
     focusNode.addListener(() => setState(() {}));
@@ -109,7 +111,6 @@ class _SkInputState extends State<SkInput> {
         controller: controller,
         autofocus: widget.autofocus ?? false,
         focusNode: focusNode,
-        initialValue: widget.initialValue,
         obscureText: widget.obscureText ?? false,
         onChanged: widget.onChanged,
         maxLength: widget.maxLength ?? widget.length,
