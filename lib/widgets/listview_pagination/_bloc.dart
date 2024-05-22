@@ -80,6 +80,7 @@ class _ListPaginationBloc<T>
   Future<void> _getSearch(String query) async {
     emit(ListPaginationLoading<T>());
 
+    _params.base.page = 1;
     _params.base.search = query;
     await _fetch(_params);
   }
