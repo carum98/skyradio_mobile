@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:skyradio_mobile/core/bottom_sheet.dart';
 
@@ -14,6 +16,8 @@ class SkSearchInput extends StatefulWidget {
 }
 
 class _SkSearchInputState extends State<SkSearchInput> {
+  Timer? _debounce;
+
   late final LayerLink layerLink;
   late final FocusNode focusNode;
   late final OverlayPortalController overlayPortalController;
@@ -49,6 +53,7 @@ class _SkSearchInputState extends State<SkSearchInput> {
   void dispose() {
     super.dispose();
 
+    _debounce?.cancel();
     focusNode.dispose();
     textEditingController.dispose();
   }
@@ -78,7 +83,12 @@ class _SkSearchInputState extends State<SkSearchInput> {
               vertical: 10,
             ),
           ),
-          onChanged: widget.onChanged,
+          onChanged: (value) {
+            if (_debounce?.isActive ?? false) _debounce?.cancel();
+            _debounce = Timer(const Duration(milliseconds: 500), () {
+              widget.onChanged(value);
+            });
+          },
         ),
         overlayChildBuilder: (_) {
           return CompositedTransformFollower(
