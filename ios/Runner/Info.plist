@@ -28,14 +28,14 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Requires access to your phone’s camera.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Requires access to your local network.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Requires access to your phone’s microphone.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Requires access to your phone’s microphone.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Requires access to your local network.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:skyradio_mobile/core/analytics.dart';
 import 'package:skyradio_mobile/core/global_state.dart';
 import 'package:skyradio_mobile/core/http.dart';
 import 'package:skyradio_mobile/core/router.dart';
@@ -24,6 +25,7 @@ import 'package:skyradio_mobile/services/sims.dart';
 class DI extends InheritedWidget {
   final GlobalState state = GlobalState();
 
+  late final Analytics analytics;
   late final SkStorage storage;
   late final SkHttp http;
 
@@ -52,6 +54,8 @@ class DI extends InheritedWidget {
     required super.child,
   }) {
     // Core
+    analytics = Analytics();
+
     storage = SkStorage();
 
     authStorageService = AuthStorageService(

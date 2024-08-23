@@ -437,6 +437,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  skyanalytics:
+    dependency: "direct main"
+    description:
+      name: skyanalytics
+      sha256: f8d4a26e215413561605ed93b70f08d11ccaf665a2adca95a0b4a69f07de4f02
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   source_span:
     dependency: transitive
     description:

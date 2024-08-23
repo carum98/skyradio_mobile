@@ -56,12 +56,14 @@ class RouterGenerator {
         final index = settings.arguments as HomeViewIndex?;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => HomeView(
             initialIndex: index ?? HomeViewIndex.clients,
           ),
         );
       case LOGIN_VIEW:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const Material(child: LoginView()),
         );
 
@@ -69,18 +71,21 @@ class RouterGenerator {
         final client = settings.arguments as Clients;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ClientView(client: client),
         );
       case CLIENT_UPDATE_VIEW:
         final client = settings.arguments as Clients;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ClientsFormView(model: ClientsForm.update(client)),
         );
       case CLIENT_CREATE_VIEW:
         final client = ClientsForm.create();
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ClientsFormView(model: client),
         );
 
@@ -88,12 +93,14 @@ class RouterGenerator {
         final radio = RadiosForm.create();
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => RadiosFormView(model: radio),
         );
       case RADIOS_UPDATE_VIEW:
         final radio = settings.arguments as Radios;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => RadiosFormView(model: RadiosForm.update(radio)),
         );
 
@@ -104,6 +111,7 @@ class RouterGenerator {
         final radio = args is Radios ? args : null;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => AddRadiosView(
             client: client ?? radio!.client!,
             radio: radio,
@@ -116,6 +124,7 @@ class RouterGenerator {
         final client = args as Clients;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => AddAppsView(client: client),
         );
 
@@ -126,6 +135,7 @@ class RouterGenerator {
         final radio = args is Radios ? args : null;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => RemoveRadiosView(
             client: client ?? radio!.client!,
             radio: radio,
@@ -139,6 +149,7 @@ class RouterGenerator {
         final radio = args is Radios ? args : null;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => SwapRadiosView(
             client: client ?? radio!.client!,
             radio: radio,
@@ -149,6 +160,7 @@ class RouterGenerator {
         final filters = settings.arguments as RequestParams;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => RadiosSelectorView(filters: filters),
         );
 
@@ -156,6 +168,7 @@ class RouterGenerator {
         final filters = settings.arguments as RequestParams;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ClientsSelectorView(filters: filters),
         );
 
@@ -163,6 +176,7 @@ class RouterGenerator {
         final sim = SimsForm.create();
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => SimsFormView(model: sim),
         );
 
@@ -170,6 +184,7 @@ class RouterGenerator {
         final sim = settings.arguments as Sims;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => SimsFormView(model: SimsForm.update(sim)),
         );
 
@@ -177,12 +192,14 @@ class RouterGenerator {
         final filters = settings.arguments as RequestParams;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => SimsSelectorView(filters: filters),
         );
       case APPS_CREATE_VIEW:
         final app = AppsForm.create();
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => AppsFormView(model: app),
         );
 
@@ -190,6 +207,7 @@ class RouterGenerator {
         final app = settings.arguments as Apps;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => AppsFormView(model: AppsForm.update(app)),
         );
 
@@ -198,6 +216,7 @@ class RouterGenerator {
         final console = ConsoleForm.create();
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ConsoleFormView(model: console, client: client),
         );
 
@@ -205,6 +224,7 @@ class RouterGenerator {
         final console = settings.arguments as Console;
 
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => ConsoleFormView(model: ConsoleForm.update(console)),
         );
       default:

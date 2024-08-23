@@ -24,6 +24,8 @@ class _SwitchThemeState extends State<SwitchTheme> {
                 : ThemeMode.dark,
           );
         });
+
+        DI.of(context).analytics.logEvent(name: 'theme_switch');
       },
       child: SkIcon(
         state.themeMode == ThemeMode.dark ? SkIconData.moon : SkIconData.sun,

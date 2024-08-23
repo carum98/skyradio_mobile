@@ -47,6 +47,9 @@ class MyApp extends StatelessWidget {
         themeMode: state.themeMode,
         onGenerateRoute: RouterGenerator.generate,
         navigatorKey: state.navigatorKey,
+        navigatorObservers: [
+          DI.of(context).analytics.skyAnalyticsObserver(),
+        ],
       ),
     );
   }
